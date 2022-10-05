@@ -58,4 +58,10 @@ public class ProductRepo {
             return null;
         }
     }
+
+    public List<Product> getByCategory(String category) {
+        return productList.stream()
+                .filter(product -> product.getCategory().equals(category))
+                .collect(Collectors.toList());
+    }
 }
