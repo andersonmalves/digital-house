@@ -19,12 +19,18 @@ public class ProductService implements IProduct {
     private ProductRepo repo;
 
     @Override
-    public List<Product> getAll(Optional<String> category) {
+    public List<Product> getAll(Optional<String> category, Optional<Boolean> freeShipping) {
         List<Product> productList = repo.getProductList();
 
         if (category.isPresent()) {
             productList = productList.stream()
                     .filter(product -> product.getCategory().equalsIgnoreCase(category.get()))
+                    .collect(Collectors.toList());
+        }
+
+        if (freeShipping.isPresent()) {
+            productList = productList.stream()
+                    .filter(product -> product.isFreeShipping() == freeShipping.get())
                     .collect(Collectors.toList());
         }
 

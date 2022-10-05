@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +26,8 @@ public class ProductController {
     private IProduct service;
 
     @GetMapping("/articles")
-    public ResponseEntity<List<Product>> getAll(@RequestParam Optional<String> category) {
-            return new ResponseEntity<>(service.getAll(category), HttpStatus.OK);
+    public ResponseEntity<List<Product>> getAll(@RequestParam Optional<String> category, @RequestParam Optional<Boolean> freeShipping) {
+            return new ResponseEntity<>(service.getAll(category, freeShipping), HttpStatus.OK);
     }
 
 //    /api/v1/articles?category=categoryName&freeShipping=true&order=0
