@@ -50,9 +50,12 @@ public class ProductService implements IProduct {
                 productList = productList.stream()
                         .sorted(Comparator.comparing(Product::getName))
                         .collect(Collectors.toList());
+            } else if (order.get() == 1) {
+            productList = productList.stream()
+                    .sorted((v1,v2)-> v2.getName().compareTo(v1.getName()))
+                    .collect(Collectors.toList());
             }
         }
-
         return productList;
     }
 
