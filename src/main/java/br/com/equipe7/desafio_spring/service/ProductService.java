@@ -19,7 +19,7 @@ public class ProductService implements IProduct {
     private ProductRepo repo;
 
     @Override
-    public List<Product> getAll(Optional<String> category, Optional<Boolean> freeShipping) {
+    public List<Product> getAll(Optional<String> category, Optional<Boolean> freeShipping, Optional<String> prestige) {
         List<Product> productList = repo.getProductList();
 
         if (category.isPresent()) {
@@ -31,6 +31,12 @@ public class ProductService implements IProduct {
         if (freeShipping.isPresent()) {
             productList = productList.stream()
                     .filter(product -> product.isFreeShipping() == freeShipping.get())
+                    .collect(Collectors.toList());
+        }
+
+        if (prestige.isPresent()) {
+            productList = productList.stream()
+                    .filter(product -> product.getPrestige().equals(prestige.get()))
                     .collect(Collectors.toList());
         }
 

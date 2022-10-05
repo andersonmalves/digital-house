@@ -26,8 +26,10 @@ public class ProductController {
     private IProduct service;
 
     @GetMapping("/articles")
-    public ResponseEntity<List<Product>> getAll(@RequestParam Optional<String> category, @RequestParam Optional<Boolean> freeShipping) {
-            return new ResponseEntity<>(service.getAll(category, freeShipping), HttpStatus.OK);
+    public ResponseEntity<List<Product>> getAll(@RequestParam Optional<String> category,
+                                                @RequestParam Optional<Boolean> freeShipping,
+                                                @RequestParam Optional<String> prestige) {
+            return new ResponseEntity<>(service.getAll(category, freeShipping, prestige), HttpStatus.OK);
     }
 
 //    /api/v1/articles?category=categoryName&freeShipping=true&order=0
