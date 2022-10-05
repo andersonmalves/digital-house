@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Repository
 @Data
@@ -31,7 +32,30 @@ public class ProductRepo {
         }
     }
 
+
     public List<Product> sortListAsc () {
         return productList.stream().sorted().collect(Collectors.toList());
+    }
+
+    public Optional<Product> getProductById(int id) {
+        List<Product> products = loadProducts();
+
+        Optional<Product> product = products.stream()
+                .filter(p -> p.getProductId() == id)
+                .findFirst();
+
+        return product;
+    }
+
+    private List<Product> loadProducts() {
+        try {
+           List<Product> products = new ArrayList<>();
+            mapper.findAndRegisterModules();
+            products.addAll(Arrays.asList(mapper.readValue(new File(linkFile), Product[].class)));
+            return products;
+        } catch (Exception ex) {
+            System.out.println("Error reading file");
+            return null;
+        }
     }
 }

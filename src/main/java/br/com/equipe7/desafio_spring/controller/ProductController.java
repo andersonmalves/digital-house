@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import br.com.equipe7.desafio_spring.service.IProduct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,10 @@ public class ProductController {
     public ResponseEntity<List<Product>> getAll() {
             return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
-
 //    /api/v1/articles?category=categoryName&freeShipping=true&order=0
-
+    @GetMapping("/articles/{productId}")
+    public ResponseEntity<Product> getProductById(@PathVariable int productId) {
+        Product product =  this.service.getProductById(productId);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
 }
