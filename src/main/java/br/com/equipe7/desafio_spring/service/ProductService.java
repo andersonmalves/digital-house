@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.text.html.Option;
 import java.util.Optional;
@@ -19,7 +20,11 @@ public class ProductService implements IProduct {
     private ProductRepo repo;
 
     @Override
-    public List<Product> getAll(Optional<String> category, Optional<Boolean> freeShipping, Optional<String> prestige) {
+    public List<Product> getAll(
+            Optional<String> category,
+            Optional<Boolean> freeShipping,
+            Optional<String> prestige,
+            Optional<Integer> order) {
         List<Product> productList = repo.getProductList();
 
         if (category.isPresent()) {
@@ -38,6 +43,14 @@ public class ProductService implements IProduct {
             productList = productList.stream()
                     .filter(product -> product.getPrestige().equals(prestige.get()))
                     .collect(Collectors.toList());
+        }
+
+        if(order.isPresent()) {
+            if (order.get() == 0) {
+                productList = productList.stream()
+                        .sorted(Comparator.comparing(Product::getName))
+                        .collect(Collectors.toList());
+            }
         }
 
         return productList;
