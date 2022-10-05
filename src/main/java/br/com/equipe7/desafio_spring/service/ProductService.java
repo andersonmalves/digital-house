@@ -4,6 +4,7 @@ package br.com.equipe7.desafio_spring.service;
 import br.com.equipe7.desafio_spring.exception.NotFoundException;
 import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.repository.ProductRepo;
+import br.com.equipe7.desafio_spring.utils.FiltersProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,23 +23,11 @@ public class ProductService implements IProduct {
     public List<Product> getAll(Optional<String> category, Optional<Boolean> freeShipping, Optional<String> prestige) {
         List<Product> productList = repo.getProductList();
 
-        if (category.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.getCategory().equalsIgnoreCase(category.get()))
-                    .collect(Collectors.toList());
-        }
+        if (category.isPresent()) productList = FiltersProduct.filterCategory(productList, category.get());
 
-        if (freeShipping.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.isFreeShipping() == freeShipping.get())
-                    .collect(Collectors.toList());
-        }
+        if (freeShipping.isPresent()) productList = FiltersProduct.filterShipping(productList, freeShipping.get());
 
-        if (prestige.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.getPrestige().equals(prestige.get()))
-                    .collect(Collectors.toList());
-        }
+        if (prestige.isPresent()) productList = FiltersProduct.filterPrestige(productList, prestige.get());
 
         return productList;
     }
