@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @Data
@@ -21,10 +23,15 @@ public class ProductRepo {
 
     public ProductRepo() {
         try {
+            // https://stackoverflow.com/questions/21384820/is-there-a-jackson-datatype-module-for-jdk8-java-time
             mapper.findAndRegisterModules();
             productList.addAll(Arrays.asList(mapper.readValue(new File(linkFile), Product[].class)));
         }catch (Exception ex) {
             System.out.println("Error reading file");
         }
+    }
+
+    public List<Product> sortListAsc () {
+        return productList.stream().sorted().collect(Collectors.toList());
     }
 }
