@@ -16,4 +16,16 @@ public class Product {
     private boolean freeShipping;
     private int quantity;
 
+//    public Product(long productId, String name, String category, String brand, String prestige,
+//                   BigDecimal price, boolean freeShipping, int quantity) {
+//        this.productId = productId;
+//        this.name = name;
+//        this.category = category;
+//        this.brand = brand;
+//        this.prestige = prestige;
+//        this.price = price;
+//        this.freeShipping = freeShipping;
+//        this.quantity = quantity;
+//
+//    }
 }

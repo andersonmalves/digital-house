@@ -1,17 +1,15 @@
 package br.com.equipe7.desafio_spring.controller;
 
 
+import br.com.equipe7.desafio_spring.dto.ProductCreatedDTO;
 import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.repository.ProductRepo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import br.com.equipe7.desafio_spring.service.IProduct;
 import br.com.equipe7.desafio_spring.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -25,5 +23,11 @@ public class ProductController {
     public ResponseEntity<List<Product>> getAll() {
         ProductRepo productList = new ProductRepo();
         return new ResponseEntity<>(productList.getProductList(), HttpStatus.OK);
+    }
+
+    @PostMapping("/insert-articles-request")
+    public ResponseEntity<ProductCreatedDTO> save(@RequestBody ProductCreatedDTO newProduct) {
+        service.save(newProduct);
+        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
     }
 }
