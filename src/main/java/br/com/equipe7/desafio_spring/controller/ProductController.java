@@ -33,8 +33,11 @@ public class ProductController {
             return new ResponseEntity<>(service.getAll(category, freeShipping, prestige, order), HttpStatus.OK);
     }
 
-//    /api/v1/articles?category=categoryName&freeShipping=true&order=0
-
+    /**
+     * 
+     * @param productId
+     * @return
+     */
     @GetMapping("/articles/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable int productId) {
         Product product =  this.service.getProductById(productId);
