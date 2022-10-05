@@ -14,7 +14,6 @@ import java.util.Optional;
 public class ProductService implements IProduct{
     @Autowired
     private ProductRepo repo;
-    private ProductRepo sortListAsc;
 
     @Override
     public List<Product> getAll() {
