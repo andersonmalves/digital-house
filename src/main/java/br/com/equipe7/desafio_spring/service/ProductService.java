@@ -46,14 +46,27 @@ public class ProductService implements IProduct {
         }
 
         if(order.isPresent()) {
-            if (order.get() == 0) {
+            int orderProductsByNameAsc = 0;
+            int orderProductsByNameDesc = 1;
+            int orderProductsByPriceAsc = 2;
+            int orderProductsByPriceDesc = 3;
+
+            if (order.get() == orderProductsByNameAsc) {
                 productList = productList.stream()
                         .sorted(Comparator.comparing(Product::getName))
                         .collect(Collectors.toList());
-            } else if (order.get() == 1) {
+            } else if (order.get() == orderProductsByNameDesc) {
             productList = productList.stream()
                     .sorted((v1,v2)-> v2.getName().compareTo(v1.getName()))
                     .collect(Collectors.toList());
+            } else if (order.get() == orderProductsByPriceAsc) {
+                productList = productList.stream()
+                        .sorted(Comparator.comparing(Product::getPrice))
+                        .collect(Collectors.toList());
+            } else if (order.get() == orderProductsByPriceDesc) {
+                productList = productList.stream()
+                        .sorted((v1,v2)-> v2.getPrice().compareTo(v1.getPrice()))
+                        .collect(Collectors.toList());
             }
         }
         return productList;
