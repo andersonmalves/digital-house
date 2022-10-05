@@ -19,6 +19,11 @@ public class PurchaseController {
     @Autowired
     private IPurchase service;
 
+    /**
+     *
+     * @param request
+     * @return
+     */
     @PostMapping("/purchase-request")
     public ResponseEntity<TicketResponseDTO> purchase(@RequestBody(required = false) PurchaseRequestDTO request){
         TicketResponseDTO response = this.service.purchase(request);

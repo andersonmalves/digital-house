@@ -9,7 +9,6 @@ import br.com.equipe7.desafio_spring.exception.PurchaseWithInvalidQuantityExcept
 import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.model.Ticket;
 import br.com.equipe7.desafio_spring.repository.ProductRepo;
-import br.com.equipe7.desafio_spring.repository.PurchaseRepo;
 import br.com.equipe7.desafio_spring.util.TicketNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +22,13 @@ import java.util.Optional;
 public class PurchaseService implements IPurchase{
 
     @Autowired
-    private PurchaseRepo purchaseRepo;
-    @Autowired
     private ProductRepo productRepo;
 
+    /**
+     *
+     * @param request
+     * @return
+     */
     @Override
     public TicketResponseDTO purchase(PurchaseRequestDTO request) {
         if(request == null) {
@@ -64,6 +66,12 @@ public class PurchaseService implements IPurchase{
         return new TicketResponseDTO(new Ticket(ticketId, selectedProducts, totalTicket));
     }
 
+    /**
+     *
+     * @param product
+     * @param quantity
+     * @return
+     */
     private BigDecimal getProductPrice(Product product, int quantity) {
         return product.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
