@@ -32,11 +32,6 @@ public class ProductRepo {
         }
     }
 
-
-    public List<Product> sortListAsc () {
-        return productList.stream().sorted().collect(Collectors.toList());
-    }
-
     public Optional<Product> getProductById(int id) {
         List<Product> products = loadProducts();
 
