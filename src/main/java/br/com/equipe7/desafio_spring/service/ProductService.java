@@ -3,6 +3,7 @@ package br.com.equipe7.desafio_spring.service;
 import br.com.equipe7.desafio_spring.dto.ProductCreatedDTO;
 import br.com.equipe7.desafio_spring.dto.ProductResponseDTO;
 import br.com.equipe7.desafio_spring.exception.NotFoundException;
+import br.com.equipe7.desafio_spring.exception.ProductEmptyException;
 import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.repository.ProductRepo;
 import br.com.equipe7.desafio_spring.util.ProductIdGenerator;
@@ -19,8 +20,16 @@ public class ProductService implements IProduct {
     @Autowired
     private ProductRepo repo;
 
+    /**
+     * @author Giovanna
+     * @param newProduct
+     * @return response -> um DTO que exibe productId, name e quantity
+     */
     @Override
     public ProductResponseDTO save(ProductCreatedDTO newProduct) {
+        if (newProduct == null) {
+            throw new ProductEmptyException("Não pode enviar 'payload' vazio");
+        }
         int idProduct = ProductIdGenerator.getIdGenerator().getNext();
         Product product = new Product(idProduct, newProduct.getName(), newProduct.getCategory(),
                 newProduct.getBrand(), newProduct.getPrestige(), newProduct.getPrice(),
