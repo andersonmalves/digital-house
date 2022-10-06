@@ -63,7 +63,7 @@ public class ProductService implements IProduct {
             Optional<Boolean> freeShipping,
             Optional<String> prestige,
             Optional<Integer> order) {
-        List<Product> productList = repo.loadProducts();
+        List<Product> productList = repo.getAllProducts();
 
         if (category.isPresent()) productList = filterCategory(productList, category.get());
 
