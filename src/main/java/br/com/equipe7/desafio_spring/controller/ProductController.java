@@ -45,8 +45,8 @@ public class ProductController {
      * @return data -> um DTO que filtra pelo productID, name e quantity
      */
     @PostMapping("/insert-articles-request")
-    public ResponseEntity<ProductResponseDTO> save(@RequestBody(required = false) ProductCreatedDTO newProduct) {
-        ProductResponseDTO data = service.save(newProduct);
+    public ResponseEntity<List<ProductResponseDTO>> save(@RequestBody(required = false) List<ProductCreatedDTO> newProduct) {
+        List<ProductResponseDTO> data = service.save(newProduct);
         return new ResponseEntity<>(data, HttpStatus.CREATED);
     }
 }
