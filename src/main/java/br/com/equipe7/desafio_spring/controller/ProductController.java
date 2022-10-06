@@ -39,7 +39,11 @@ public class ProductController {
         Product product =  this.service.getProductById(productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
-
+    /**
+     * @author Giovanna
+     * @param newProduct
+     * @return data -> um DTO que filtra pelo productID, name e quantity
+     */
     @PostMapping("/insert-articles-request")
     public ResponseEntity<ProductResponseDTO> save(@RequestBody(required = false) ProductCreatedDTO newProduct) {
         ProductResponseDTO data = service.save(newProduct);

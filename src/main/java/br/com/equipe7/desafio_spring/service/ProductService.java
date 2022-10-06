@@ -20,6 +20,11 @@ public class ProductService implements IProduct {
     @Autowired
     private ProductRepo repo;
 
+    /**
+     * @author Giovanna
+     * @param newProduct
+     * @return response -> um DTO que exibe productId, name e quantity
+     */
     @Override
     public ProductResponseDTO save(ProductCreatedDTO newProduct) {
         if (newProduct == null) {

@@ -60,6 +60,11 @@ public class HandlerExceptions {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * @author Giovanna
+     * @param ex
+     * @return exceptionDetails -> um json com mensagem e status http
+     */
     @ExceptionHandler(ProductEmptyException.class)
     public ResponseEntity<ExceptionDetails> handleProductEmptyException(ProductEmptyException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()

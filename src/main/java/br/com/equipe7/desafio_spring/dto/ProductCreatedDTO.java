@@ -8,6 +8,16 @@ public class ProductCreatedDTO {
     final boolean freeShipping;
     final int quantity;
 
+    /**
+     * @author Giovanna
+     * @param name
+     * @param category
+     * @param brand
+     * @param prestige
+     * @param price
+     * @param freeShipping
+     * @param quantity
+     */
     public ProductCreatedDTO(String name, String category, String brand, String prestige,
                              BigDecimal price, boolean freeShipping, int quantity) {
         this.name = name;
@@ -18,7 +28,6 @@ public class ProductCreatedDTO {
         this.freeShipping = freeShipping;
         this.quantity = quantity;
     }
-
 
     public String getName() {
         return name;
