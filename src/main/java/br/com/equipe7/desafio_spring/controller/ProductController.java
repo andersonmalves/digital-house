@@ -1,15 +1,14 @@
 package br.com.equipe7.desafio_spring.controller;
 
-
+import br.com.equipe7.desafio_spring.dto.ProductCreatedDTO;
+import br.com.equipe7.desafio_spring.dto.ProductResponseDTO;
 import br.com.equipe7.desafio_spring.model.Product;
-import br.com.equipe7.desafio_spring.repository.ProductRepo;
-import br.com.equipe7.desafio_spring.service.ProductService;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import br.com.equipe7.desafio_spring.service.IProduct;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,20 +25,24 @@ public class ProductController {
     private IProduct service;
 
     @GetMapping("/articles")
-    public ResponseEntity<List<Product>> getAll(@RequestParam Optional<String> category,
+    public ResponseEntity<List<ProductResponseDTO>> getAll(@RequestParam Optional<String> category,
                                                 @RequestParam Optional<Boolean> freeShipping,
-                                                @RequestParam Optional<String> prestige) {
-            return new ResponseEntity<>(service.getAll(category, freeShipping, prestige), HttpStatus.OK);
+                                                @RequestParam Optional<String> prestige,
+                                                @RequestParam Optional<Integer> order) {
+            List<ProductResponseDTO> data = service.getAll(category, freeShipping, prestige, order);
+            return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    /**
-     * 
-     * @param productId
-     * @return
-     */
+
     @GetMapping("/articles/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable int productId) {
         Product product =  this.service.getProductById(productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @PostMapping("/insert-articles-request")
+    public ResponseEntity<ProductResponseDTO> save(@RequestBody ProductCreatedDTO newProduct) {
+        ProductResponseDTO data = service.save(newProduct);
+        return new ResponseEntity<>(data, HttpStatus.CREATED);
     }
 }

@@ -1,15 +1,15 @@
 package br.com.equipe7.desafio_spring.repository;
 
 import br.com.equipe7.desafio_spring.model.Product;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Optional;
@@ -31,16 +31,20 @@ public class ProductRepo {
             System.out.println("Error reading file");
         }
     }
-
-
-    public List<Product> sortListAsc () {
-        return productList.stream().sorted().collect(Collectors.toList());
+    public Product saveProduct(Product newProduct) {
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        productList.add(newProduct);
+        try {
+            writer.writeValue(new File(linkFile), productList);
+        } catch (Exception ex) {
+            System.out.println("Error creating product");
+        }
+        return newProduct;
     }
-
     public Optional<Product> getProductById(int id) {
         List<Product> products = loadProducts();
 
-        Optional<Product> product = products.stream()
+        Optional<Product> product = productList.stream()
                 .filter(p -> p.getProductId() == id)
                 .findFirst();
 
@@ -65,3 +69,4 @@ public class ProductRepo {
                 .collect(Collectors.toList());
     }
 }
+
