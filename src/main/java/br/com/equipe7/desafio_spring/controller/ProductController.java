@@ -40,7 +40,7 @@ public class ProductController {
     }
 
     @PostMapping("/insert-articles-request")
-    public ResponseEntity<ProductResponseDTO> save(@RequestBody ProductCreatedDTO newProduct) {
+    public ResponseEntity<ProductResponseDTO> save(@RequestBody(required = false) ProductCreatedDTO newProduct) {
         ProductResponseDTO data = service.save(newProduct);
         return new ResponseEntity<>(data, HttpStatus.CREATED);
     }
