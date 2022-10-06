@@ -27,6 +27,6 @@ public class PurchaseController {
     @PostMapping("/purchase-request")
     public ResponseEntity<TicketResponseDTO> purchase(@RequestBody(required = false) PurchaseRequestDTO request){
         TicketResponseDTO response = this.service.purchase(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
