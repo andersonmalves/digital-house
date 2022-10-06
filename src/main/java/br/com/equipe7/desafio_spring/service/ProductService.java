@@ -1,7 +1,7 @@
 package br.com.equipe7.desafio_spring.service;
+
 import br.com.equipe7.desafio_spring.dto.ProductCreatedDTO;
 import br.com.equipe7.desafio_spring.dto.ProductResponseDTO;
-
 import br.com.equipe7.desafio_spring.exception.NotFoundException;
 import br.com.equipe7.desafio_spring.exception.ProductEmptyException;
 import br.com.equipe7.desafio_spring.model.Product;
@@ -33,56 +33,53 @@ public class ProductService implements IProduct {
         return new ProductResponseDTO(response);
     }
 
-    public List<Product> getAll(
+    public List<ProductResponseDTO> getAll(
             Optional<String> category,
             Optional<Boolean> freeShipping,
             Optional<String> prestige,
             Optional<Integer> order) {
         List<Product> productList = repo.getProductList();
 
-        if (category.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.getCategory().equalsIgnoreCase(category.get()))
-                    .collect(Collectors.toList());
-        }
+        if (category.isPresent()) productList = filterCategory(productList, category.get());
 
-        if (freeShipping.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.isFreeShipping() == freeShipping.get())
-                    .collect(Collectors.toList());
-        }
+        if (freeShipping.isPresent()) productList = filterShipping(productList, freeShipping.get());
 
-        if (prestige.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.getPrestige().equals(prestige.get()))
-                    .collect(Collectors.toList());
-        }
+        if (prestige.isPresent()) productList = filterPrestige(productList, prestige.get());
 
-        if(order.isPresent()) {
-            int orderProductsByNameAsc = 0;
-            int orderProductsByNameDesc = 1;
-            int orderProductsByPriceAsc = 2;
-            int orderProductsByPriceDesc = 3;
+        if(order.isPresent()) productList = orderProductsList(order.get(), productList);
 
-            if (order.get() == orderProductsByNameAsc) {
-                productList = productList.stream()
-                        .sorted(Comparator.comparing(Product::getName))
-                        .collect(Collectors.toList());
-            } else if (order.get() == orderProductsByNameDesc) {
-            productList = productList.stream()
-                    .sorted((v1,v2)-> v2.getName().compareTo(v1.getName()))
-                    .collect(Collectors.toList());
-            } else if (order.get() == orderProductsByPriceAsc) {
-                productList = productList.stream()
-                        .sorted(Comparator.comparing(Product::getPrice))
-                        .collect(Collectors.toList());
-            } else if (order.get() == orderProductsByPriceDesc) {
-                productList = productList.stream()
-                        .sorted((v1,v2)-> v2.getPrice().compareTo(v1.getPrice()))
-                        .collect(Collectors.toList());
-            }
+        return productList.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
+    }
+
+    private List<Product> orderProductsList(int order, List<Product> productList) {
+        switch (order) {
+            case 0: return productList.stream()
+                    .sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList());
+            case 1: return productList.stream()
+                    .sorted((v1,v2)-> v2.getName().compareTo(v1.getName())).collect(Collectors.toList());
+            case 2: return productList.stream()
+                    .sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toList());
+            default: return productList.stream()
+                    .sorted((v1,v2)-> v2.getPrice().compareTo(v1.getPrice())).collect(Collectors.toList());
         }
-        return productList;
+    }
+
+    private List<Product> filterCategory(List<Product> productList, String category) {
+        return productList.stream()
+                .filter(product -> product.getCategory().equalsIgnoreCase(category))
+                .collect(Collectors.toList());
+    }
+
+    private List<Product> filterShipping (List<Product> productList, Boolean freeShipping) {
+        return productList.stream()
+                .filter(product -> product.isFreeShipping() == freeShipping)
+                .collect(Collectors.toList());
+    }
+
+    private List<Product> filterPrestige (List<Product> productList, String prestige) {
+        return productList.stream()
+                .filter(product -> product.getPrestige().equals(prestige))
+                .collect(Collectors.toList());
     }
 
     /**
