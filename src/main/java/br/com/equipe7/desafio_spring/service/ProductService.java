@@ -22,9 +22,10 @@ public class ProductService implements IProduct {
     private ProductRepo repo;
 
     /**
+     * Cadastro de Produtos
      * @author Giovanna
-     * @param newProduct
-     * @return response -> um DTO que exibe productId, name e quantity
+     * @param productList Novos produtos para cadastro
+     * @return Retorna um DTO que exibe productId, name e quantity
      */
     @Override
     public List<ProductResponseDTO> save(List<ProductCreatedDTO> productList) {
@@ -49,9 +50,13 @@ public class ProductService implements IProduct {
     }
 
     /**
+     * Implementa os filtros do Query Params
      * @author Ma, Theus, Felipe e Anderson
-     * @param productList lista de produtos a ser filtrado
-     * @return Lista de produtos de forma ordenada
+     * @param category Categoria do produto
+     * @param freeShipping Frete gratis (boolean)
+     * @param prestige Nível de satisfação do produto
+     * @param order Ordenação do produto (alfabético ou preço)
+     * @return Retorna uma lista de produtos de forma ordenada
      */
     public List<ProductResponseDTO> getAll(
             Optional<String> category,
@@ -72,9 +77,10 @@ public class ProductService implements IProduct {
     }
 
     /**
+     * Responsável por ordenar o produto pelo nome e preço
      * @author Felipe e Anderson
      * @param productList lista de produtos a ser filtrado
-     * @param order altera ordenação das produtos
+     * @param order altera ordenação dos produtos (alfabética ou preço)
      * @return Lista de produtos ordenada por nome ou preço
      */
     private List<Product> orderProductsList(int order, List<Product> productList) {
@@ -91,8 +97,8 @@ public class ProductService implements IProduct {
     }
 
     /**
+     * Responsável pelo filtro por categoria
      * @author Ma & Theus
-     * @version "2.0"
      * @param productList Lista de produtos a ser filtrado
      * @param category Nome da categoria usada como parâmetro de filtro
      * @return Uma lista de produtos usando a categoria como filtro
@@ -104,8 +110,8 @@ public class ProductService implements IProduct {
     }
 
     /**
+     * Responsável pelo filtro de frete grátis
      * @author Ma & Theus
-     * @version "2.0"
      * @param productList Lista de produtos a ser filtrado
      * @param freeShipping Valor de shipping a ser filtrado
      * @return Uma lista de produtos usando o valor de shipping como filtro
@@ -117,8 +123,8 @@ public class ProductService implements IProduct {
     }
 
     /**
+     * Responsável pelo filtro pelo nível de satisfação
      * @author Ma & Theus
-     * @version "2.0"
      * @param productList Lista de produtos a ser filtrado
      * @param prestige quantidade de estrelas do produto
      * @return Uma lista de produtos usando a quantidade de estrelas como filtro
@@ -130,9 +136,10 @@ public class ProductService implements IProduct {
     }
 
     /**
-     * Pega o produto pelo id
-     * @param id
-     * @return Product
+     * Busca o produto pelo ID
+     * @author Gabriel
+     * @param id ID do produto
+     * @return Produto pelo ID
      */
     @Override
     public Product getProductById(int id) {

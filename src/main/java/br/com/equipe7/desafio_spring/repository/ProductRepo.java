@@ -31,6 +31,12 @@ public class ProductRepo {
             System.out.println("Error reading file");
         }
     }
+    /**
+     * Cadastro de Produto
+     * @author Giovanna e Gabriel
+     * @param newProduct Novo produto
+     * @return Retorna um produto cadastrado e o status HTTP
+     */
     public Product saveProduct(Product newProduct) {
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         productList.add(newProduct);
@@ -43,6 +49,7 @@ public class ProductRepo {
     }
 
     /**
+     * Procurar o produto pelo ID
      * @author Gabriel
      * @param id Identificação do produto a ser buscado
      * @return Retorna opcionalmente um Produto a partir do id
@@ -57,9 +64,14 @@ public class ProductRepo {
         return product;
     }
 
+    /**
+     * Alimentação do Array Produtos
+     * @author Ma, Theus, Anderson e Felipe
+     * @return Retorna um array com os produtos
+     */
     private List<Product> loadProducts() {
         try {
-           List<Product> products = new ArrayList<>();
+            List<Product> products = new ArrayList<>();
             mapper.findAndRegisterModules();
             products.addAll(Arrays.asList(mapper.readValue(new File(linkFile), Product[].class)));
             return products;
