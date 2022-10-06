@@ -24,6 +24,15 @@ public class ProductController {
     @Autowired
     private IProduct service;
 
+    /**
+     * Método para pegar todos os parâmetros existentes no Query Params
+     * @author Ma, Theus, Anderson, Felipe
+     * @param category Categoria de Produtos (String)
+     * @param freeShipping Frete gratis (boolean)
+     * @param prestige Nível de satisfação do produto (String)
+     * @param order Ordenação do array (Alfabético ou preço)
+     * @return Retorna o status e o produto conforme o parâmetro estipulado.
+     */
     @GetMapping("/articles")
     public ResponseEntity<List<ProductResponseDTO>> getAll(@RequestParam Optional<String> category,
                                                 @RequestParam Optional<Boolean> freeShipping,
@@ -33,16 +42,21 @@ public class ProductController {
             return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-
+    /**
+     * Realiza a busca do produto por ID.
+     * @param productId ID do produto
+     * @return Resultado da busca do produto pelo ID.
+     */
     @GetMapping("/articles/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable int productId) {
         Product product =  this.service.getProductById(productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
+
     /**
-     * @author Giovanna
-     * @param newProduct
-     * @return data -> um DTO que filtra pelo productID, name e quantity
+     * Criação de Produto
+     * @param newProduct Novo produto para ser cadastrado.
+     * @return Status HTTP e o Retorno pelo DTO do produto cadastrado.
      */
     @PostMapping("/insert-articles-request")
     public ResponseEntity<List<ProductResponseDTO>> save(@RequestBody(required = false) List<ProductCreatedDTO> newProduct) {

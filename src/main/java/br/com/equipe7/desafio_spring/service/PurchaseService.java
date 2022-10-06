@@ -25,6 +25,7 @@ public class PurchaseService implements IPurchase{
     private ProductRepo productRepo;
 
     /**
+     * Criação da requisição de compra
      * @author Gabriel
      * @param request uma requisição de compra apresentando uma lista de produtos a serem adquiridos
      * @return Um ticket de compra, apresentado os produtos adquiridos e o valor total da compra
@@ -48,6 +49,7 @@ public class PurchaseService implements IPurchase{
     }
 
     /**
+     * Valor total da compra do produto
      * @author Gabriel
      * @param product O produto a ser adquiridoo
      * @return O valor total de um produto de acordo com o seu valor * quantidade informada
@@ -59,6 +61,7 @@ public class PurchaseService implements IPurchase{
     }
 
     /**
+     * Valor total da compra de produtos
      * @author Gabriel
      * @param products uma lista de produtos
      * @return O valor total do ticket a partir de uma lista de produtos
@@ -75,6 +78,7 @@ public class PurchaseService implements IPurchase{
     }
 
     /**
+     * Criador de ticket de compra
      * @author Gabriel
      * @param products Uma lista de produtos que estarão presentes no ticket
      * @return Um ticket de compra, apresentado os produtos adquiridos e o valor total da compra
@@ -85,6 +89,7 @@ public class PurchaseService implements IPurchase{
     }
 
     /**
+     * validador do produto para compra
      * @author Gabriel
      * @param productPurchase Um produto de um objeto ser comprado, possuindo productId e quantity.
      * @return Um objeto do tipo Produto válido

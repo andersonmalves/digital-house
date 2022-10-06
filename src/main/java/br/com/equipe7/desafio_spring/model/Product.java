@@ -20,5 +20,4 @@ public class Product implements Comparable<Product> {
     public int compareTo(Product product) {
         return this.name.compareTo(product.name);
     }
-
 }

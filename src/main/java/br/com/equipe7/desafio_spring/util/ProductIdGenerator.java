@@ -7,6 +7,11 @@ public class ProductIdGenerator {
 
     }
 
+    /**
+     * Gerador de ID
+     * @author Gabriel e Giovanna
+     * @return Retorna o id gerado
+     */
     public static ProductIdGenerator getIdGenerator() {
         return idGenerator;
     }
