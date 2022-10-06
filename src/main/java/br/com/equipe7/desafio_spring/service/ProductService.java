@@ -29,6 +29,11 @@ public class ProductService implements IProduct {
         return new ProductResponseDTO(response);
     }
 
+    /**
+     * @author Ma, Theus, Felipe e Anderson
+     * @param productList lista de produtos a ser filtrado
+     * @return Lista de produtos de forma ordenada
+     */
     public List<ProductResponseDTO> getAll(
             Optional<String> category,
             Optional<Boolean> freeShipping,
@@ -47,6 +52,12 @@ public class ProductService implements IProduct {
         return productList.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
     }
 
+    /**
+     * @author Felipe e Anderson
+     * @param productList lista de produtos a ser filtrado
+     * @param order altera ordenação das produtos
+     * @return Lista de produtos ordenada por nome ou preço
+     */
     private List<Product> orderProductsList(int order, List<Product> productList) {
         switch (order) {
             case 0: return productList.stream()
