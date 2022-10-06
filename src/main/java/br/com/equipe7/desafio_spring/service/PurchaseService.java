@@ -59,7 +59,7 @@ public class PurchaseService implements IPurchase{
     }
 
     /**
-     * @author
+     * @author Gabriel
      * @param products uma lista de produtos
      * @return O valor total do ticket a partir de uma lista de produtos
      */
