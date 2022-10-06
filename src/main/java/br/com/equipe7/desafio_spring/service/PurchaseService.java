@@ -58,6 +58,11 @@ public class PurchaseService implements IPurchase{
         return price.multiply(BigDecimal.valueOf(quantity));
     }
 
+    /**
+     * @author
+     * @param products uma lista de produtos
+     * @return O valor total do ticket a partir de uma lista de produtos
+     */
     private BigDecimal getTotalTicket(List<Product> products) {
         BigDecimal totalTicket = BigDecimal.ZERO;
 
