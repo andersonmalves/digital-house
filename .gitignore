@@ -4,6 +4,9 @@ HELP.md
 !**/src/test/**/target/
 *.class
 *.json
+target/*
+target
+src/main/resources/products.json
 
 ### STS ###
 .apt_generated
