@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
@@ -15,24 +16,16 @@ import java.util.stream.Collectors;
 import java.util.Optional;
 
 @Repository
+@NoArgsConstructor
 @Data
 public class ProductRepo {
 
     private final String linkFile = "src/main/resources/products.json";
     private final ObjectMapper mapper = new ObjectMapper();
-    private final List<Product> productList = new ArrayList<>();
 
-    public ProductRepo() {
-        try {
-            // https://stackoverflow.com/questions/21384820/is-there-a-jackson-datatype-module-for-jdk8-java-time
-            mapper.findAndRegisterModules();
-            productList.addAll(Arrays.asList(mapper.readValue(new File(linkFile), Product[].class)));
-        }catch (Exception ex) {
-            System.out.println("Error reading file");
-        }
-    }
     public Product saveProduct(Product newProduct) {
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        List<Product> productList = loadProducts();
         productList.add(newProduct);
         try {
             writer.writeValue(new File(linkFile), productList);
@@ -50,14 +43,14 @@ public class ProductRepo {
     public Optional<Product> getProductById(int id) {
         List<Product> products = loadProducts();
 
-        Optional<Product> product = productList.stream()
+        Optional<Product> product = products.stream()
                 .filter(p -> p.getProductId() == id)
                 .findFirst();
 
         return product;
     }
 
-    private List<Product> loadProducts() {
+    public List<Product> loadProducts() {
         try {
            List<Product> products = new ArrayList<>();
             mapper.findAndRegisterModules();
@@ -65,14 +58,25 @@ public class ProductRepo {
             return products;
         } catch (Exception ex) {
             System.out.println("Error reading file");
-            return null;
+            return new ArrayList<>();
         }
     }
 
     public List<Product> getByCategory(String category) {
+        List<Product> productList = loadProducts();
         return productList.stream()
                 .filter(product -> product.getCategory().equals(category))
                 .collect(Collectors.toList());
+    }
+
+    public void deleteProducts() {
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        List<Product> productList = new ArrayList<>();
+        try {
+            writer.writeValue(new File(linkFile), productList);
+        } catch (Exception ex) {
+            System.out.println("Error deleting products");
+        }
     }
 }
 

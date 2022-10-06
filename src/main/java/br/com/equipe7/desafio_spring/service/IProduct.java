@@ -17,5 +17,6 @@ public interface IProduct {
             Optional<Integer> order);
     List<Product> getByProduct(String category);
     Product getProductById(int id);
+    void deleteProducts();
 }
 

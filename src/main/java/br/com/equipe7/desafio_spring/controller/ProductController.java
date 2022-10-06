@@ -49,4 +49,10 @@ public class ProductController {
         List<ProductResponseDTO> data = service.save(newProduct);
         return new ResponseEntity<>(data, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/articles")
+    public ResponseEntity<Void> deleteProducts() {
+        this.service.deleteProducts();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

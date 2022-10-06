@@ -58,7 +58,7 @@ public class ProductService implements IProduct {
             Optional<Boolean> freeShipping,
             Optional<String> prestige,
             Optional<Integer> order) {
-        List<Product> productList = repo.getProductList();
+        List<Product> productList = repo.loadProducts();
 
         if (category.isPresent()) productList = filterCategory(productList, category.get());
 
@@ -143,6 +143,11 @@ public class ProductService implements IProduct {
         }
 
         return product.get();
+    }
+
+    @Override
+    public void deleteProducts() {
+        this.repo.deleteProducts();
     }
 
     @Override
