@@ -25,9 +25,9 @@ public class PurchaseService implements IPurchase{
     private ProductRepo productRepo;
 
     /**
-     *
-     * @param request
-     * @return
+     * @author Gabriel
+     * @param request uma requisição de compra apresentando uma lista de produtos a serem adquiridos
+     * @return Um ticket de compra, apresentado os produtos adquiridos e o valor total da compra
      */
     @Override
     public TicketResponseDTO purchase(PurchaseRequestDTO request) {
@@ -39,42 +39,62 @@ public class PurchaseService implements IPurchase{
         List<Product> selectedProducts = new ArrayList<>();
         BigDecimal totalTicket = BigDecimal.ZERO;
 
-        for(ProductPurchaseDTO productPurchase : articlesPurchaseRequest){
-            Optional<Product> product =  this.productRepo.getProductById(productPurchase.getProductId());
+        for(ProductPurchaseDTO productPurchase : articlesPurchaseRequest) {
+            Product product = getProductByProductPurchase(productPurchase);
 
-            if(product.isEmpty()){
-                throw new NotFoundException("Produto com id: "
-                        + productPurchase.getProductId()
-                        + " não encontrado");
-            }
-
-            if(productPurchase.getQuantity() <= 0) {
-                throw new PurchaseWithInvalidQuantityException("O produto com id: "
-                        + productPurchase.getProductId()
-                        + " deve possuir uma quantidade válida" );
-            }
-
-            BigDecimal totalProductPrice = getProductPrice(product.get(), productPurchase.getQuantity());
+            BigDecimal totalProductPrice = getProductPrice(product, productPurchase.getQuantity());
             totalTicket = totalTicket.add(totalProductPrice);
 
-            Product selectedProduct = product.get();
-            selectedProduct.setQuantity(productPurchase.getQuantity());
-            selectedProducts.add(selectedProduct);
+            product.setQuantity(productPurchase.getQuantity());
+            selectedProducts.add(product);
         }
 
-        int ticketId = TicketNumberGenerator.getInstance().getNext();
-        return new TicketResponseDTO(new Ticket(ticketId, selectedProducts, totalTicket));
+        return createTicket(selectedProducts, totalTicket);
     }
 
     /**
-     *
-     * @param product
-     * @param quantity
-     * @return
+     * @author Gabriel
+     * @param product O produto a ser adquirido
+     * @param quantity A quantidade de produtos a ser adquirido
+     * @return O valor total de um produto de acordo com o seu valor * quantidade informada
      */
     private BigDecimal getProductPrice(Product product, int quantity) {
         return product.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
 
+    /**
+     * @author Gabriel
+     * @param products Uma lista de produtos que estarão presentes no ticket
+     * @param totalTicket A quantidade total que o ticket deverá apresentar
+     * @return Um ticket de compra, apresentado os produtos adquiridos e o valor total da compra
+     */
+    private TicketResponseDTO createTicket(List<Product> products, BigDecimal totalTicket) {
+        int ticketId = TicketNumberGenerator.getInstance().getNext();
+        return new TicketResponseDTO(new Ticket(ticketId, products, totalTicket));
+    }
+
+
+    /**
+     * @author Gabriel
+     * @param productPurchase Um produto de um objeto ser comprado, possuindo productId e quantity.
+     * @return Um objeto do tipo Produto válido
+     */
+    private Product getProductByProductPurchase(ProductPurchaseDTO productPurchase) {
+        Optional<Product> product =  this.productRepo.getProductById(productPurchase.getProductId());
+
+        if(product.isEmpty()){
+            throw new NotFoundException("Produto com id: "
+                    + productPurchase.getProductId()
+                    + " não encontrado");
+        }
+
+        if(productPurchase.getQuantity() <= 0) {
+            throw new PurchaseWithInvalidQuantityException("O produto com id: "
+                    + productPurchase.getProductId()
+                    + " deve possuir uma quantidade válida" );
+        }
+
+        return product.get();
+    }
 
 }
