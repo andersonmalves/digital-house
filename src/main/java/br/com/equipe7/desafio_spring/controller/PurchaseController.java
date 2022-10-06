@@ -20,9 +20,9 @@ public class PurchaseController {
     private IPurchase service;
 
     /**
-     *
-     * @param request
-     * @return
+     * Gerador de “ticket” a partir da ordem de cadastro.
+     * @param request lista de produtos para cadastro.
+     * @return Status HTTP, lista de cadastro e o preço total.
      */
     @PostMapping("/purchase-request")
     public ResponseEntity<TicketResponseDTO> purchase(@RequestBody(required = false) PurchaseRequestDTO request){
