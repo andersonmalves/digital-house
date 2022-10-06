@@ -153,6 +153,7 @@ public class ProductService implements IProduct {
     @Override
     public void deleteProducts() {
         this.repo.deleteProducts();
+        ProductIdGenerator.getIdGenerator().resetId();
     }
 
     @Override

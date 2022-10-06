@@ -14,6 +14,10 @@ public class ProductIdGenerator {
         return idGenerator;
     }
 
+    public void resetId() {
+        this.next = 0;
+    }
+
     public int getNext() {
         return ++next;
     }
