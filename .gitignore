@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 *.class
+target/classes/products.json
 
 ### STS ###
 .apt_generated
