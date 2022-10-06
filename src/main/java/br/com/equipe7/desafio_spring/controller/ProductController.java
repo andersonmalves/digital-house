@@ -34,11 +34,12 @@ public class ProductController {
      * @return Retorna o status e o produto conforme o parâmetro estipulado.
      */
     @GetMapping("/articles")
-    public ResponseEntity<List<Product>> getAll(@RequestParam Optional<String> category,
+    public ResponseEntity<List<ProductResponseDTO>> getAll(@RequestParam Optional<String> category,
                                                 @RequestParam Optional<Boolean> freeShipping,
                                                 @RequestParam Optional<String> prestige,
                                                 @RequestParam Optional<Integer> order) {
-            return new ResponseEntity<>(service.getAll(category, freeShipping, prestige, order), HttpStatus.OK);
+            List<ProductResponseDTO> data = service.getAll(category, freeShipping, prestige, order);
+            return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     /**
@@ -58,8 +59,8 @@ public class ProductController {
      * @return Status HTTP e o Retorno pelo DTO do produto cadastrado.
      */
     @PostMapping("/insert-articles-request")
-    public ResponseEntity<ProductResponseDTO> save(@RequestBody ProductCreatedDTO newProduct) {
-        ProductResponseDTO data = service.save(newProduct);
+    public ResponseEntity<List<ProductResponseDTO>> save(@RequestBody(required = false) List<ProductCreatedDTO> newProduct) {
+        List<ProductResponseDTO> data = service.save(newProduct);
         return new ResponseEntity<>(data, HttpStatus.CREATED);
     }
 }

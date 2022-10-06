@@ -25,9 +25,9 @@ public class PurchaseService implements IPurchase{
     private ProductRepo productRepo;
 
     /**
-     *
-     * @param request
-     * @return
+     * @author Gabriel
+     * @param request uma requisição de compra apresentando uma lista de produtos a serem adquiridos
+     * @return Um ticket de compra, apresentado os produtos adquiridos e o valor total da compra
      */
     @Override
     public TicketResponseDTO purchase(PurchaseRequestDTO request) {
@@ -37,44 +37,74 @@ public class PurchaseService implements IPurchase{
 
         List<ProductPurchaseDTO> articlesPurchaseRequest = request.getArticlesPurchaseRequest();
         List<Product> selectedProducts = new ArrayList<>();
-        BigDecimal totalTicket = BigDecimal.ZERO;
 
-        for(ProductPurchaseDTO productPurchase : articlesPurchaseRequest){
-            Optional<Product> product =  this.productRepo.getProductById(productPurchase.getProductId());
-
-            if(product.isEmpty()){
-                throw new NotFoundException("Produto com id: "
-                        + productPurchase.getProductId()
-                        + " não encontrado");
-            }
-
-            if(productPurchase.getQuantity() <= 0) {
-                throw new PurchaseWithInvalidQuantityException("O produto com id: "
-                        + productPurchase.getProductId()
-                        + " deve possuir uma quantidade válida" );
-            }
-
-            BigDecimal totalProductPrice = getProductPrice(product.get(), productPurchase.getQuantity());
-            totalTicket = totalTicket.add(totalProductPrice);
-
-            Product selectedProduct = product.get();
-            selectedProduct.setQuantity(productPurchase.getQuantity());
-            selectedProducts.add(selectedProduct);
+        for(ProductPurchaseDTO productPurchase : articlesPurchaseRequest) {
+            Product product = getProductByProductPurchase(productPurchase);
+            product.setQuantity(productPurchase.getQuantity());
+            selectedProducts.add(product);
         }
 
-        int ticketId = TicketNumberGenerator.getInstance().getNext();
-        return new TicketResponseDTO(new Ticket(ticketId, selectedProducts, totalTicket));
+        return createTicket(selectedProducts);
     }
 
     /**
-     *
-     * @param product
-     * @param quantity
-     * @return
+     * @author Gabriel
+     * @param product O produto a ser adquiridoo
+     * @return O valor total de um produto de acordo com o seu valor * quantidade informada
      */
-    private BigDecimal getProductPrice(Product product, int quantity) {
-        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
+    private BigDecimal getProductPrice(Product product) {
+        int quantity = product.getQuantity();
+        BigDecimal price = product.getPrice();
+        return price.multiply(BigDecimal.valueOf(quantity));
     }
 
+    /**
+     * @author Gabriel
+     * @param products uma lista de produtos
+     * @return O valor total do ticket a partir de uma lista de produtos
+     */
+    private BigDecimal getTotalTicket(List<Product> products) {
+        BigDecimal totalTicket = BigDecimal.ZERO;
+
+        for(Product product : products){
+            BigDecimal totalProductPrice = getProductPrice(product);
+            totalTicket = totalTicket.add(totalProductPrice);
+        }
+
+        return totalTicket;
+    }
+
+    /**
+     * @author Gabriel
+     * @param products Uma lista de produtos que estarão presentes no ticket
+     * @return Um ticket de compra, apresentado os produtos adquiridos e o valor total da compra
+     */
+    private TicketResponseDTO createTicket(List<Product> products) {
+        int ticketId = TicketNumberGenerator.getInstance().getNext();
+        return new TicketResponseDTO(new Ticket(ticketId, products, getTotalTicket(products)));
+    }
+
+    /**
+     * @author Gabriel
+     * @param productPurchase Um produto de um objeto ser comprado, possuindo productId e quantity.
+     * @return Um objeto do tipo Produto válido
+     */
+    private Product getProductByProductPurchase(ProductPurchaseDTO productPurchase) {
+        Optional<Product> product =  this.productRepo.getProductById(productPurchase.getProductId());
+
+        if(product.isEmpty()){
+            throw new NotFoundException("Produto com id: "
+                    + productPurchase.getProductId()
+                    + " não encontrado");
+        }
+
+        if(productPurchase.getQuantity() <= 0) {
+            throw new PurchaseWithInvalidQuantityException("O produto com id: "
+                    + productPurchase.getProductId()
+                    + " deve possuir uma quantidade válida" );
+        }
+
+        return product.get();
+    }
 
 }

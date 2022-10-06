@@ -9,8 +9,8 @@ import java.util.Optional;
 
 
 public interface IProduct {
-    ProductResponseDTO save(ProductCreatedDTO newProduct);
-    List<Product> getAll(
+    List<ProductResponseDTO> save(List<ProductCreatedDTO> productList);
+    List<ProductResponseDTO> getAll(
             Optional<String> category,
             Optional<Boolean> freeShipping,
             Optional<String> prestige,

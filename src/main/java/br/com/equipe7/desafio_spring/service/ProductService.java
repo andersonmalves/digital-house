@@ -1,14 +1,16 @@
 package br.com.equipe7.desafio_spring.service;
+
 import br.com.equipe7.desafio_spring.dto.ProductCreatedDTO;
 import br.com.equipe7.desafio_spring.dto.ProductResponseDTO;
-
 import br.com.equipe7.desafio_spring.exception.NotFoundException;
+import br.com.equipe7.desafio_spring.exception.ProductEmptyException;
 import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.repository.ProductRepo;
 import br.com.equipe7.desafio_spring.util.ProductIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -19,66 +21,112 @@ public class ProductService implements IProduct {
     @Autowired
     private ProductRepo repo;
 
+    /**
+     * @author Giovanna
+     * @param newProduct
+     * @return response -> um DTO que exibe productId, name e quantity
+     */
     @Override
-    public ProductResponseDTO save(ProductCreatedDTO newProduct) {
-        int idProduct = ProductIdGenerator.getIdGenerator().getNext();
-        Product product = new Product(idProduct, newProduct.getName(), newProduct.getCategory(),
-                newProduct.getBrand(), newProduct.getPrestige(), newProduct.getPrice(),
-                newProduct.getFreeShipping(), newProduct.getQuantity());
-        Product response = repo.saveProduct(product);
-        return new ProductResponseDTO(response);
+    public List<ProductResponseDTO> save(List<ProductCreatedDTO> productList) {
+        if (productList == null) {
+            throw new ProductEmptyException("Não pode enviar 'payload' vazio");
+        }
+
+        List<ProductResponseDTO> response = new ArrayList<>();
+
+        for(ProductCreatedDTO product : productList){
+            int idProduct = ProductIdGenerator.getIdGenerator().getNext();
+            Product p = new Product(idProduct, product.getName(), product.getCategory(),
+                    product.getBrand(), product.getPrestige(), product.getPrice(),
+                    product.isFreeShipping(), product.getQuantity());
+
+            this.repo.saveProduct(p);
+            response.add(new ProductResponseDTO(p));
+        }
+
+
+        return response;
     }
 
-    public List<Product> getAll(
+    /**
+     * @author Ma, Theus, Felipe e Anderson
+     * @param productList lista de produtos a ser filtrado
+     * @return Lista de produtos de forma ordenada
+     */
+    public List<ProductResponseDTO> getAll(
             Optional<String> category,
             Optional<Boolean> freeShipping,
             Optional<String> prestige,
             Optional<Integer> order) {
         List<Product> productList = repo.getProductList();
 
-        if (category.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.getCategory().equalsIgnoreCase(category.get()))
-                    .collect(Collectors.toList());
-        }
+        if (category.isPresent()) productList = filterCategory(productList, category.get());
 
-        if (freeShipping.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.isFreeShipping() == freeShipping.get())
-                    .collect(Collectors.toList());
-        }
+        if (freeShipping.isPresent()) productList = filterShipping(productList, freeShipping.get());
 
-        if (prestige.isPresent()) {
-            productList = productList.stream()
-                    .filter(product -> product.getPrestige().equals(prestige.get()))
-                    .collect(Collectors.toList());
-        }
+        if (prestige.isPresent()) productList = filterPrestige(productList, prestige.get());
 
-        if(order.isPresent()) {
-            int orderProductsByNameAsc = 0;
-            int orderProductsByNameDesc = 1;
-            int orderProductsByPriceAsc = 2;
-            int orderProductsByPriceDesc = 3;
+        if(order.isPresent()) productList = orderProductsList(order.get(), productList);
 
-            if (order.get() == orderProductsByNameAsc) {
-                productList = productList.stream()
-                        .sorted(Comparator.comparing(Product::getName))
-                        .collect(Collectors.toList());
-            } else if (order.get() == orderProductsByNameDesc) {
-            productList = productList.stream()
-                    .sorted((v1,v2)-> v2.getName().compareTo(v1.getName()))
-                    .collect(Collectors.toList());
-            } else if (order.get() == orderProductsByPriceAsc) {
-                productList = productList.stream()
-                        .sorted(Comparator.comparing(Product::getPrice))
-                        .collect(Collectors.toList());
-            } else if (order.get() == orderProductsByPriceDesc) {
-                productList = productList.stream()
-                        .sorted((v1,v2)-> v2.getPrice().compareTo(v1.getPrice()))
-                        .collect(Collectors.toList());
-            }
+        return productList.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
+    }
+
+    /**
+     * @author Felipe e Anderson
+     * @param productList lista de produtos a ser filtrado
+     * @param order altera ordenação das produtos
+     * @return Lista de produtos ordenada por nome ou preço
+     */
+    private List<Product> orderProductsList(int order, List<Product> productList) {
+        switch (order) {
+            case 0: return productList.stream()
+                    .sorted(Comparator.comparing(Product::getName)).collect(Collectors.toList());
+            case 1: return productList.stream()
+                    .sorted((v1,v2)-> v2.getName().compareTo(v1.getName())).collect(Collectors.toList());
+            case 2: return productList.stream()
+                    .sorted(Comparator.comparing(Product::getPrice)).collect(Collectors.toList());
+            default: return productList.stream()
+                    .sorted((v1,v2)-> v2.getPrice().compareTo(v1.getPrice())).collect(Collectors.toList());
         }
-        return productList;
+    }
+
+    /**
+     * @author Ma & Theus
+     * @version "2.0"
+     * @param productList Lista de produtos a ser filtrado
+     * @param category Nome da categoria usada como parâmetro de filtro
+     * @return Uma lista de produtos usando a categoria como filtro
+     */
+    private List<Product> filterCategory(List<Product> productList, String category) {
+        return productList.stream()
+                .filter(product -> product.getCategory().equalsIgnoreCase(category))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * @author Ma & Theus
+     * @version "2.0"
+     * @param productList Lista de produtos a ser filtrado
+     * @param freeShipping Valor de shipping a ser filtrado
+     * @return Uma lista de produtos usando o valor de shipping como filtro
+     */
+    private List<Product> filterShipping(List<Product> productList, Boolean freeShipping) {
+        return productList.stream()
+                .filter(product -> product.isFreeShipping() == freeShipping)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * @author Ma & Theus
+     * @version "2.0"
+     * @param productList Lista de produtos a ser filtrado
+     * @param prestige quantidade de estrelas do produto
+     * @return Uma lista de produtos usando a quantidade de estrelas como filtro
+     */
+    private List<Product> filterPrestige(List<Product> productList, String prestige) {
+        return productList.stream()
+                .filter(product -> product.getPrestige().equals(prestige))
+                .collect(Collectors.toList());
     }
 
     /**

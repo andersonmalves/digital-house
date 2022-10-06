@@ -196,4 +196,40 @@
   "price" : 350.00,
   "freeShipping" : true,
   "quantity" : 10
+}, {
+  "productId" : 14,
+  "name" : "teclado",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "***",
+  "price" : 350.00,
+  "freeShipping" : true,
+  "quantity" : 0
+}, {
+  "productId" : 14,
+  "name" : "Serra",
+  "category" : "Ferramentas",
+  "brand" : "FORTGPRO",
+  "prestige" : "****",
+  "price" : 1800.00,
+  "freeShipping" : true,
+  "quantity" : 5
+}, {
+  "productId" : 14,
+  "name" : "Serra de Bancada",
+  "category" : "Ferramentas",
+  "brand" : "FORTGPRO",
+  "prestige" : "****",
+  "price" : 1800.00,
+  "freeShipping" : true,
+  "quantity" : 5
+}, {
+  "productId" : 15,
+  "name" : "Furadeira",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "****",
+  "price" : 500.00,
+  "freeShipping" : true,
+  "quantity" : 7
 } ]
