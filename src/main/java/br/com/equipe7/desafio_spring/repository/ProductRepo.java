@@ -11,6 +11,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Repository
 @Data
@@ -22,23 +24,49 @@ public class ProductRepo {
 
     public ProductRepo() {
         try {
+            // https://stackoverflow.com/questions/21384820/is-there-a-jackson-datatype-module-for-jdk8-java-time
             mapper.findAndRegisterModules();
             productList.addAll(Arrays.asList(mapper.readValue(new File(linkFile), Product[].class)));
         }catch (Exception ex) {
             System.out.println("Error reading file");
         }
     }
-
     public Product saveProduct(Product newProduct) {
-        ObjectMapper mapper = new ObjectMapper();
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         productList.add(newProduct);
         try {
             writer.writeValue(new File(linkFile), productList);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Error creating product");
         }
         return newProduct;
+    }
+    public Optional<Product> getProductById(int id) {
+        List<Product> products = loadProducts();
 
+        Optional<Product> product = productList.stream()
+                .filter(p -> p.getProductId() == id)
+                .findFirst();
+
+        return product;
+    }
+
+    private List<Product> loadProducts() {
+        try {
+           List<Product> products = new ArrayList<>();
+            mapper.findAndRegisterModules();
+            products.addAll(Arrays.asList(mapper.readValue(new File(linkFile), Product[].class)));
+            return products;
+        } catch (Exception ex) {
+            System.out.println("Error reading file");
+            return null;
+        }
+    }
+
+    public List<Product> getByCategory(String category) {
+        return productList.stream()
+                .filter(product -> product.getCategory().equals(category))
+                .collect(Collectors.toList());
     }
 }
+
