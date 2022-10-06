@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 
 @Data
 @NoArgsConstructor
@@ -21,4 +20,5 @@ public class Product implements Comparable<Product> {
     public int compareTo(Product product) {
         return this.name.compareTo(product.name);
     }
+
 }
