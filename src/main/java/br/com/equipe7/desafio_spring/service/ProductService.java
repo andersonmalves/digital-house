@@ -10,6 +10,7 @@ import br.com.equipe7.desafio_spring.util.ProductIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -26,16 +27,25 @@ public class ProductService implements IProduct {
      * @return response -> um DTO que exibe productId, name e quantity
      */
     @Override
-    public ProductResponseDTO save(ProductCreatedDTO newProduct) {
-        if (newProduct == null) {
+    public List<ProductResponseDTO> save(List<ProductCreatedDTO> productList) {
+        if (productList == null) {
             throw new ProductEmptyException("Não pode enviar 'payload' vazio");
         }
-        int idProduct = ProductIdGenerator.getIdGenerator().getNext();
-        Product product = new Product(idProduct, newProduct.getName(), newProduct.getCategory(),
-                newProduct.getBrand(), newProduct.getPrestige(), newProduct.getPrice(),
-                newProduct.getFreeShipping(), newProduct.getQuantity());
-        Product response = repo.saveProduct(product);
-        return new ProductResponseDTO(response);
+
+        List<ProductResponseDTO> response = new ArrayList<>();
+
+        for(ProductCreatedDTO product : productList){
+            int idProduct = ProductIdGenerator.getIdGenerator().getNext();
+            Product p = new Product(idProduct, product.getName(), product.getCategory(),
+                    product.getBrand(), product.getPrestige(), product.getPrice(),
+                    product.getFreeShipping(), product.getQuantity());
+
+            this.repo.saveProduct(p);
+            response.add(new ProductResponseDTO(p));
+        }
+
+
+        return response;
     }
 
     public List<ProductResponseDTO> getAll(
