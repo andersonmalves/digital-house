@@ -1,12 +1,18 @@
 package br.com.equipe7.desafio_spring.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
+@Data
+@NoArgsConstructor
 public class ProductCreatedDTO {
-    final String name, category, brand, prestige;
-    final BigDecimal price;
-    final boolean freeShipping;
-    final int quantity;
+    private String name, category, brand, prestige;
+    private BigDecimal price;
+    private boolean freeShipping;
+    private int quantity;
 
     /**
      * @author Giovanna
@@ -27,27 +33,5 @@ public class ProductCreatedDTO {
         this.price = price;
         this.freeShipping = freeShipping;
         this.quantity = quantity;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public String getCategory() {
-        return category;
-    }
-    public String getBrand() {
-        return brand;
-    }
-    public String getPrestige() {
-        return prestige;
-    }
-    public BigDecimal getPrice() {
-        return price;
-    }
-    public Boolean getFreeShipping() {
-        return freeShipping;
-    }
-    public int getQuantity() {
-        return quantity;
     }
 }
