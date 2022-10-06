@@ -9,7 +9,6 @@ import br.com.equipe7.desafio_spring.repository.ProductRepo;
 import br.com.equipe7.desafio_spring.util.ProductIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -45,7 +44,6 @@ public class ProductService implements IProduct {
             response.add(new ProductResponseDTO(p));
         }
 
-
         return response;
     }
 
@@ -63,7 +61,7 @@ public class ProductService implements IProduct {
             Optional<Boolean> freeShipping,
             Optional<String> prestige,
             Optional<Integer> order) {
-        List<Product> productList = repo.loadProducts();
+        List<Product> productList = repo.getAllProducts();
 
         if (category.isPresent()) productList = filterCategory(productList, category.get());
 

@@ -1,16 +1,15 @@
 package br.com.equipe7.desafio_spring.repository;
 
 import br.com.equipe7.desafio_spring.model.Product;
+import br.com.equipe7.desafio_spring.util.ManipulateFile;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class ProductRepo {
 
     public Product saveProduct(Product newProduct) {
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-        List<Product> productList = loadProducts();
+        List<Product> productList = ManipulateFile.loadProducts();
         productList.add(newProduct);
         try {
             writer.writeValue(new File(linkFile), productList);
@@ -42,34 +41,19 @@ public class ProductRepo {
      * @return Retorna opcionalmente um Produto a partir do id
      */
     public Optional<Product> getProductById(int id) {
-        List<Product> products = loadProducts();
+        List<Product> products = ManipulateFile.loadProducts();
 
-        Optional<Product> product = products.stream()
+        return products.stream()
                 .filter(p -> p.getProductId() == id)
                 .findFirst();
-
-        return product;
     }
 
-    /**
-     * Alimentação do Array Produtos
-     * @author Ma, Theus, Anderson e Felipe
-     * @return Retorna um array com os produtos
-     */
-    private List<Product> loadProducts() {
-        try {
-            List<Product> products = new ArrayList<>();
-            mapper.findAndRegisterModules();
-            products.addAll(Arrays.asList(mapper.readValue(new File(linkFile), Product[].class)));
-            return products;
-        } catch (Exception ex) {
-            System.out.println("Error reading file");
-            return new ArrayList<>();
-        }
+    public List<Product> getAllProducts() {
+        return ManipulateFile.loadProducts();
     }
 
     public List<Product> getByCategory(String category) {
-        List<Product> productList = loadProducts();
+        List<Product> productList = ManipulateFile.loadProducts();
         return productList.stream()
                 .filter(product -> product.getCategory().equals(category))
                 .collect(Collectors.toList());

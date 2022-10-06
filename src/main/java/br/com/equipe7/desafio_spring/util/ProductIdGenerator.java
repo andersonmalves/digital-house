@@ -1,11 +1,9 @@
 package br.com.equipe7.desafio_spring.util;
 
 public class ProductIdGenerator {
-    private int next = 0;
+    private int next = ManipulateFile.loadProducts().size();
     private final static ProductIdGenerator idGenerator = new ProductIdGenerator();
-    private ProductIdGenerator(){
-
-    }
+    private ProductIdGenerator() {}
 
     /**
      * Gerador de ID
