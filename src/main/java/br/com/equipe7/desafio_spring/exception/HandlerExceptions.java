@@ -10,9 +10,10 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class HandlerExceptions {
     /**
-     *
-     * @param ex
-     * @return
+     * Tratamento de exceção.
+     * @author Giovanna e Gabriel
+     * @param ex Objeto exceção.
+     * @return Retorna mensagem caso não encontre o produto erro e o status HTTP
      */
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ExceptionDetails> handlerNotFoundException(NotFoundException ex) {
@@ -27,9 +28,10 @@ public class HandlerExceptions {
     }
 
     /**
-     *
-     * @param ex
-     * @return
+     * Tratamento de exceção.
+     * @author Giovanna e Gabriel
+     * @param ex Objeto exceção.
+     * @return Retorna mensagem caso quantidade do produto é invalida e o status HTTP.
      */
     @ExceptionHandler(PurchaseWithInvalidQuantityException.class)
     public ResponseEntity<ExceptionDetails> handlerPurchaseWithZeroException(PurchaseWithInvalidQuantityException ex) {
@@ -44,9 +46,10 @@ public class HandlerExceptions {
     }
 
     /**
-     *
-     * @param ex
-     * @return
+     * Tratamento de exceção.
+     * @author Giovanna e Gabriel
+     * @param ex Objeto exceção.
+     * @return Retorna mensagem caso não seja enviado o payload e o status HTTP.
      */
     @ExceptionHandler(EmptyPurchaseRequestException.class)
     public ResponseEntity<ExceptionDetails> handlerEmptyPurchaseRequestException(EmptyPurchaseRequestException ex) {
@@ -62,8 +65,8 @@ public class HandlerExceptions {
 
     /**
      * @author Giovanna
-     * @param ex
-     * @return exceptionDetails -> um json com mensagem e status http
+     * @param ex Objeto exceção.
+     * @return Retorna um json com mensagem e status http
      */
     @ExceptionHandler(ProductEmptyException.class)
     public ResponseEntity<ExceptionDetails> handleProductEmptyException(ProductEmptyException ex) {

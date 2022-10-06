@@ -16,8 +16,9 @@ public class ProductResponseDTO implements Serializable {
     private int quantity;
 
     /**
+     * Retorno do DTO para as requisições.
      * @author Giovanna
-     * @param response -> obtém o productId, name e quantity
+     * @param response Obtém o productId, name e quantity
      */
     public ProductResponseDTO(Product response) {
         this.productId = response.getProductId();
