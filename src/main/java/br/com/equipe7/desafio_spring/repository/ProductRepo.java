@@ -41,6 +41,12 @@ public class ProductRepo {
         }
         return newProduct;
     }
+
+    /**
+     * @author Gabriel
+     * @param id Identificação do produto a ser buscado
+     * @return Retorna opcionalmente um Produto a partir do id
+     */
     public Optional<Product> getProductById(int id) {
         List<Product> products = loadProducts();
 
