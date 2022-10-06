@@ -38,6 +38,11 @@ public class ProductService implements IProduct {
         return new ProductResponseDTO(response);
     }
 
+    /**
+     * @author Ma, Theus, Felipe e Anderson
+     * @param productList lista de produtos a ser filtrado
+     * @return Lista de produtos de forma ordenada
+     */
     public List<ProductResponseDTO> getAll(
             Optional<String> category,
             Optional<Boolean> freeShipping,
@@ -56,6 +61,12 @@ public class ProductService implements IProduct {
         return productList.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
     }
 
+    /**
+     * @author Felipe e Anderson
+     * @param productList lista de produtos a ser filtrado
+     * @param order altera ordenação das produtos
+     * @return Lista de produtos ordenada por nome ou preço
+     */
     private List<Product> orderProductsList(int order, List<Product> productList) {
         switch (order) {
             case 0: return productList.stream()
@@ -69,19 +80,40 @@ public class ProductService implements IProduct {
         }
     }
 
+    /**
+     * @author Ma & Theus
+     * @version "2.0"
+     * @param productList Lista de produtos a ser filtrado
+     * @param category Nome da categoria usada como parâmetro de filtro
+     * @return Uma lista de produtos usando a categoria como filtro
+     */
     private List<Product> filterCategory(List<Product> productList, String category) {
         return productList.stream()
                 .filter(product -> product.getCategory().equalsIgnoreCase(category))
                 .collect(Collectors.toList());
     }
 
-    private List<Product> filterShipping (List<Product> productList, Boolean freeShipping) {
+    /**
+     * @author Ma & Theus
+     * @version "2.0"
+     * @param productList Lista de produtos a ser filtrado
+     * @param freeShipping Valor de shipping a ser filtrado
+     * @return Uma lista de produtos usando o valor de shipping como filtro
+     */
+    private List<Product> filterShipping(List<Product> productList, Boolean freeShipping) {
         return productList.stream()
                 .filter(product -> product.isFreeShipping() == freeShipping)
                 .collect(Collectors.toList());
     }
 
-    private List<Product> filterPrestige (List<Product> productList, String prestige) {
+    /**
+     * @author Ma & Theus
+     * @version "2.0"
+     * @param productList Lista de produtos a ser filtrado
+     * @param prestige quantidade de estrelas do produto
+     * @return Uma lista de produtos usando a quantidade de estrelas como filtro
+     */
+    private List<Product> filterPrestige(List<Product> productList, String prestige) {
         return productList.stream()
                 .filter(product -> product.getPrestige().equals(prestige))
                 .collect(Collectors.toList());
