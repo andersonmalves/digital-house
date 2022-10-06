@@ -37,42 +37,47 @@ public class PurchaseService implements IPurchase{
 
         List<ProductPurchaseDTO> articlesPurchaseRequest = request.getArticlesPurchaseRequest();
         List<Product> selectedProducts = new ArrayList<>();
-        BigDecimal totalTicket = BigDecimal.ZERO;
 
         for(ProductPurchaseDTO productPurchase : articlesPurchaseRequest) {
             Product product = getProductByProductPurchase(productPurchase);
-
-            BigDecimal totalProductPrice = getProductPrice(product, productPurchase.getQuantity());
-            totalTicket = totalTicket.add(totalProductPrice);
-
             product.setQuantity(productPurchase.getQuantity());
             selectedProducts.add(product);
         }
 
-        return createTicket(selectedProducts, totalTicket);
+        return createTicket(selectedProducts);
     }
 
     /**
      * @author Gabriel
-     * @param product O produto a ser adquirido
-     * @param quantity A quantidade de produtos a ser adquirido
+     * @param product O produto a ser adquiridoo
      * @return O valor total de um produto de acordo com o seu valor * quantidade informada
      */
-    private BigDecimal getProductPrice(Product product, int quantity) {
-        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
+    private BigDecimal getProductPrice(Product product) {
+        int quantity = product.getQuantity();
+        BigDecimal price = product.getPrice();
+        return price.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    private BigDecimal getTotalTicket(List<Product> products) {
+        BigDecimal totalTicket = BigDecimal.ZERO;
+
+        for(Product product : products){
+            BigDecimal totalProductPrice = getProductPrice(product);
+            totalTicket = totalTicket.add(totalProductPrice);
+        }
+
+        return totalTicket;
     }
 
     /**
      * @author Gabriel
      * @param products Uma lista de produtos que estarão presentes no ticket
-     * @param totalTicket A quantidade total que o ticket deverá apresentar
      * @return Um ticket de compra, apresentado os produtos adquiridos e o valor total da compra
      */
-    private TicketResponseDTO createTicket(List<Product> products, BigDecimal totalTicket) {
+    private TicketResponseDTO createTicket(List<Product> products) {
         int ticketId = TicketNumberGenerator.getInstance().getNext();
-        return new TicketResponseDTO(new Ticket(ticketId, products, totalTicket));
+        return new TicketResponseDTO(new Ticket(ticketId, products, getTotalTicket(products)));
     }
-
 
     /**
      * @author Gabriel
