@@ -1,6 +1,5 @@
 package br.com.equipe7.desafio_spring.repository;
 
-import br.com.equipe7.desafio_spring.dto.ProductCreatedDTO;
 import br.com.equipe7.desafio_spring.model.Product;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +29,7 @@ public class ProductRepo {
         }
     }
 
-    public void saveProduct(Product newProduct) {
+    public Product saveProduct(Product newProduct) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         productList.add(newProduct);
@@ -39,6 +38,7 @@ public class ProductRepo {
         }catch (Exception ex) {
             System.out.println("Error creating product");
         }
+        return newProduct;
 
     }
 }

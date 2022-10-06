@@ -115,4 +115,67 @@
   "price" : 350.00,
   "freeShipping" : true,
   "quantity" : 10
+}, {
+  "productId" : 14,
+  "name" : "key",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "***",
+  "price" : 350.00,
+  "freeShipping" : true,
+  "quantity" : 10
+}, {
+  "productId" : 14,
+  "name" : "óculos",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "***",
+  "price" : 350.00,
+  "freeShipping" : true,
+  "quantity" : 10
+}, {
+  "productId" : 14,
+  "name" : "binóculo",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "***",
+  "price" : 350.00,
+  "freeShipping" : true,
+  "quantity" : 10
+}, {
+  "productId" : 15,
+  "name" : "mesa",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "***",
+  "price" : 350.00,
+  "freeShipping" : true,
+  "quantity" : 10
+}, {
+  "productId" : 14,
+  "name" : "mesa",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "***",
+  "price" : 350.00,
+  "freeShipping" : true,
+  "quantity" : 10
+}, {
+  "productId" : 15,
+  "name" : "computador",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "***",
+  "price" : 350.00,
+  "freeShipping" : true,
+  "quantity" : 10
+}, {
+  "productId" : 14,
+  "name" : "fone",
+  "category" : "Ferramentas",
+  "brand" : "Black & Decker",
+  "prestige" : "***",
+  "price" : 350.00,
+  "freeShipping" : true,
+  "quantity" : 10
 } ]
