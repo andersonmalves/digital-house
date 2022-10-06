@@ -20,9 +20,9 @@ public class PurchaseController {
     private IPurchase service;
 
     /**
-     *
-     * @param request
-     * @return
+     * @author Gabriel
+     * @param request uma requisição de compra apresentando uma lista de produtos a serem adquiridos
+     * @return Retorna um JSON do ticket de compra
      */
     @PostMapping("/purchase-request")
     public ResponseEntity<TicketResponseDTO> purchase(@RequestBody(required = false) PurchaseRequestDTO request){
