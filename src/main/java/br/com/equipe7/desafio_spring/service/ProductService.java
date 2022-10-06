@@ -29,7 +29,7 @@ public class ProductService implements IProduct {
         return new ProductResponseDTO(response);
     }
 
-    public List<Product> getAll(
+    public List<ProductResponseDTO> getAll(
             Optional<String> category,
             Optional<Boolean> freeShipping,
             Optional<String> prestige,
@@ -78,7 +78,7 @@ public class ProductService implements IProduct {
                         .collect(Collectors.toList());
             }
         }
-        return productList;
+        return productList.stream().map(ProductResponseDTO::new).collect(Collectors.toList());
     }
 
     /**
