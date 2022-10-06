@@ -9,7 +9,6 @@ import br.com.equipe7.desafio_spring.repository.ProductRepo;
 import br.com.equipe7.desafio_spring.util.ProductIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +32,7 @@ public class ProductService implements IProduct {
         int idProduct = ProductIdGenerator.getIdGenerator().getNext();
         Product product = new Product(idProduct, newProduct.getName(), newProduct.getCategory(),
                 newProduct.getBrand(), newProduct.getPrestige(), newProduct.getPrice(),
-                newProduct.getFreeShipping(), newProduct.getQuantity());
+                newProduct.isFreeShipping(), newProduct.getQuantity());
         Product response = repo.saveProduct(product);
         return new ProductResponseDTO(response);
     }

@@ -14,5 +14,4 @@ public class Ticket {
     int id;
     private List<Product> articles;
     private BigDecimal total;
-
 }
