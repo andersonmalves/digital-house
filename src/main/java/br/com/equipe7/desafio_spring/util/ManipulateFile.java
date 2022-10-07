@@ -2,7 +2,9 @@ package br.com.equipe7.desafio_spring.util;
 
 import br.com.equipe7.desafio_spring.model.Client;
 import br.com.equipe7.desafio_spring.model.Product;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.Getter;
 
 import java.io.File;
@@ -16,6 +18,18 @@ public class ManipulateFile {
     private static final String productLinkFile = "src/main/resources/products.json";
     private static final String clientLinkFile = "src/main/resources/clients.json";
 
+    public static String saveProduct() {
+        return clientLinkFile;
+    }
+
+    public static void saveClient(List<Client> clientList) {
+        try {
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            writer.writeValue(new File(clientLinkFile), clientList);
+        } catch (Exception ex) {
+            System.out.println("Error creating product");
+        }
+    }
 
     /**
      * Lê o arquivo json de produtos
