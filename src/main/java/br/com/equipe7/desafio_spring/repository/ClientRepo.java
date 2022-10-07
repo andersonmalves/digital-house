@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ClientRepo {
-    private final String linkFile = "src/main/resources/client.json";
+    private final String linkFile = "src/main/resources/clients.json";
     private final ObjectMapper mapper = new ObjectMapper();
 
     public Client saveClient(Client newClient) {
