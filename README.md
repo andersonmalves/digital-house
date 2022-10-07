@@ -63,7 +63,20 @@ Além disso, a plataforma afirmou que concorda em receber sugestões de melhoria
 desenvolvedores da solução, portanto os convidamos a incluir todas as melhorias que
 considerem que possam impulsionar o projeto desenvolvido.
 
+## Tabela de endpoints
 
+| Endpoint                                                             | Verbo |                     Função                      |
+|:---------------------------------------------------------------------|:-----:|:-----------------------------------------------:|
+| /api/v1/insert-articles-request                                      | POST  |           Cadastrar lista de produtos           |
+| /api/v1/articles                                                     |  GET  |            Listar todos os produtos             |
+| /api/v1/articles?category={categoria}                                |  GET  |          Listar produtos por categoria          |
+| /api/v1/articles?category={categoria}&freeShipping={boolean}         |  GET  |  Listar produtos por categoria + frete grátis   |
+| /api/v1/articles?freeShipping={boolean}&prestige={****}              |  GET  |  Listar produtos por frete grátis + avaliação   |
+| /api/v1/articles?category={categoria}&freeShipping={boolean}&order=0 |  GET  | Listar produtos em ordem alafabética ascendente |
+| /api/v1/articles?category={categoria}&freeShipping={boolean}&order=1      |  GET  | Listar produtos em ordem alfabética descendente |
+| /api/v1/articles?category={categoria}&freeShipping={boolean}&order=2      |  GET  |    Listar produtos ordenando por menor preço    |
+| /api/v1/articles?category={categoria}&freeShipping={boolean}&order=3      |  GET  |    Listar produtos ordenando por maior preço    |
+| /api/v1/purchase-request                                             | POST  |              Solicitação de compra              |
 
 ## Equipe 7
 
