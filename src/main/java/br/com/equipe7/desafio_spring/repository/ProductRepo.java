@@ -22,6 +22,12 @@ public class ProductRepo {
     private final String linkFile = "src/main/resources/products.json";
     private final ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * Realiza a criação de um novo produto na base de dados
+     * @author Giovanna
+     * @param newProduct um novo produto a ser salvo na base de dados
+     * @return o produto que foi salvo
+     */
     public Product saveProduct(Product newProduct) {
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         List<Product> productList = ManipulateFile.loadProducts();
@@ -48,17 +54,32 @@ public class ProductRepo {
                 .findFirst();
     }
 
+    /**
+     * Obtém uma lista de produtos
+     * @return uma lista com todos os produtos
+     */
     public List<Product> getAllProducts() {
         return ManipulateFile.loadProducts();
     }
 
-    public List<Product> getByCategory(String category) {
-        List<Product> productList = ManipulateFile.loadProducts();
-        return productList.stream()
-                .filter(product -> product.getCategory().equals(category))
-                .collect(Collectors.toList());
+    /**
+     * Atualiza a base de dados de produtos a partir de uma lista
+     * @author Gabriel
+     * @param products Lista de produtos que irão compor a nova base de dados
+     */
+    public void updateProducts(List<Product> products ) {
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        try {
+            writer.writeValue(new File(linkFile), products);
+        } catch (Exception ex) {
+            System.out.println("Error updating products");
+        }
     }
 
+    /**
+     * Deleta todos os produtos da base de dados
+     * @author Gabriel
+     */
     public void deleteProducts() {
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         List<Product> productList = new ArrayList<>();
@@ -68,5 +89,7 @@ public class ProductRepo {
             System.out.println("Error deleting products");
         }
     }
+
+
 }
 
