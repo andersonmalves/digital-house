@@ -16,5 +16,4 @@ public class ClientDTO {
         this.state = client.getState();
         this.email = client.getEmail();
     }
-
 }

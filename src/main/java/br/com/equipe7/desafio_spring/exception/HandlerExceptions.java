@@ -46,15 +46,14 @@ public class HandlerExceptions {
     }
 
     /**
-     * Tratamento de exceção.
      * @author Giovanna e Gabriel
      * @param ex Objeto exceção.
-     * @return Retorna mensagem caso não seja enviado o payload e o status HTTP.
+     * @return Retorna um json com mensagem e status http
      */
-    @ExceptionHandler(EmptyPurchaseRequestException.class)
-    public ResponseEntity<ExceptionDetails> handlerEmptyPurchaseRequestException(EmptyPurchaseRequestException ex) {
+    @ExceptionHandler(EmptyRequestException.class)
+    public ResponseEntity<ExceptionDetails> handleProductEmptyException(EmptyRequestException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
-                .title("O payload de compra não deve estar vazio")
+                .title("O 'payload' da requisição não pode ser vazio")
                 .message(ex.getMessage())
                 .status(HttpStatus.BAD_REQUEST.value())
                 .timeStamp(LocalDateTime.now())
@@ -64,16 +63,16 @@ public class HandlerExceptions {
     }
 
     /**
-     * @author Giovanna
+     * @author Gabriel
      * @param ex Objeto exceção.
      * @return Retorna um json com mensagem e status http
      */
-    @ExceptionHandler(ProductEmptyException.class)
-    public ResponseEntity<ExceptionDetails> handleProductEmptyException(ProductEmptyException ex) {
+    @ExceptionHandler(InventoryException.class)
+    public ResponseEntity<ExceptionDetails> handleInventoryException(InventoryException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
-                .title("O 'payload' de cadastro não deve ser vazio")
+                .title("Houve um problema no inventário")
                 .message(ex.getMessage())
-                .status(HttpStatus.BAD_REQUEST.value())
+                .status(HttpStatus.BAD_REQUEST.value()) // Discutir
                 .timeStamp(LocalDateTime.now())
                 .build();
 

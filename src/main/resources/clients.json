@@ -28,4 +28,9 @@
   "name": "Anderson",
   "state": "BA",
   "email": "anderson@gmail.com"
-} ]
+}, {
+  "clientId": 6,
+  "name": "Dexter",
+  "state": "MG",
+  "email": "dexter@petz.com"
+}]

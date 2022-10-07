@@ -1,14 +1,19 @@
 package br.com.equipe7.desafio_spring.controller;
 
 import br.com.equipe7.desafio_spring.dto.ClientDTO;
+import br.com.equipe7.desafio_spring.model.Client;
 import br.com.equipe7.desafio_spring.service.interfaces.IClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -17,11 +22,27 @@ public class ClientController {
     private IClient service;
 
     /**
+     * Cadastro um novo cliente
+     * @author Felipe, Anderson, Theus e Gabriel
+     * @param newClient Dados do novo cliente
+     * @return Cadastra um novo cliente e retorna um HTTP status
+     */
+    @PostMapping("/clients")
+    public ResponseEntity<ClientDTO> save(@RequestBody(required = false)Client newClient) {
+        ClientDTO data = service.save(newClient);
+        return new ResponseEntity<>( data, HttpStatus.CREATED);
+    }
+
+    /**
      * @author Giovanna, Matheus Alves e Matheus Ferreira
-     * @return retorna o status e todos os clientes
+     * @param state Estado do cliente
+     * @return retorna o status, todos os clientes ou os clientes filtrados por estado
      */
     @GetMapping("/clients")
-    public ResponseEntity<List<ClientDTO>> getAll() {
-        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<ClientDTO>> getAll(@RequestParam Optional<String> state) {
+        List<ClientDTO> clients = service.getAll(state);
+        return new ResponseEntity<>(clients, HttpStatus.OK);
+
     }
+
 }
