@@ -4,7 +4,9 @@ import br.com.equipe7.desafio_spring.dto.ClientDTO;
 import br.com.equipe7.desafio_spring.exception.ClientEmptyException;
 import br.com.equipe7.desafio_spring.exception.EmptyRequestException;
 import br.com.equipe7.desafio_spring.exception.FieldEmptyException;
+import br.com.equipe7.desafio_spring.exception.NotFoundException;
 import br.com.equipe7.desafio_spring.model.Client;
+import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.repository.ClientRepo;
 import br.com.equipe7.desafio_spring.service.interfaces.IClient;
 import br.com.equipe7.desafio_spring.util.ClientIdGenerator;
@@ -36,6 +38,17 @@ public class ClientService implements IClient {
         return clientsList.stream()
                 .map(ClientDTO:: new )
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ClientDTO getClientById(int id) {
+        Optional<Client> client = this.repo.getClientById(id);
+
+        if(client.isEmpty()) {
+            throw new NotFoundException("Client com id: " + id + " não encontrado");
+        }
+
+        return new ClientDTO(client.get());
     }
 
     /**

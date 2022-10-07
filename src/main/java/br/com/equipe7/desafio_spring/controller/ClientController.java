@@ -2,6 +2,7 @@ package br.com.equipe7.desafio_spring.controller;
 
 import br.com.equipe7.desafio_spring.dto.ClientDTO;
 import br.com.equipe7.desafio_spring.model.Client;
+import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.service.interfaces.IClient;
 import br.com.equipe7.desafio_spring.util.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,12 @@ public class ClientController {
     public ResponseEntity<Void> deleteClients() {
         service.deleteClients();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/clients/{clientId}")
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable int clientId) {
+        ClientDTO client =  this.service.getClientById(clientId);
+        return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
 }

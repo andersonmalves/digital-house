@@ -10,5 +10,5 @@ public interface IClient {
     Tuple<Long, ClientDTO> save(Client client);
     List<ClientDTO> getAll(Optional<String> state);
     void deleteClients();
-
+    ClientDTO getClientById(int id);
 }

@@ -1,12 +1,14 @@
 package br.com.equipe7.desafio_spring.repository;
 
 import br.com.equipe7.desafio_spring.model.Client;
+import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.util.ManipulateFile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @NoArgsConstructor
@@ -41,6 +43,14 @@ public class ClientRepo {
     public void deleteClients() {
         List<Client> clientList = new ArrayList<>();
         ManipulateFile.saveClient(clientList);
+    }
+
+    public Optional<Client> getClientById(int id) {
+        List<Client> products = ManipulateFile.loadClients();
+
+        return products.stream()
+                .filter(p -> p.getClientId() == id)
+                .findFirst();
     }
 
 }

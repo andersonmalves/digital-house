@@ -1,35 +1,5 @@
 [ {
   "clientId" : 1,
-  "name" : "Felipe",
-  "state" : "MS",
-  "email" : "felipe@gmail.com"
-}, {
-  "clientId" : 2,
-  "name" : "Gabriel",
-  "state" : "SP",
-  "email" : "gabriel@gmail.com"
-}, {
-  "clientId" : 3,
-  "name" : "Giovanna",
-  "state" : "PI",
-  "email" : "giovanna@gmail.com"
-}, {
-  "clientId" : 4,
-  "name" : "Ma",
-  "state" : "MG",
-  "email" : "ma@gmail.com"
-}, {
-  "clientId" : 5,
-  "name" : "Theus",
-  "state" : "RJ",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 6,
-  "name" : "Anderson",
-  "state" : "BA",
-  "email" : "anderson@gmail.com"
-}, {
-  "clientId" : 7,
   "name" : "matheus",
   "state" : "SP",
   "email" : "theus@gmail.com"
