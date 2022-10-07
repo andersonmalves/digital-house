@@ -48,6 +48,10 @@ public class ProductRepo {
                 .findFirst();
     }
 
+    /**
+     * Obtém uma lista de produtos
+     * @return uma lista com todos os produtos
+     */
     public List<Product> getAllProducts() {
         return ManipulateFile.loadProducts();
     }
@@ -59,6 +63,15 @@ public class ProductRepo {
                 .collect(Collectors.toList());
     }
 
+    public void updateProducts(List<Product> products ) {
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        try {
+            writer.writeValue(new File(linkFile), products);
+        } catch (Exception ex) {
+            System.out.println("Error updating products");
+        }
+    }
+
     public void deleteProducts() {
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         List<Product> productList = new ArrayList<>();
@@ -68,5 +81,7 @@ public class ProductRepo {
             System.out.println("Error deleting products");
         }
     }
+
+
 }
 
