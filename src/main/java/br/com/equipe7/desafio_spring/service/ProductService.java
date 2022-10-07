@@ -151,14 +151,14 @@ public class ProductService implements IProduct {
         return product.get();
     }
 
+    /**
+     * Deleta todos os produtos da base de dados e reinicia o gerador de Id de produto.
+     * @author Gabriel e Theus
+     */
     @Override
     public void deleteProducts() {
         this.repo.deleteProducts();
         ProductIdGenerator.getIdGenerator().resetId();
     }
 
-    @Override
-    public List<Product> getByProduct(String category) {
-        return repo.getByCategory(category);
-    }
 }
