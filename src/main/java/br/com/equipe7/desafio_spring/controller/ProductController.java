@@ -8,13 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import br.com.equipe7.desafio_spring.service.interfaces.IProduct;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +60,12 @@ public class ProductController {
     @PostMapping("/insert-articles-request")
     public ResponseEntity<List<ProductResponseDTO>> save(@RequestBody(required = false) List<ProductCreatedDTO> newProduct) {
         List<ProductResponseDTO> data = service.save(newProduct);
-        return new ResponseEntity<>(data, HttpStatus.CREATED);
+
+        String currentUrl = ServletUriComponentsBuilder.fromCurrentRequest().toUriString();
+        String hostEndpoint = currentUrl.replace("/insert-articles-request", "");
+        URI uri = ServletUriComponentsBuilder.fromHttpUrl(hostEndpoint).path("/articles").build().toUri();
+
+        return ResponseEntity.created(uri).body(data);
     }
 
     /**

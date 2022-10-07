@@ -29,18 +29,8 @@
   "state" : "BA",
   "email" : "anderson@gmail.com"
 }, {
-  "clientId" : 6,
-  "name" : "Dexter",
-  "state" : "MG",
-  "email" : "dexter@petz.com"
-}, {
-  "clientId" : 13,
-  "name" : null,
-  "state" : "MS",
-  "email" : "Rodolfo@gmail.com"
-}, {
-  "clientId" : 9,
-  "name" : null,
-  "state" : "MS",
-  "email" : "Rodolfo@gmail.com"
+  "clientId" : 7,
+  "name" : "matheus",
+  "state" : "SP",
+  "email" : "theus@gmail.com"
 } ]
