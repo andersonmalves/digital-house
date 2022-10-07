@@ -54,11 +54,25 @@ R$ 300 foi enviado em outro, devo receber a soma dos dois (R$ 1200) como
 resposta.
 Ao mesmo tempo, sugere o desenvolvimento de uma nova API que permita o
 seguinte:
-- [ ] 11. Cadastre novos clientes. Para isso, devem ser realizados os controles necessários,
-por exemplo: cliente existente, cliente com dados incompletos, etc.
-Obs: Defina com sua equipe os atributos de Cliente.
-- [ ] 12. Obter uma lista completa de todos os clientes.
+- [ ] 11. Cadastre novos clientes
+- [x] ~12. Obter uma lista completa de todos os clientes~
 - [ ] 13. Obter uma lista de todos os clientes filtrados por Estado.
+
+
 Além disso, a plataforma afirmou que concorda em receber sugestões de melhorias dos
 desenvolvedores da solução, portanto os convidamos a incluir todas as melhorias que
 considerem que possam impulsionar o projeto desenvolvido.
+
+
+
+## Equipe 7
+
+- [Anderson Alves](https://github.com/andmalves)
+- [Felipe Shinkae](https://github.com/fyshinkae)
+- [Gabriel Viana](https://github.com/gabvteixeira)
+- [Giovanna Eliz](https://github.com/giovannaelizs)
+- [Matheus Ferreira (Theus)](https://github.com/matheusFerreira-meli)
+- [Matheus Alves (Ma)](https://github.com/matheusaralves)
+
+---
+Feito com 💛 
