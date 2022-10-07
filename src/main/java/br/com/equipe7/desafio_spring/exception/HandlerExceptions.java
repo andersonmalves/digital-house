@@ -46,6 +46,7 @@ public class HandlerExceptions {
     }
 
     /**
+     * Tratamento de exceções
      * @author Giovanna e Gabriel
      * @param ex Objeto exceção.
      * @return Retorna um json com mensagem e status http
@@ -63,6 +64,7 @@ public class HandlerExceptions {
     }
 
     /**
+     * Tratamento de exceções
      * @author Gabriel
      * @param ex Objeto exceção.
      * @return Retorna um json com mensagem e status http
@@ -77,5 +79,23 @@ public class HandlerExceptions {
                 .build();
 
         return new ResponseEntity<>(exceptionDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Tratamento de exceções
+     * @author Felipe
+     * @param ex Objeto exceção.
+     * @return Retorna um json com mensagem e status http
+     */
+    @ExceptionHandler(FieldEmptyException.class)
+    public ResponseEntity<ExceptionDetails> handleInventoryException(FieldEmptyException ex) {
+        ExceptionDetails FieldEmptyException = ExceptionDetails.builder()
+                .title("Houve um problema na requisição")
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value()) // Discutir
+                .timeStamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(FieldEmptyException, HttpStatus.BAD_REQUEST);
     }
 }

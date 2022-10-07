@@ -2,6 +2,8 @@ package br.com.equipe7.desafio_spring.service;
 
 import br.com.equipe7.desafio_spring.dto.ClientDTO;
 import br.com.equipe7.desafio_spring.exception.ClientEmptyException;
+import br.com.equipe7.desafio_spring.exception.EmptyRequestException;
+import br.com.equipe7.desafio_spring.exception.FieldEmptyException;
 import br.com.equipe7.desafio_spring.model.Client;
 import br.com.equipe7.desafio_spring.repository.ClientRepo;
 import br.com.equipe7.desafio_spring.service.interfaces.IClient;
@@ -21,6 +23,7 @@ public class ClientService implements IClient {
     private ClientRepo repo;
 
     /**
+     * Lista todos os clientes
      * @author Giovanna, Matheus Alves e Matheus Ferreira
      * @return retorna a lista de clientes de acordo com o ClientsDTO
      */
@@ -36,6 +39,7 @@ public class ClientService implements IClient {
     }
 
     /**
+     * Lista de clientes filtrado por estado
      * @author Giovanna, Matheus Alves e Matheus Ferreira
      * @return retorna uma lista de clientes filtrados por estado
      */
@@ -45,10 +49,24 @@ public class ClientService implements IClient {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Cadastro de cliente
+     * @param client dados do novo cliente.
+     * @return DTO do cliente cadastrado.
+     */
     @Override
     public ClientDTO save(Client client) {
         if (client == null) {
-            throw new ClientEmptyException("Não pode enviar 'payload' vazio");
+            throw new EmptyRequestException("Não pode enviar 'payload' vazio");
+        }
+        if (client.getName() == null) {
+            throw new FieldEmptyException("Não pode enviar 'payload' sem o nome");
+        }
+        if (client.getState() == null) {
+            throw new FieldEmptyException("Não pode enviar 'payload' sem o estado");
+        }
+        if (client.getEmail() == null) {
+            throw new FieldEmptyException("Não pode enviar 'payload' sem o email");
         }
 
         int idClient = ClientIdGenerator.getIdGenerator().getNext();
