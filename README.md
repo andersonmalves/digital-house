@@ -44,19 +44,19 @@ requisição feita pode ser recebido como resposta.~
 A plataforma afirmou que no futuro gostaria de ser capaz de realizar o desenvolvimento
 dos seguintes requisitos como uma melhoria:
 
-- [ ] 9. Para cada solicitação de compra é necessário realizar o controle de estoque
+- [x] 9. Para cada solicitação de compra é necessário realizar o controle de estoque
 disponível. Por exemplo: Se forem solicitadas 4 unidades de um produto e houver
 apenas duas, coloque as restrições e avisos correspondentes.
-- [ ] 10. Permite a utilização de um "carrinho de compras" onde para cada pedido de
+- [x] 10. Permite a utilização de um "carrinho de compras" onde para cada pedido de
 compra existe um valor total acumulado e devolvido ao utilizador. Por exemplo: Se
 um produto de R$ 900 foi enviado em um pedido de compra e outro produto de
 R$ 300 foi enviado em outro, devo receber a soma dos dois (R$ 1200) como
 resposta.
 Ao mesmo tempo, sugere o desenvolvimento de uma nova API que permita o
 seguinte:
-- [ ] 11. Cadastre novos clientes
+- [x] 11. Cadastre novos clientes
 - [x] ~12. Obter uma lista completa de todos os clientes~
-- [ ] 13. Obter uma lista de todos os clientes filtrados por Estado.
+- [x] 13. Obter uma lista de todos os clientes filtrados por Estado.
 
 
 Além disso, a plataforma afirmou que concorda em receber sugestões de melhorias dos
