@@ -12,10 +12,25 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ClientRepo {
+    /**
+     * Salva um novo cliente
+     * @author Felipe e Anderson e Theus e Gabriel
+     * @param newClient dados do novo cliente
+     * @return Novo cliente adicionado com sucesso ao banco de dados
+     */
     public Client saveClient(Client newClient) {
         List<Client> clientList = ManipulateFile.loadClients();
         clientList.add(newClient);
         ManipulateFile.saveClient(clientList);
         return newClient;
     }
+    /**
+     * Lista de todos os clientes
+     * @author Giovanna, Matheus Alves e Matheus Ferreira
+     * @return retorna a lista dos clientes
+     */
+    public List<Client> getAll() {
+        return ManipulateFile.loadClients();
+    }
+
 }

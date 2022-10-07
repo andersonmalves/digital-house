@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 public class ClientDTO {
     private String name, state, email;
 
-    public ClientDTO(Client c) {
-        this.name = c.getName();
-        this.state = c.getState();
-        this.email = c.getEmail();
+    public ClientDTO(Client client) {
+        this.name = client.getName();
+        this.state = client.getState();
+        this.email = client.getEmail();
     }
 }

@@ -15,7 +15,6 @@ public interface IProduct {
             Optional<Boolean> freeShipping,
             Optional<String> prestige,
             Optional<Integer> order);
-    List<Product> getByProduct(String category);
     Product getProductById(int id);
     void deleteProducts();
 }

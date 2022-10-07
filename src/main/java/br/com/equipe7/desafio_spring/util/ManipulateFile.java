@@ -18,6 +18,11 @@ public class ManipulateFile {
     private static final String productLinkFile = "src/main/resources/products.json";
     private static final String clientLinkFile = "src/main/resources/clients.json";
 
+    /**
+     * Salvar produtos no banco de dado.
+     * @author Felipe, Anderson, Gabriel e Theus
+     * @param productList lista com todos os produtos
+     */
     public static void saveProduct(List<Product> productList) {
         try {
             ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
@@ -27,6 +32,11 @@ public class ManipulateFile {
         }
     }
 
+    /**
+     * Salvar clientes no banco de dado.
+     * @author Felipe, Anderson, Gabriel e Theus
+     * @param clientList lista com todos os clientes
+     */
     public static void saveClient(List<Client> clientList) {
         try {
             ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());

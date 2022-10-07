@@ -7,6 +7,49 @@
 	"item": [
 		{
 			"name": "Requisito 01 - Cadastrar produtos",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const objectRequest = {",
+							"  url: \"http://localhost:8080/api/v1/articles\",",
+							"  method: \"DELETE\",",
+							"  header: {",
+							"        'content-type': 'application/json',",
+							"    }",
+							"};",
+							"",
+							"pm.sendRequest(objectRequest, function (_err, response) {",
+							"    console.log(\"Pre-resquest: \" + {response});   ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 201\", function() {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Verifica se retorna uma lista de produtos\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"    pm.expect(data).to.be.length(12);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -20,12 +63,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/insert-articles-request",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/insert-articles-request",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -37,16 +78,48 @@
 		},
 		{
 			"name": "Requisito 02 - Listar todos produtos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica se retorna uma lista de produtos\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"    pm.expect(data).to.be.length(12);",
+							"});",
+							"",
+							"pm.test(\"Verifica o primeiro produto\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].productId).to.be.a(\"number\");",
+							"    pm.expect(data[0].name).to.be.a(\"string\");",
+							"    pm.expect(data[0].quantity).to.be.a(\"number\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/articles",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/articles",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -58,16 +131,57 @@
 		},
 		{
 			"name": "Requisito 03 - Listar produtos por categoria",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Serra de Bancada'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].productId).to.be.a(\"number\");",
+							"    pm.expect(data[0].name).to.eql('Serra de Bancada');",
+							"    pm.expect(data[0].quantity).to.eql(5);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Furadeira'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[1]).to.be.an(\"object\");",
+							"    pm.expect(data[1].productId).to.be.a(\"number\");",
+							"    pm.expect(data[1].name).to.eql('Furadeira');",
+							"    pm.expect(data[1].quantity).to.eql(7);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Soldadora'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[2]).to.be.an(\"object\");",
+							"    pm.expect(data[2].productId).to.be.a(\"number\");",
+							"    pm.expect(data[2].name).to.eql('Soldadora');",
+							"    pm.expect(data[2].quantity).to.eql(10);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/articles?category=Ferramentas",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/articles?category=Ferramentas",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -85,16 +199,49 @@
 		},
 		{
 			"name": "Requisito 04.1 - Listar produtos por Categoria + Frete grátis",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Chuteira'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].productId).to.be.a(\"number\");",
+							"    pm.expect(data[0].name).to.eql('Chuteira');",
+							"    pm.expect(data[0].quantity).to.eql(6);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Mini Cama elastica'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[1]).to.be.an(\"object\");",
+							"    pm.expect(data[1].productId).to.be.a(\"number\");",
+							"    pm.expect(data[1].name).to.eql('Mini Cama elastica');",
+							"    pm.expect(data[1].quantity).to.eql(4);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/articles?category=Ferramentas&freeShipping=true",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/articles?category=Esportes&freeShipping=true",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -103,7 +250,7 @@
 					"query": [
 						{
 							"key": "category",
-							"value": "Ferramentas"
+							"value": "Esportes"
 						},
 						{
 							"key": "freeShipping",
@@ -116,16 +263,56 @@
 		},
 		{
 			"name": "Requisito 04.2 - Listar produtos por Frete grátis + Avaliação",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Serra de Bancada'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].productId).to.be.a(\"number\");",
+							"    pm.expect(data[0].name).to.eql('Serra de Bancada');",
+							"    pm.expect(data[0].quantity).to.eql(5);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Furadeira'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[1]).to.be.an(\"object\");",
+							"    pm.expect(data[1].productId).to.be.a(\"number\");",
+							"    pm.expect(data[1].name).to.eql('Furadeira');",
+							"    pm.expect(data[1].quantity).to.eql(7);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Redmi Note 9'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[2]).to.be.an(\"object\");",
+							"    pm.expect(data[2].productId).to.be.a(\"number\");",
+							"    pm.expect(data[2].name).to.eql('Redmi Note 9');",
+							"    pm.expect(data[2].quantity).to.eql(15);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080 /api/v1/articles?freeShipping=true&prestige=****",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/articles?freeShipping=true&prestige=****",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080 ",
 					"path": [
 						"api",
 						"v1",
@@ -147,16 +334,57 @@
 		},
 		{
 			"name": "Requisito 05.1 - Listar produtos forma alfabética ascendente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Furadeira'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].productId).to.be.a(\"number\");",
+							"    pm.expect(data[0].name).to.eql('Furadeira');",
+							"    pm.expect(data[0].quantity).to.eql(7);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Serra de Bancada'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[1]).to.be.an(\"object\");",
+							"    pm.expect(data[1].productId).to.be.a(\"number\");",
+							"    pm.expect(data[1].name).to.eql('Serra de Bancada');",
+							"    pm.expect(data[1].quantity).to.eql(5);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Soldadora'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[2]).to.be.an(\"object\");",
+							"    pm.expect(data[2].productId).to.be.a(\"number\");",
+							"    pm.expect(data[2].name).to.eql('Soldadora');",
+							"    pm.expect(data[2].quantity).to.eql(10);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/articles?category=Ferramentas&freeShipping=true&order=0",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/articles?category=Ferramentas&freeShipping=true&order=0",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -182,16 +410,57 @@
 		},
 		{
 			"name": "Requisito 05.2 - Listar produtos em ordem decrescente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Soldadora'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].productId).to.be.a(\"number\");",
+							"    pm.expect(data[0].name).to.eql('Soldadora');",
+							"    pm.expect(data[0].quantity).to.eql(10);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Serra de Bancada'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[1]).to.be.an(\"object\");",
+							"    pm.expect(data[1].productId).to.be.a(\"number\");",
+							"    pm.expect(data[1].name).to.eql('Serra de Bancada');",
+							"    pm.expect(data[1].quantity).to.eql(5);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Furadeira'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[2]).to.be.an(\"object\");",
+							"    pm.expect(data[2].productId).to.be.a(\"number\");",
+							"    pm.expect(data[2].name).to.eql('Furadeira');",
+							"    pm.expect(data[2].quantity).to.eql(7);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/articles?category=Ferramentas&freeShipping=true&order=1",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/articles?category=Ferramentas&freeShipping=true&order=1",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -217,16 +486,57 @@
 		},
 		{
 			"name": "Requisito 6 - Listar produtos por menor preço",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Soldadora'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].productId).to.be.a(\"number\");",
+							"    pm.expect(data[0].name).to.eql('Soldadora');",
+							"    pm.expect(data[0].quantity).to.eql(10);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Furadeira'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[1]).to.be.an(\"object\");",
+							"    pm.expect(data[1].productId).to.be.a(\"number\");",
+							"    pm.expect(data[1].name).to.eql('Furadeira');",
+							"    pm.expect(data[1].quantity).to.eql(7);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Verifica o produto 'Serra de Bancada'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[2]).to.be.an(\"object\");",
+							"    pm.expect(data[2].productId).to.be.a(\"number\");",
+							"    pm.expect(data[2].name).to.eql('Serra de Bancada');",
+							"    pm.expect(data[2].quantity).to.eql(5);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/articles?category=Ferramentas&freeShipping=true&order=2",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/articles?category=Ferramentas&freeShipping=true&order=2",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -252,16 +562,56 @@
 		},
 		{
 			"name": "Requisito 7 - Listar produtos por",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Serra de Bancada'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].productId).to.be.a(\"number\");",
+							"    pm.expect(data[0].name).to.eql('Serra de Bancada');",
+							"    pm.expect(data[0].quantity).to.eql(5);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Furadeira'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[1]).to.be.an(\"object\");",
+							"    pm.expect(data[1].productId).to.be.a(\"number\");",
+							"    pm.expect(data[1].name).to.eql('Furadeira');",
+							"    pm.expect(data[1].quantity).to.eql(7);",
+							"});",
+							"",
+							"pm.test(\"Verifica o produto 'Soldadora'\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[2]).to.be.an(\"object\");",
+							"    pm.expect(data[2].productId).to.be.a(\"number\");",
+							"    pm.expect(data[2].name).to.eql('Soldadora');",
+							"    pm.expect(data[2].quantity).to.eql(10);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/articles?category=Ferramentas&freeShipping=true&order=3",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/articles?category=Ferramentas&freeShipping=true&order=3",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -287,6 +637,35 @@
 		},
 		{
 			"name": "Requisito 8 - Solicitação de compra",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 201\", function() {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Verifica solicitação de compra\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.be.an(\"object\");",
+							"    pm.expect(data.ticket).to.be.exist;",
+							"    pm.expect(data.ticket.id).to.be.a(\"number\");",
+							"    pm.expect(data.ticket.articles).to.be.an(\"array\");",
+							"    pm.expect(data.ticket.articles).to.be.lengthOf(2);",
+							"    pm.expect(data.ticket.articles[0]).have.all.keys(\"productId\", \"name\", \"category\", \"brand\", \"prestige\", \"price\", \"freeShipping\", \"quantity\");",
+							"    pm.expect(data.ticket.total).to.be.a(\"number\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -300,12 +679,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/purchase-request",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/purchase-request",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -314,6 +691,75 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Requisito 11 - Cadastrar novos clientes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Requisito 12 - Listar clientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Requisito 13 - Listar clientes filtrado por estado",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}",
+					"host": [
+						"{{base_url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "default"
 		}
 	]
 }
