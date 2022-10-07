@@ -64,6 +64,11 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * Realiza a busca do cliente por ID.
+     * @param clientId ID do cliente
+     * @return Resultado da busca do cliente pelo ID.
+     */
     @GetMapping("/clients/{clientId}")
     public ResponseEntity<ClientDTO> getClientById(@PathVariable int clientId) {
         ClientDTO client =  this.service.getClientById(clientId);

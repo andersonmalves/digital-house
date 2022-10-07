@@ -45,10 +45,16 @@ public class ClientRepo {
         ManipulateFile.saveClient(clientList);
     }
 
+    /**
+     * Procurar o cliente pelo ID
+     * @author Theus
+     * @param id Identificação do cliente a ser buscado
+     * @return Retorna opcionalmente um Cliente a partir do id
+     */
     public Optional<Client> getClientById(int id) {
-        List<Client> products = ManipulateFile.loadClients();
+        List<Client> clients = ManipulateFile.loadClients();
 
-        return products.stream()
+        return clients.stream()
                 .filter(p -> p.getClientId() == id)
                 .findFirst();
     }

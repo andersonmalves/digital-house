@@ -40,6 +40,12 @@ public class ClientService implements IClient {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Busca o cliente pelo ID
+     * @author Theus
+     * @param id ID do produto
+     * @return ClienteDTO
+     */
     @Override
     public ClientDTO getClientById(int id) {
         Optional<Client> client = this.repo.getClientById(id);
