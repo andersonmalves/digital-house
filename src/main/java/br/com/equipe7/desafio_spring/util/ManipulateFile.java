@@ -18,8 +18,13 @@ public class ManipulateFile {
     private static final String productLinkFile = "src/main/resources/products.json";
     private static final String clientLinkFile = "src/main/resources/clients.json";
 
-    public static String saveProduct() {
-        return clientLinkFile;
+    public static void saveProduct(List<Product> productList) {
+        try {
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            writer.writeValue(new File(productLinkFile), productList);
+        } catch (Exception ex) {
+            System.out.println("Error writing product");
+        }
     }
 
     public static void saveClient(List<Client> clientList) {
@@ -27,7 +32,7 @@ public class ManipulateFile {
             ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
             writer.writeValue(new File(clientLinkFile), clientList);
         } catch (Exception ex) {
-            System.out.println("Error creating product");
+            System.out.println("Error writing client");
         }
     }
 

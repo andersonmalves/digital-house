@@ -26,11 +26,7 @@ public class ProductRepo {
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         List<Product> productList = ManipulateFile.loadProducts();
         productList.add(newProduct);
-        try {
-            writer.writeValue(new File(linkFile), productList);
-        } catch (Exception ex) {
-            System.out.println("Error creating product");
-        }
+        ManipulateFile.saveProduct(productList);
         return newProduct;
     }
 
@@ -62,11 +58,7 @@ public class ProductRepo {
     public void deleteProducts() {
         ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         List<Product> productList = new ArrayList<>();
-        try {
-            writer.writeValue(new File(linkFile), productList);
-        } catch (Exception ex) {
-            System.out.println("Error deleting products");
-        }
+        ManipulateFile.saveProduct(productList);
     }
 }
 
