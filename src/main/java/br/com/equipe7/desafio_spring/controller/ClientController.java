@@ -16,6 +16,10 @@ public class ClientController {
     @Autowired
     private IClient service;
 
+    /**
+     * @author Giovanna, Matheus Alves e Matheus Ferreira
+     * @return retorna o status e todos os clientes
+     */
     @GetMapping("/clients")
     public ResponseEntity<List<ClientDTO>> getAll() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);

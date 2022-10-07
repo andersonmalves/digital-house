@@ -14,6 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ClientRepo {
+    /**
+     * @author Giovanna, Matheus Alves e Matheus Ferreira
+     * @return retorna a lista dos clientes
+     */
     public List<Client> getAll() {
         return ManipulateFile.loadClients();
     }

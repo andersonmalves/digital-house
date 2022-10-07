@@ -14,6 +14,10 @@ public class ClientService implements IClient {
     @Autowired
     private ClientRepo repo;
 
+    /**
+     * @author Giovanna, Matheus Alves e Matheus Ferreira
+     * @return retorna a lista de clientes de acordo com o ClientsDTO
+     */
     public List<ClientDTO> getAll() {
 
         return repo.getAll().stream()
