@@ -8,10 +8,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Optional;
 
 @Repository
@@ -64,12 +62,7 @@ public class ProductRepo {
      * @param products Lista de produtos que irão compor a nova base de dados
      */
     public void updateProducts(List<Product> products ) {
-        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-        try {
-            writer.writeValue(new File(linkFile), products);
-        } catch (Exception ex) {
-            System.out.println("Error updating products");
-        }
+        ManipulateFile.saveProduct(products);
     }
 
     /**
@@ -77,7 +70,6 @@ public class ProductRepo {
      * @author Gabriel
      */
     public void deleteProducts() {
-        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
         List<Product> productList = new ArrayList<>();
         ManipulateFile.saveProduct(productList);
     }
