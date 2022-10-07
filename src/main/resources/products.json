@@ -6,7 +6,7 @@
   "prestige" : "****",
   "price" : 1800.00,
   "freeShipping" : true,
-  "quantity" : 5
+  "quantity" : 0
 }, {
   "productId" : 2,
   "name" : "Furadeira",
@@ -15,7 +15,7 @@
   "prestige" : "****",
   "price" : 500,
   "freeShipping" : true,
-  "quantity" : 7
+  "quantity" : 0
 }, {
   "productId" : 3,
   "name" : "Soldadora",
