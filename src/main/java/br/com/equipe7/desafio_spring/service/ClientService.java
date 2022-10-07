@@ -8,6 +8,7 @@ import br.com.equipe7.desafio_spring.model.Client;
 import br.com.equipe7.desafio_spring.repository.ClientRepo;
 import br.com.equipe7.desafio_spring.service.interfaces.IClient;
 import br.com.equipe7.desafio_spring.util.ClientIdGenerator;
+import br.com.equipe7.desafio_spring.util.ProductIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,5 +73,15 @@ public class ClientService implements IClient {
         Client c = new Client(idClient, client.getName(), client.getState(), client.getEmail());
         this.repo.saveClient(c);
         return new ClientDTO(c);
+    }
+
+    /**
+     * Deleta todos os clientes da base de dados e reinicia o gerador de Id de cliente.
+     * @author Gabriel
+     */
+    @Override
+    public void deleteClients() {
+        this.repo.deleteClients();
+        ClientIdGenerator.getIdGenerator().resetId();
     }
 }

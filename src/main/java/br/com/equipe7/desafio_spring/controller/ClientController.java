@@ -47,7 +47,17 @@ public class ClientController {
     public ResponseEntity<List<ClientDTO>> getAll(@RequestParam Optional<String> state) {
         List<ClientDTO> clients = service.getAll(state);
         return new ResponseEntity<>(clients, HttpStatus.OK);
+    }
 
+    /**
+     * Remove Clientes
+     * @author Gabriel
+     * @return HTTP Status
+     */
+    @DeleteMapping("/clients")
+    public ResponseEntity<Void> deleteClients() {
+        service.deleteClients();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

@@ -64,6 +64,11 @@ public class ProductController {
         return new ResponseEntity<>(data, HttpStatus.CREATED);
     }
 
+    /**
+     * Remove Produtos
+     * @author Gabriel
+     * @return Status HTTP
+     */
     @DeleteMapping("/articles")
     public ResponseEntity<Void> deleteProducts() {
         this.service.deleteProducts();

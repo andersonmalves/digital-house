@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface IClient {
     ClientDTO save(Client client);
     List<ClientDTO> getAll(Optional<String> state);
+    void deleteClients();
 
 }
