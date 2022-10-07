@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -31,6 +32,16 @@ public class ClientRepo {
      */
     public List<Client> getAll() {
         return ManipulateFile.loadClients();
+    }
+
+
+    /**
+     * Deleta todos os clientes da base de dados
+     * @author Gabriel
+     */
+    public void deleteClients() {
+        List<Client> clientList = new ArrayList<>();
+        ManipulateFile.saveClient(clientList);
     }
 
 }
