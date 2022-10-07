@@ -18,7 +18,7 @@ public class HandlerExceptions {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ExceptionDetails> handlerNotFoundException(NotFoundException ex) {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
-                .title("Produto não encontrado")
+                .title("Objeto não encontrado")
                 .message(ex.getMessage())
                 .status(HttpStatus.NOT_FOUND.value())
                 .timeStamp(LocalDateTime.now())

@@ -1,12 +1,14 @@
 package br.com.equipe7.desafio_spring.repository;
 
 import br.com.equipe7.desafio_spring.model.Client;
+import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.util.ManipulateFile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @NoArgsConstructor
@@ -41,6 +43,20 @@ public class ClientRepo {
     public void deleteClients() {
         List<Client> clientList = new ArrayList<>();
         ManipulateFile.saveClient(clientList);
+    }
+
+    /**
+     * Procurar o cliente pelo ID
+     * @author Theus
+     * @param id Identificação do cliente a ser buscado
+     * @return Retorna opcionalmente um Cliente a partir do id
+     */
+    public Optional<Client> getClientById(int id) {
+        List<Client> clients = ManipulateFile.loadClients();
+
+        return clients.stream()
+                .filter(p -> p.getClientId() == id)
+                .findFirst();
     }
 
 }
