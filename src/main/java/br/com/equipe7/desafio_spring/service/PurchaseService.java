@@ -4,6 +4,7 @@ import br.com.equipe7.desafio_spring.dto.ProductPurchaseDTO;
 import br.com.equipe7.desafio_spring.dto.PurchaseRequestDTO;
 import br.com.equipe7.desafio_spring.dto.TicketResponseDTO;
 import br.com.equipe7.desafio_spring.exception.EmptyRequestException;
+import br.com.equipe7.desafio_spring.exception.InventoryException;
 import br.com.equipe7.desafio_spring.exception.NotFoundException;
 import br.com.equipe7.desafio_spring.exception.PurchaseWithInvalidQuantityException;
 import br.com.equipe7.desafio_spring.service.interfaces.IPurchase;
@@ -29,7 +30,7 @@ public class PurchaseService implements IPurchase {
      * Criação da requisição de compra
      * @author Gabriel
      * @param request uma requisição de compra apresentando uma lista de produtos a serem adquiridos
-     * @return Um ticket de compra, apresentado os produtos adquiridos e o valor total da compra
+     * @return Um 'ticket' de compra, apresentado os produtos adquiridos e o valor total da compra
      */
     @Override
     public TicketResponseDTO purchase(PurchaseRequestDTO request) {
@@ -37,23 +38,35 @@ public class PurchaseService implements IPurchase {
             throw new EmptyRequestException("A requisição de compra não pode ser vazia");
         }
 
-        List<ProductPurchaseDTO> articlesPurchaseRequest = request.getArticlesPurchaseRequest();
-        List<Product> selectedProducts = new ArrayList<>();
-
-        for(ProductPurchaseDTO productPurchase : articlesPurchaseRequest) {
-            Product product = getProductByProductPurchase(productPurchase);
-            product.setQuantity(productPurchase.getQuantity());
-            selectedProducts.add(product);
-        }
+        List<Product> selectedProducts = getSelectedProducts(request);
+        updateInventory(selectedProducts);
 
         return createTicket(selectedProducts);
     }
 
     /**
+     * @author Gabriel
+     * @param request uma requisição de compra apresentando uma lista de produtos a serem adquiridos
+     * @return Uma lista dos produtos selecionados pela requisição
+     */
+    private List<Product> getSelectedProducts(PurchaseRequestDTO request) {
+        List<ProductPurchaseDTO> articlesPurchaseRequest = request.getArticlesPurchaseRequest();
+        List<Product> selectedProducts = new ArrayList<>();
+
+        for(ProductPurchaseDTO productPurchase : articlesPurchaseRequest) {
+            Product product = getProductByProductPurchaseValidator(productPurchase);
+            product.setQuantity(productPurchase.getQuantity());
+            selectedProducts.add(product);
+        }
+
+        return selectedProducts;
+    }
+
+    /**
      * Valor total da compra do produto
      * @author Gabriel
-     * @param product O produto a ser adquiridoo
-     * @return O valor total de um produto de acordo com o seu valor * quantidade informada
+     * @param product O produto a ser adquirido
+     * @return O valor total de um produto conforme o seu valor * quantidade informada
      */
     private BigDecimal getProductPrice(Product product) {
         int quantity = product.getQuantity();
@@ -95,7 +108,7 @@ public class PurchaseService implements IPurchase {
      * @param productPurchase Um produto de um objeto ser comprado, possuindo productId e quantity.
      * @return Um objeto do tipo Produto válido
      */
-    private Product getProductByProductPurchase(ProductPurchaseDTO productPurchase) {
+    private Product getProductByProductPurchaseValidator(ProductPurchaseDTO productPurchase) {
         Optional<Product> product =  this.productRepo.getProductById(productPurchase.getProductId());
 
         if(product.isEmpty()){
@@ -110,12 +123,43 @@ public class PurchaseService implements IPurchase {
                     + " deve possuir uma quantidade válida" );
         }
 
+        if(verifyInventory(product.get(), productPurchase.getQuantity())) {
+            throw new InventoryException("Não há " + product.get().getName() +  " suficiente no estoque");
+        }
+
         return product.get();
     }
 
-    // TODO: implements
+    /**
+     * valida se o inventário possui a quantidade exigida do produto
+     * @author Gabriel
+     * @param product Um produto a ser consultado
+     * @param requiredQuantity A quantidade requisitada para compra
+     * @return Uma resposta indicando se o inventário possui a quantidade exigida
+     */
     private boolean verifyInventory(Product product, int requiredQuantity) {
-        return true;
+        return requiredQuantity > product.getQuantity();
     }
+
+    /**
+     * Atualiza as quantidades de cada produto selecionado no estoque
+     * @author Gabriel
+     * @param selectedProducts uma lista dos produtos selecionados na compra
+     */
+    private void updateInventory(List<Product> selectedProducts){
+        List<Product> productsFromInventory = this.productRepo.getAllProducts();
+
+        for(Product productInventory : productsFromInventory){
+            for(Product selectedProduct : selectedProducts){
+                if(productInventory.getProductId() == selectedProduct.getProductId()) {
+                    int newQuantityInInventory = productInventory.getQuantity() - selectedProduct.getQuantity();
+                    productInventory.setQuantity(newQuantityInInventory);
+                }
+            }
+        }
+
+        this.productRepo.updateProducts(productsFromInventory);
+    }
+
 
 }
