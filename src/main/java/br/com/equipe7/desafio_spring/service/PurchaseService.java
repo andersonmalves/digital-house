@@ -3,7 +3,7 @@ package br.com.equipe7.desafio_spring.service;
 import br.com.equipe7.desafio_spring.dto.ProductPurchaseDTO;
 import br.com.equipe7.desafio_spring.dto.PurchaseRequestDTO;
 import br.com.equipe7.desafio_spring.dto.TicketResponseDTO;
-import br.com.equipe7.desafio_spring.exception.EmptyPurchaseRequestException;
+import br.com.equipe7.desafio_spring.exception.EmptyRequestException;
 import br.com.equipe7.desafio_spring.exception.NotFoundException;
 import br.com.equipe7.desafio_spring.exception.PurchaseWithInvalidQuantityException;
 import br.com.equipe7.desafio_spring.service.interfaces.IPurchase;
@@ -34,7 +34,7 @@ public class PurchaseService implements IPurchase {
     @Override
     public TicketResponseDTO purchase(PurchaseRequestDTO request) {
         if(request == null) {
-            throw new EmptyPurchaseRequestException("Request com payload vazio");
+            throw new EmptyRequestException("A requisição de compra não pode ser vazia");
         }
 
         List<ProductPurchaseDTO> articlesPurchaseRequest = request.getArticlesPurchaseRequest();
@@ -111,6 +111,11 @@ public class PurchaseService implements IPurchase {
         }
 
         return product.get();
+    }
+
+    // TODO: implements
+    private boolean verifyInventory(Product product, int requiredQuantity) {
+        return true;
     }
 
 }

@@ -3,7 +3,7 @@ package br.com.equipe7.desafio_spring.service;
 import br.com.equipe7.desafio_spring.dto.ProductCreatedDTO;
 import br.com.equipe7.desafio_spring.dto.ProductResponseDTO;
 import br.com.equipe7.desafio_spring.exception.NotFoundException;
-import br.com.equipe7.desafio_spring.exception.ProductEmptyException;
+import br.com.equipe7.desafio_spring.exception.EmptyRequestException;
 import br.com.equipe7.desafio_spring.service.interfaces.IProduct;
 import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.repository.ProductRepo;
@@ -30,7 +30,7 @@ public class ProductService implements IProduct {
     @Override
     public List<ProductResponseDTO> save(List<ProductCreatedDTO> productList) {
         if (productList == null) {
-            throw new ProductEmptyException("Não pode enviar 'payload' vazio");
+            throw new EmptyRequestException("Não pode enviar 'payload' vazio");
         }
 
         List<ProductResponseDTO> response = new ArrayList<>();
