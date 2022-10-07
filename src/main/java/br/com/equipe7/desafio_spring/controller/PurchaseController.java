@@ -2,8 +2,7 @@ package br.com.equipe7.desafio_spring.controller;
 
 import br.com.equipe7.desafio_spring.dto.PurchaseRequestDTO;
 import br.com.equipe7.desafio_spring.dto.TicketResponseDTO;
-import br.com.equipe7.desafio_spring.exception.NotFoundException;
-import br.com.equipe7.desafio_spring.service.IPurchase;
+import br.com.equipe7.desafio_spring.service.interfaces.IPurchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

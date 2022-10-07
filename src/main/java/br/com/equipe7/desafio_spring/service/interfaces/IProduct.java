@@ -1,4 +1,4 @@
-package br.com.equipe7.desafio_spring.service;
+package br.com.equipe7.desafio_spring.service.interfaces;
 
 import br.com.equipe7.desafio_spring.dto.ProductCreatedDTO;
 import br.com.equipe7.desafio_spring.dto.ProductResponseDTO;

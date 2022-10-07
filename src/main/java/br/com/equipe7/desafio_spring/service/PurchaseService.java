@@ -6,6 +6,7 @@ import br.com.equipe7.desafio_spring.dto.TicketResponseDTO;
 import br.com.equipe7.desafio_spring.exception.EmptyPurchaseRequestException;
 import br.com.equipe7.desafio_spring.exception.NotFoundException;
 import br.com.equipe7.desafio_spring.exception.PurchaseWithInvalidQuantityException;
+import br.com.equipe7.desafio_spring.service.interfaces.IPurchase;
 import br.com.equipe7.desafio_spring.model.Product;
 import br.com.equipe7.desafio_spring.model.Ticket;
 import br.com.equipe7.desafio_spring.repository.ProductRepo;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PurchaseService implements IPurchase{
+public class PurchaseService implements IPurchase {
 
     @Autowired
     private ProductRepo productRepo;
