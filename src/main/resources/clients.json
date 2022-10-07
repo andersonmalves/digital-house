@@ -29,62 +29,7 @@
   "state" : "BA",
   "email" : "anderson@gmail.com"
 }, {
-  "clientId" : 6,
-  "name" : "Dexter",
-  "state" : "MG",
-  "email" : "dexter@petz.com"
-}, {
-  "clientId" : 8,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 9,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 10,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 11,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 12,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 13,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 14,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 15,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 16,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 17,
-  "name" : "matheus",
-  "state" : "SP",
-  "email" : "theus@gmail.com"
-}, {
-  "clientId" : 18,
+  "clientId" : 7,
   "name" : "matheus",
   "state" : "SP",
   "email" : "theus@gmail.com"
