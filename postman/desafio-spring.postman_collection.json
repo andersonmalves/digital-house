@@ -21,7 +21,7 @@
 							"};",
 							"",
 							"pm.sendRequest(objectRequest, function (_err, response) {",
-							"    console.log(\"Pre-resquest: \" + {response});   ",
+							"    console.log(response);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -333,7 +333,7 @@
 			"response": []
 		},
 		{
-			"name": "Requisito 05.1 - Listar produtos forma alfabética ascendente",
+			"name": "Requisito 05.1 - Listar produtos em ordem alfabética ascendente",
 			"event": [
 				{
 					"listen": "test",
@@ -409,7 +409,7 @@
 			"response": []
 		},
 		{
-			"name": "Requisito 05.2 - Listar produtos em ordem decrescente",
+			"name": "Requisito 05.2 - Listar produtos em ordem alfabética decrescente",
 			"event": [
 				{
 					"listen": "test",
@@ -485,7 +485,7 @@
 			"response": []
 		},
 		{
-			"name": "Requisito 6 - Listar produtos por menor preço",
+			"name": "Requisito 6 - Listar produtos ordenando por menor preço",
 			"event": [
 				{
 					"listen": "test",
@@ -561,7 +561,7 @@
 			"response": []
 		},
 		{
-			"name": "Requisito 7 - Listar produtos por",
+			"name": "Requisito 7 - Listar produtos ordenando por maior preço",
 			"event": [
 				{
 					"listen": "test",
@@ -694,13 +694,72 @@
 		},
 		{
 			"name": "Requisito 11 - Cadastrar novos clientes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 201\", function() {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Verifica pessoa cadastrada\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data).to.be.an(\"object\");",
+							"    pm.expect(data.name).to.eql(\"Dexter\");",
+							"    pm.expect(data.state).to.eql(\"MG\");",
+							"    pm.expect(data.email).to.eql(\"dexter@petz.com\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const objectRequest = {",
+							"  url: \"http://localhost:8080/api/v1/clients\",",
+							"  method: \"DELETE\",",
+							"  header: {",
+							"        'content-type': 'application/json',",
+							"    }",
+							"};",
+							"",
+							"pm.sendRequest(objectRequest, function (_err, response) {",
+							"    console.log(response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Dexter\",\n    \"state\": \"MG\",\n    \"email\": \"dexter@petz.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{base_url}}",
+					"raw": "{{base_url}}/api/v1/clients",
 					"host": [
 						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"clients"
 					]
 				}
 			},
@@ -708,13 +767,44 @@
 		},
 		{
 			"name": "Requisito 12 - Listar clientes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica lista de pessoas cadastradas\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].name).to.eql(\"Dexter\");",
+							"    pm.expect(data[0].state).to.eql(\"MG\");",
+							"    pm.expect(data[0].email).to.eql(\"dexter@petz.com\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}",
+					"raw": "{{base_url}}/api/v1/clients",
 					"host": [
 						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"clients"
 					]
 				}
 			},
@@ -722,13 +812,50 @@
 		},
 		{
 			"name": "Requisito 13 - Listar clientes filtrado por estado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verifica se o retorno está OK\", function() {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody;",
+							"});",
+							"",
+							"pm.test(\"Verifica se retornou o status 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verifica lista de pessoas cadastradas\", function() {",
+							"    const data = pm.response.json();",
+							"    pm.expect(data[0]).to.be.an(\"object\");",
+							"    pm.expect(data[0].name).to.eql(\"Dexter\");",
+							"    pm.expect(data[0].state).to.eql(\"MG\");",
+							"    pm.expect(data[0].email).to.eql(\"dexter@petz.com\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}",
+					"raw": "{{base_url}}/api/v1/clients?state=MG",
 					"host": [
 						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"clients"
+					],
+					"query": [
+						{
+							"key": "state",
+							"value": "MG"
+						}
 					]
 				}
 			},
