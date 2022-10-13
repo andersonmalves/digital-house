@@ -27,7 +27,7 @@ public class PropertyService implements IPropertyService {
 
         for (int i = 0; i < property.getRooms().size(); i++) {
             Room room = property.getRooms().get(i);
-            double roomArea = room.getRoomLength() * room.getRoomWidth();
+            double roomArea = this.calculateRoomArea(room);
             propertyArea += roomArea;
         }
 
@@ -66,13 +66,17 @@ public class PropertyService implements IPropertyService {
         double maxArea = 0;
         Room biggestRoom = new Room();
 
-        for(Room room:rooms){
-            if(room.getRoomLength() * room.getRoomWidth() > maxArea){
-                maxArea = room.getRoomLength() * room.getRoomWidth();
+        for(Room room : rooms){
+            if(this.calculateRoomArea(room) > maxArea){
+                maxArea = this.calculateRoomArea(room);
                 biggestRoom = room;
             }
         }
 
         return biggestRoom;
+    }
+
+    private double calculateRoomArea(Room room) {
+        return room.getRoomLength() * room.getRoomWidth();
     }
 }

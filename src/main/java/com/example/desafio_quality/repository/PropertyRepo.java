@@ -29,13 +29,12 @@ public class PropertyRepo {
      * @return lista de todos os cômodos
      */
     public List<Room> getRooms(int propId) {
-        Optional<Property> property = ManipulateFile.loadProperties().stream()
-                .filter(r -> r.getPropId() == propId)
-                .findFirst();
+        Optional<Property> property = this.getPropertyById(propId);
 
         if (property.isPresent()) {
             return property.get().getRooms();
         }
+
         return new ArrayList<>();
     }
 }
