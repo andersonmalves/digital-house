@@ -1,0 +1,17 @@
+[
+  {
+    "propId": 1,
+    "propName": "teste",
+    "districtId": 1,
+    "rooms": [
+      {
+        "roomName": "Quarto",
+        "roomWidth": 12.00,
+        "roomLength": 12.00
+      }, {
+        "roomName": "Sala",
+        "roomWidth": 24.00,
+        "roomLength": 24.00
+      }]
+  }
+]
