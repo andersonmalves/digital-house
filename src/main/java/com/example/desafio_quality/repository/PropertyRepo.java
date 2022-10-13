@@ -21,20 +21,4 @@ public class PropertyRepo {
                 .filter(p -> p.getPropId() == id)
                 .findFirst();
     }
-
-    /**
-     * Repository para todas os cômodos
-     * @author Felipe, Gabriel
-      * @param propId propId da propriedade
-     * @return lista de todos os cômodos
-     */
-    public List<Room> getRooms(int propId) {
-        Optional<Property> property = this.getPropertyById(propId);
-
-        if (property.isPresent()) {
-            return property.get().getRooms();
-        }
-
-        return new ArrayList<>();
-    }
 }

@@ -49,8 +49,20 @@ public class PropertyService implements IPropertyService {
         return null;
     }
 
+    /**
+     * Obtem todas os cômodos da propriedade
+     * @author Felipe e Gabriel
+     * @param propId ID da propriedade
+     * @return retorna todos os cômodos da propriedade
+     */
     public List<Room> getRooms(int propId) {
-        return repo.getRooms(propId);
+        Optional<Property> property = this.repo.getPropertyById(propId);
+
+        if(property.isEmpty()){
+            throw new NotFoundException("Propriedade com id: " + propId + " não encontrado");
+        }
+
+        return property.get().getRooms();
     }
 
     /**
@@ -61,8 +73,13 @@ public class PropertyService implements IPropertyService {
      */
     @Override
     public Room getBiggestRoom(int propId) {
-        List<Room> rooms = repo.getRooms(propId);
+        Optional<Property> property = this.repo.getPropertyById(propId);
 
+        if(property.isEmpty()){
+            throw new NotFoundException("Propriedade com id: " + propId + " não encontrado");
+        }
+
+        List<Room> rooms = property.get().getRooms();
         double maxArea = 0;
         Room biggestRoom = new Room();
 
@@ -72,10 +89,14 @@ public class PropertyService implements IPropertyService {
                 biggestRoom = room;
             }
         }
-
         return biggestRoom;
     }
 
+    /**
+     * @author Felipe e Gabriel
+     * @param room um comodo válido com o comprimento e largura
+     * @return Retorna a área do comprimento e largura
+     */
     private double calculateRoomArea(Room room) {
         return room.getRoomLength() * room.getRoomWidth();
     }
