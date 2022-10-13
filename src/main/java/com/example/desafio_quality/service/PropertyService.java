@@ -10,7 +10,6 @@ import java.util.List;
 @Service
 public class PropertyService implements IPropertyService {
 
-
     @Override
     public double getArea() {
         return 0;
@@ -23,7 +22,7 @@ public class PropertyService implements IPropertyService {
 
     @Override
     public List<Room> getRooms() {
-        return null;
+        return ;
     }
 
     @Override
