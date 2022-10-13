@@ -19,6 +19,12 @@ public class PropertyService implements IPropertyService {
     @Autowired
     private PropertyRepo repo;
 
+    /**
+     * Realiza a busca da propriedade pela ID e calcula a sua área.
+     * @author Ma, Theus
+     * @param id ID da propriedade.
+     * @return Retorna a PropertyAreaDTO e sua respectiva área.
+     */
     @Override
     public PropertyAreaDTO getArea(int id) {
         Property property = getPropertyById(id);
@@ -34,6 +40,12 @@ public class PropertyService implements IPropertyService {
         return new PropertyAreaDTO(property, propertyArea);
     }
 
+    /**
+     * Realiza a busca da propriedade pela ID.
+     * @author Ma, Theus
+     * @param id ID da propriedade.
+     * @return Retorna a propriedade ou erro caso não seja encontrada.
+     */
     private Property getPropertyById(int id) {
         Optional<Property> property = repo.getPropertyById(id);
 

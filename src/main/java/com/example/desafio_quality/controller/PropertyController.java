@@ -44,6 +44,11 @@ public class PropertyController {
         return ResponseEntity.ok(new RoomDTO(room));
     }
 
+     * Realiza a busca da propriedade pela ID.
+     * @author Ma, Theus
+     * @param propId ID da propriedade.
+     * @return Retorna a área da propriedade pesquisada.
+     */
     @GetMapping("/area/{propId}")
     public ResponseEntity<PropertyAreaDTO> getArea(@PathVariable int propId) {
         PropertyAreaDTO propertyArea = service.getArea(propId);
