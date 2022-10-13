@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Property {
+    private String propName;
     private int propId, districtId;
     private String propName;
     private List<Room> rooms;
