@@ -33,7 +33,7 @@ public class PropertyService implements IPropertyService {
 
         for (int i = 0; i < property.getRooms().size(); i++) {
             Room room = property.getRooms().get(i);
-            double roomArea = room.getRoomLength() * room.getRoomWidth();
+            double roomArea = this.calculateRoomArea(room);
             propertyArea += roomArea;
         }
 
@@ -49,7 +49,7 @@ public class PropertyService implements IPropertyService {
     private Property getPropertyById(int id) {
         Optional<Property> property = repo.getPropertyById(id);
 
-        if(property.isEmpty()) {
+        if (property.isEmpty()) {
             throw new NotFoundException("Propriedade com id: " + id + " não encontrado");
         }
 
@@ -61,13 +61,55 @@ public class PropertyService implements IPropertyService {
         return null;
     }
 
-    @Override
-    public List<Room> getRooms() {
-        return null;
+    /**
+     * Obtem todas os cômodos da propriedade
+     * @author Felipe e Gabriel
+     * @param propId ID da propriedade
+     * @return retorna todos os cômodos da propriedade
+     */
+    public List<Room> getRooms(int propId) {
+        Optional<Property> property = this.repo.getPropertyById(propId);
+
+        if(property.isEmpty()){
+            throw new NotFoundException("Propriedade com id: " + propId + " não encontrado");
+        }
+
+        return property.get().getRooms();
     }
 
+    /**
+     * Busca cômodo com maior área da propriedade
+     * @author Felipe e Gabriel
+     * @param propId ID da propriedade
+     * @return Retorna o cômodo com maior área da propriedade
+     */
     @Override
-    public Room getBiggestRoom() {
-        return null;
+    public Room getBiggestRoom(int propId) {
+        Optional<Property> property = this.repo.getPropertyById(propId);
+
+        if(property.isEmpty()){
+            throw new NotFoundException("Propriedade com id: " + propId + " não encontrado");
+        }
+
+        List<Room> rooms = property.get().getRooms();
+        double maxArea = 0;
+        Room biggestRoom = new Room();
+
+        for(Room room : rooms){
+            if(this.calculateRoomArea(room) > maxArea){
+                maxArea = this.calculateRoomArea(room);
+                biggestRoom = room;
+            }
+        }
+        return biggestRoom;
+    }
+
+    /**
+     * @author Felipe e Gabriel
+     * @param room um comodo válido com o comprimento e largura
+     * @return Retorna a área do comprimento e largura
+     */
+    private double calculateRoomArea(Room room) {
+        return room.getRoomLength() * room.getRoomWidth();
     }
 }
