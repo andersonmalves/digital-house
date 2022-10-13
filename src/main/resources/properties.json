@@ -1,7 +1,7 @@
 [
   {
     "propId": 1,
-    "propName": "teste",
+    "propName": "Felipe",
     "districtId": 1,
     "rooms": [
       {
@@ -12,6 +12,28 @@
         "roomName": "Sala",
         "roomWidth": 24.00,
         "roomLength": 24.00
+      }, {
+        "roomName": "Cozinha",
+        "roomWidth": 10.00,
+        "roomLength": 10.00
       }]
-  }
+  },   {
+  "propId": 2,
+  "propName": "Gabriel",
+  "districtId": 2,
+  "rooms": [
+    {
+      "roomName": "Quarto",
+      "roomWidth": 4.00,
+      "roomLength": 4.00
+    }, {
+      "roomName": "Sala",
+      "roomWidth": 10.00,
+      "roomLength": 10.00
+    }, {
+      "roomName": "Cozinha",
+      "roomWidth": 15.00,
+      "roomLength": 15.00
+    }]
+}
 ]
