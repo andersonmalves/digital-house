@@ -10,5 +10,5 @@ public interface IPropertyService {
     PropertyAreaDTO getArea(int id);
     BigDecimal getValue();
     List<Room> getRooms(int propId);
-    Room getBiggestRoom();
+    Room getBiggestRoom(int propId);
 }

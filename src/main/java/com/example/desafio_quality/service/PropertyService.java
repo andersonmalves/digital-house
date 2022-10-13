@@ -53,8 +53,26 @@ public class PropertyService implements IPropertyService {
         return repo.getRooms(propId);
     }
 
+    /**
+     * Busca cômodo com maior área da propriedade
+     * @author Felipe e Gabriel
+     * @param propId ID da propriedade
+     * @return Retorna o cômodo com maior área da propriedade
+     */
     @Override
-    public Room getBiggestRoom() {
-        return null;
+    public Room getBiggestRoom(int propId) {
+        List<Room> rooms = repo.getRooms(propId);
+
+        double maxArea = 0;
+        Room biggestRoom = new Room();
+
+        for(Room room:rooms){
+            if(room.getRoomLength() * room.getRoomWidth() > maxArea){
+                maxArea = room.getRoomLength() * room.getRoomWidth();
+                biggestRoom = room;
+            }
+        }
+
+        return biggestRoom;
     }
 }

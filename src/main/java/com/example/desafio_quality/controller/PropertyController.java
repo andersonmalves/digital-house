@@ -40,7 +40,7 @@ public class PropertyController {
      */
     @GetMapping("biggest-room/{propId}")
     public ResponseEntity<RoomDTO> getBiggestRoom(@PathVariable int propId) {
-        Room room = service.getBiggestRoom();
+        Room room = service.getBiggestRoom(propId);
         return ResponseEntity.ok(new RoomDTO(room));
     }
 
