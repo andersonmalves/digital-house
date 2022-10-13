@@ -11,5 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Property {
     private int propId, districtId;
+    private String propName;
     private List<Room> rooms;
 }

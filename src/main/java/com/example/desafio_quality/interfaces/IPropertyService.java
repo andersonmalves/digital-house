@@ -8,6 +8,6 @@ import java.util.List;
 public interface IPropertyService {
     double getArea();
     BigDecimal getValue();
-    List<Room> getRooms();
+    List<Room> getRooms(int propId);
     Room getBiggestRoom();
 }

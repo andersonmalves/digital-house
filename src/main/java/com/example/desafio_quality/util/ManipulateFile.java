@@ -41,7 +41,7 @@ public class ManipulateFile {
             mapper.findAndRegisterModules();
             return new ArrayList<>(Arrays.asList(mapper.readValue(new File(propertiesLinkFile), Property[].class)));
         } catch (Exception ex) {
-            System.out.println("Error reading file");
+            System.out.println("Error reading file" + "Estou aqui!!" + ex.getMessage());
             return new ArrayList<>();
         }
     }

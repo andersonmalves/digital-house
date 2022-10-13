@@ -26,7 +26,7 @@ public class PropertyController {
      */
     @GetMapping("/rooms/{propId}")
     public ResponseEntity<List<Room>> getAllRooms(@PathVariable int propId) {
-        List<Room> rooms = service.getRooms();
+        List<Room> rooms = service.getRooms(propId);
         return ResponseEntity.ok(rooms);
     }
 
@@ -39,6 +39,6 @@ public class PropertyController {
     @GetMapping("biggest-room/{propId}")
     public ResponseEntity<RoomDTO> getBiggestRoom(@PathVariable int propId) {
         Room room = service.getBiggestRoom();
-        return new ResponseEntity.ok(new RoomDTO(room));
+        return ResponseEntity.ok(new RoomDTO(room));
     }
 }
