@@ -123,8 +123,13 @@ public class PropertyService implements IPropertyService {
         Property property = this.getPropertyById(propId);
 
         List<Room> rooms = property.getRooms();
-        double maxArea = 0;
-        Room biggestRoom = new Room();
+
+        if(rooms == null) {
+            throw new NotFoundException("Cômodos não encontrados para a propriedade de id: " + propId);
+        }
+
+        double maxArea = calculateRoomArea(rooms.get(0));
+        Room biggestRoom = rooms.get(0);
 
         for(Room room : rooms) {
             if(this.calculateRoomArea(room) > maxArea){
@@ -144,4 +149,5 @@ public class PropertyService implements IPropertyService {
     private double calculateRoomArea(Room room) {
         return room.getRoomLength() * room.getRoomWidth();
     }
+
 }

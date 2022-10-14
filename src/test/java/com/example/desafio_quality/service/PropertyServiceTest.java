@@ -94,4 +94,18 @@ public class PropertyServiceTest {
             service.getBiggestRoom(invalidPropertyId);
         });
     }
+
+    @Test
+    @DisplayName("Valida se retorna um erro quando a propriedade não possui cômodos")
+    public void getBiggestRoom_returnsExceptionNotFound_withNoRooms(){
+        Property propertyWithNoRooms = new Property("teste",
+                1, 1, null);
+
+        Mockito.when(propertyRepo.getPropertyById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.of(propertyWithNoRooms));
+
+        assertThrows(NotFoundException.class, () -> {
+            service.getBiggestRoom(propertyWithNoRooms.getPropId());
+        });
+    }
 }
