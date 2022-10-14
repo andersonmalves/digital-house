@@ -28,14 +28,13 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PropertyController.class)
 public class PropertyControllerTest {
@@ -51,14 +50,36 @@ public class PropertyControllerTest {
     private PropertyAreaDTO propertyArea;
 
     private Property property;
+    private List<Room> rooms;
 
     @BeforeEach
     void setup() {
         Room room1 = new Room(12, 12, "Quarto");
         Room room2 = new Room(24.0, 24, "Sala");
-        List<Room> rooms = Arrays.asList(room1, room2);
-        property = new Property("teste", 1, 1, rooms);
-        propertyArea = new PropertyAreaDTO(property, 720.0);
+        this.rooms = Arrays.asList(room1, room2);
+        this.property = new Property("teste", 1, 1, rooms);
+        this.propertyArea = new PropertyAreaDTO(property, 720.0);
+    }
+
+    @Test
+    @DisplayName("Valida o retorno de todos os cômodos")
+    void getAllRooms_returnRoomsList_whenPropertyExists() throws Exception {
+        BDDMockito.when(service.getRooms(anyInt()))
+                .thenReturn(this.rooms);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/properties/rooms/{propId}",
+                        this.property.getPropId())
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$").isNotEmpty())
+                .andExpect(jsonPath("$[0].roomName",
+                        CoreMatchers.is(this.rooms.get(0).getRoomName())))
+                .andExpect(jsonPath("$[0].roomLength",
+                        CoreMatchers.is(this.rooms.get(0).getRoomLength())))
+                .andExpect(jsonPath("$[0].roomWidth",
+                        CoreMatchers.is(this.rooms.get(0).getRoomWidth())));
     }
 
     @Test
