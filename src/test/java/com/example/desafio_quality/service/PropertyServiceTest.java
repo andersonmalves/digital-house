@@ -83,4 +83,26 @@ public class PropertyServiceTest {
         assertThat(propertyValue).isNotNull();
         assertThat(propertyValue.getValue()).isEqualTo(new BigDecimal("17280.0000"));
     }
+
+    @Test
+    @DisplayName("Valida se retorna um erro caso o id da propriedade seja inválido")
+    void getValue_returnsNotFoundException_withIncorrectPropertyId() {
+        Mockito.when(repo.getPropertyById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class, () -> {
+            service.getValue(1);
+        });
+    }
+
+    @Test
+    @DisplayName("Valida se retorna um erro caso o id do bairro seja inválido")
+    void getValue_returnsNotFoundException_withIncorrectDistrictId() {
+        Mockito.when(repo.getPropertyById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.ofNullable(property));
+        Mockito.when(repoDistrict.getDistrictById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class, () -> {
+            service.getValue(1);
+        });
+    }
 }
