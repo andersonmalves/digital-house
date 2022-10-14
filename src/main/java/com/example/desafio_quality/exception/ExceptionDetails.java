@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ExceptionDetails {
-    private String title;
+    private String title, message, fields, fieldsMessage;
     private int status;
-    private String message;
     private LocalDateTime timeStamp;
 }
