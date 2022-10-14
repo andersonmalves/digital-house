@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 public class PropertyValueDTO {
-    @JsonProperty("valor total")
+    @JsonProperty("valorTotal")
     private BigDecimal value;
 
     public PropertyValueDTO(BigDecimal value) {

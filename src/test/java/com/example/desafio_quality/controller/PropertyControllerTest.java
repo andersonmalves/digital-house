@@ -1,6 +1,7 @@
 package com.example.desafio_quality.controller;
 
 import com.example.desafio_quality.dto.PropertyAreaDTO;
+import com.example.desafio_quality.dto.PropertyValueDTO;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.service.PropertyService;
@@ -16,6 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +36,7 @@ public class PropertyControllerTest {
     private PropertyService service;
 
     private PropertyAreaDTO propertyArea;
+
     private Property property;
 
     @BeforeEach
@@ -58,5 +63,20 @@ public class PropertyControllerTest {
                 .andExpect(jsonPath("$.districtId", CoreMatchers.is(propertyArea.getDistrictId())))
                 .andExpect(jsonPath("$.roomsQnt", CoreMatchers.is(propertyArea.getRoomsQnt())))
                 .andExpect(jsonPath("$.area", CoreMatchers.is(propertyArea.getArea())));
+    }
+
+    @Test
+    @DisplayName("Valida se retorna um PropertyValueDTO com o valor correto da propriedade e status correto")
+    void getValue_returnsValue_withCorrectValueOfProperty() throws Exception {
+        PropertyValueDTO propertyValue = new PropertyValueDTO(new BigDecimal("17280.0000"));
+        Mockito.when(service.getValue(ArgumentMatchers.anyInt()))
+                .thenReturn(propertyValue);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/properties/value/{propId}", property.getPropId())
+                        .contentType(MediaType.APPLICATION_JSON));
+        System.out.printf(response.toString());
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.valorTotal", CoreMatchers.is(propertyValue.getValue().setScale(4, RoundingMode.HALF_EVEN))));
     }
 }
