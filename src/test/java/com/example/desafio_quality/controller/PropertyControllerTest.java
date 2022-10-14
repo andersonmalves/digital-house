@@ -6,6 +6,7 @@ import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.service.PropertyService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -43,6 +44,7 @@ public class PropertyControllerTest {
     }
 
     @Test
+    @DisplayName("Valida se retorna um PropertyDTO com a area correta e status correto")
     void getArea_returnsArea_withCorrectPropertyId() throws Exception {
         Mockito.when(service.getArea(ArgumentMatchers.anyInt()))
                 .thenReturn(propertyArea);
