@@ -72,7 +72,7 @@ public class PropertyServiceTest {
         final double expectedBiggestRoomArea = 576d;
 
         Mockito.when(propertyRepo.getPropertyById(ArgumentMatchers.anyInt()))
-                .thenReturn(Optional.of(this.property));
+                .thenReturn(Optional.ofNullable(this.property));
 
         Room response = this.service.getBiggestRoom(this.property.getPropId());
         double responseArea = response.getRoomWidth() * response.getRoomLength();
@@ -98,7 +98,7 @@ public class PropertyServiceTest {
     @Test
     @DisplayName("Valida se retorna um erro quando a propriedade não possui cômodos")
     public void getBiggestRoom_returnsExceptionNotFound_withNoRooms(){
-        Property propertyWithNoRooms = new Property("teste",
+        final Property propertyWithNoRooms = new Property("teste",
                 1, 1, null);
 
         Mockito.when(propertyRepo.getPropertyById(ArgumentMatchers.anyInt()))
