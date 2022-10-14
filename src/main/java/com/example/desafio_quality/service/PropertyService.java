@@ -19,10 +19,10 @@ import java.util.Optional;
 public class PropertyService implements IPropertyService {
 
     @Autowired
-    private PropertyRepo repoProperty;
+    private PropertyRepo propertyRepo;
 
     @Autowired
-    private DistrictRepo repoDistrict;
+    private DistrictRepo districtRepo;
 
     /**
      * Realiza a busca da propriedade pela ID e calcula a sua área.
@@ -52,7 +52,7 @@ public class PropertyService implements IPropertyService {
      * @return Retorna a propriedade ou erro caso não seja encontrada.
      */
     private Property getPropertyById(int id) {
-        Optional<Property> property = repoProperty.getPropertyById(id);
+        Optional<Property> property = propertyRepo.getPropertyById(id);
 
         if (property.isEmpty()) {
             throw new NotFoundException("Propriedade com id: " + id + " não encontrado");
@@ -79,7 +79,7 @@ public class PropertyService implements IPropertyService {
      * @return Retorna o bairro ou erro caso não seja encontrado.
      */
     private District getDistrict(int id) {
-        Optional<District> district = repoDistrict.getDistrictById(id);
+        Optional<District> district = districtRepo.getDistrictById(id);
 
         if(district.isEmpty()) {
             throw new NotFoundException("Distrito com id" + id + "não encontrado");
@@ -123,8 +123,13 @@ public class PropertyService implements IPropertyService {
         Property property = this.getPropertyById(propId);
 
         List<Room> rooms = property.getRooms();
-        double maxArea = 0;
-        Room biggestRoom = new Room();
+
+        if(rooms == null) {
+            throw new NotFoundException("Cômodos não encontrados para a propriedade de id: " + propId);
+        }
+
+        double maxArea = calculateRoomArea(rooms.get(0));
+        Room biggestRoom = rooms.get(0);
 
         for(Room room : rooms) {
             if(this.calculateRoomArea(room) > maxArea){
@@ -144,4 +149,5 @@ public class PropertyService implements IPropertyService {
     private double calculateRoomArea(Room room) {
         return room.getRoomLength() * room.getRoomWidth();
     }
+
 }

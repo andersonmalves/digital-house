@@ -1,5 +1,10 @@
 package com.example.desafio_quality.controller;
 
+
+import com.example.desafio_quality.entity.Property;
+import com.example.desafio_quality.entity.Room;
+import com.example.desafio_quality.service.PropertyService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.desafio_quality.dto.PropertyAreaDTO;
 import com.example.desafio_quality.dto.PropertyValueDTO;
 import com.example.desafio_quality.entity.Property;
@@ -9,8 +14,11 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import org.mockito.BDDMockito;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +28,10 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
+import java.util.ArrayList;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +43,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PropertyControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private PropertyService service;
@@ -46,6 +61,27 @@ public class PropertyControllerTest {
         List<Room> rooms = Arrays.asList(room1, room2);
         property = new Property("teste", 1, 1, rooms);
         propertyArea = new PropertyAreaDTO(property, 720.0);
+    }
+
+    @Test
+    @DisplayName("Teste de retorno de maior cômodo")
+    void getBiggestRoom_returnBiggestRoom_whenPropertyExists() throws Exception {
+        Room biggestRoom = new Room(24, 24, "Sala");
+
+        BDDMockito.when(service.getBiggestRoom(anyInt()))
+                .thenReturn(biggestRoom);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/properties/biggest-room/{propId}", property.getPropId())
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.roomWidth", CoreMatchers.is(biggestRoom.getRoomWidth())))
+                .andExpect(jsonPath("$.roomLength", CoreMatchers.is(biggestRoom.getRoomLength())))
+                .andExpect(jsonPath("$.roomName", CoreMatchers.is(biggestRoom.getRoomName())))
+                .andExpect(jsonPath("$.area", CoreMatchers.is(
+                        biggestRoom.getRoomLength() * biggestRoom.getRoomWidth()
+                )));
     }
 
     @Test
