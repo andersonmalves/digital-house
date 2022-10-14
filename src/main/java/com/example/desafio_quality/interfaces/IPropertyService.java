@@ -8,7 +8,7 @@ import java.util.List;
 public interface IPropertyService {
     PropertyAreaDTO getArea(int id);
     PropertyValueDTO getValue(int propId);
-    List<Room> getRooms();
-    Room getBiggestRoom();
+    List<Room> getRooms(int propId);
+    Room getBiggestRoom(int propId);
 
 }
