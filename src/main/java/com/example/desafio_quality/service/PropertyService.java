@@ -19,10 +19,10 @@ import java.util.Optional;
 public class PropertyService implements IPropertyService {
 
     @Autowired
-    private PropertyRepo repoProperty;
+    private PropertyRepo propertyRepo;
 
     @Autowired
-    private DistrictRepo repoDistrict;
+    private DistrictRepo districtRepo;
 
     /**
      * Realiza a busca da propriedade pela ID e calcula a sua área.
@@ -52,7 +52,7 @@ public class PropertyService implements IPropertyService {
      * @return Retorna a propriedade ou erro caso não seja encontrada.
      */
     private Property getPropertyById(int id) {
-        Optional<Property> property = repoProperty.getPropertyById(id);
+        Optional<Property> property = propertyRepo.getPropertyById(id);
 
         if (property.isEmpty()) {
             throw new NotFoundException("Propriedade com id: " + id + " não encontrado");
@@ -79,7 +79,7 @@ public class PropertyService implements IPropertyService {
      * @return Retorna o bairro ou erro caso não seja encontrado.
      */
     private District getDistrict(int id) {
-        Optional<District> district = repoDistrict.getDistrictById(id);
+        Optional<District> district = districtRepo.getDistrictById(id);
 
         if(district.isEmpty()) {
             throw new NotFoundException("Distrito com id" + id + "não encontrado");
