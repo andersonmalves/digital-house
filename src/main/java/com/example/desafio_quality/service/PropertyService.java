@@ -1,6 +1,7 @@
 package com.example.desafio_quality.service;
 
 import com.example.desafio_quality.dto.PropertyAreaDTO;
+import com.example.desafio_quality.dto.PropertyValueDTO;
 import com.example.desafio_quality.entity.District;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
@@ -57,16 +58,15 @@ public class PropertyService implements IPropertyService {
 //    }
 
     @Override
-    public BigDecimal getValue(int propId) {
+    public PropertyValueDTO getValue(int propId) {
         Optional<Property> property = repo.getPropertyById(propId);
         if(property.isEmpty()) {
             throw new NotFoundException("Propriedade com id: " + propId + " não encontrado");
         }
         District district = getDistrict(property.get().getDistrictId());
         PropertyAreaDTO area = getArea(propId);
-        BigDecimal result = getCalcValue(area.getArea(), district.getValueDistrictM2());
-        System.out.printf(String.valueOf(result));
-        return result;
+
+        return new PropertyValueDTO(getCalcValue(area.getArea(), district.getValueDistrictM2()));
     }
 
 

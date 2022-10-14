@@ -1,6 +1,7 @@
 package com.example.desafio_quality.controller;
 
 import com.example.desafio_quality.dto.PropertyAreaDTO;
+import com.example.desafio_quality.dto.PropertyValueDTO;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.interfaces.IPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class PropertyController {
         return new ResponseEntity<>(propertyArea, HttpStatus.OK);
     }
     @GetMapping("/value/{propId}")
-    public ResponseEntity<BigDecimal> getPropertyValue(@PathVariable int propId) {
-        BigDecimal property = service.getValue(propId);
+    public ResponseEntity<PropertyValueDTO> getPropertyValue(@PathVariable int propId) {
+        PropertyValueDTO property = service.getValue(propId);
         return new ResponseEntity<>(property, HttpStatus.OK);
     }
 
