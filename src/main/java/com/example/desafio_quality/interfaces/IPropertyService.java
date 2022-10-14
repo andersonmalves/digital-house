@@ -10,5 +10,4 @@ public interface IPropertyService {
     PropertyValueDTO getValue(int propId);
     List<Room> getRooms(int propId);
     Room getBiggestRoom(int propId);
-
 }
