@@ -1,14 +1,23 @@
 package com.example.desafio_quality.controller;
 
+
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.service.PropertyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.desafio_quality.dto.PropertyAreaDTO;
+import com.example.desafio_quality.entity.Property;
+import com.example.desafio_quality.entity.Room;
+import com.example.desafio_quality.service.PropertyService;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.BDDMockito;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,16 +25,20 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PropertyController.class)
 public class PropertyControllerTest {
-    //setup
     @Autowired
     private MockMvc mockMvc;
 
@@ -34,21 +47,24 @@ public class PropertyControllerTest {
 
     @MockBean
     private PropertyService service;
+
+    private PropertyAreaDTO propertyArea;
+
     private Property property;
 
     @BeforeEach
     void setup() {
-        property = new Property("Felipe", 1, 1, new ArrayList<>(){{
-                add(new Room(10, 10, "Cozinha"));
-                add(new Room(20, 20, "Sala"));
-            }}
-        );
+        Room room1 = new Room(12, 12, "Quarto");
+        Room room2 = new Room(24.0, 24, "Sala");
+        List<Room> rooms = Arrays.asList(room1, room2);
+        property = new Property("teste", 1, 1, rooms);
+        propertyArea = new PropertyAreaDTO(property, 720.0);
     }
 
     @Test
     @DisplayName("Teste de retorno de maior cômodo")
     void getBiggestRoom_returnBiggestRoom_whenPropertyExists() throws Exception {
-        Room biggestRoom = new Room(20, 20, "Sala");
+        Room biggestRoom = new Room(24, 24, "Sala");
 
         BDDMockito.when(service.getBiggestRoom(anyInt()))
                 .thenReturn(biggestRoom);
@@ -64,5 +80,22 @@ public class PropertyControllerTest {
                 .andExpect(jsonPath("$.area", CoreMatchers.is(
                         biggestRoom.getRoomLength() * biggestRoom.getRoomWidth()
                 )));
+    }
+
+    @Test
+    @DisplayName("Valida se retorna um PropertyDTO com a area correta e status correto")
+    void getArea_returnsArea_withCorrectPropertyId() throws Exception {
+        Mockito.when(service.getArea(ArgumentMatchers.anyInt()))
+                .thenReturn(propertyArea);
+
+        ResultActions response = mockMvc.perform(
+                get("/api/v1/properties/area/{propId}", property.getPropId())
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.propName", CoreMatchers.is(propertyArea.getPropName())))
+                .andExpect(jsonPath("$.districtId", CoreMatchers.is(propertyArea.getDistrictId())))
+                .andExpect(jsonPath("$.roomsQnt", CoreMatchers.is(propertyArea.getRoomsQnt())))
+                .andExpect(jsonPath("$.area", CoreMatchers.is(propertyArea.getArea())));
     }
 }
