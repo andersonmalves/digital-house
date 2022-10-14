@@ -23,10 +23,10 @@ public class PropertyController {
     private IPropertyService service;
 
     /**
-     * Controller para todos os quartos
+     * Controller para todos os cômodos
      * @author Felipe, Gabriel
      * @param propId ‘ID’ da propriedade
-     * @return HTTP status e todos quartos
+     * @return HTTP status e todos cômodos
      */
     @GetMapping("/rooms/{propId}")
     public ResponseEntity<List<Room>> getAllRooms(@PathVariable int propId) {
@@ -35,10 +35,10 @@ public class PropertyController {
     }
 
     /**
-     * Controller para o maior quarto
+     * Controller para o maior cômodos
      * @author Felipe, Gabriel
      * @param propId ‘ID’ da propriedade
-     * @return HTTP status e maior quarto e sua area quadrada
+     * @return HTTP status e maior comôdo e sua area quadrada
      */
     @GetMapping("biggest-room/{propId}")
     public ResponseEntity<RoomDTO> getBiggestRoom(@PathVariable int propId) {

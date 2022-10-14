@@ -14,12 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -159,6 +157,30 @@ public class PropertyServiceTest {
                 .thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> {
             service.getValue(1);
+            });
+    }
+    
+    @DisplayName("Valida se retora todos os cômodos de uma propriedade")
+    public void getAllRooms_returnAllRooms_withPropertyHaveRooms() {
+        Mockito.when(propertyRepo.getPropertyById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.ofNullable(property));
+
+        List<Room> propertyWithRooms = service.getRooms(this.property.getPropId());
+
+        assertThat(propertyWithRooms).isNotNull();
+        assertThat(propertyWithRooms).isEqualTo(property.getRooms());
+    }
+
+    @Test
+    @DisplayName("Valida se retorna um erro com o id incorreto")
+    public void getAllRoom_returnsExceptionNotFound_withIncorrectPropertyId() {
+        final int invalidPropertyId = 999;
+
+        Mockito.when(propertyRepo.getPropertyById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            service.getRooms(invalidPropertyId);
         });
     }
 }
