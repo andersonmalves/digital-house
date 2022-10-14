@@ -11,7 +11,6 @@ import com.example.desafio_quality.repository.DistrictRepo;
 import com.example.desafio_quality.repository.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,8 @@ import java.util.Optional;
 public class PropertyService implements IPropertyService {
 
     @Autowired
-    private PropertyRepo repo;
+    private PropertyRepo repoProperty;
+
     @Autowired
     private DistrictRepo repoDistrict;
 
@@ -52,7 +52,7 @@ public class PropertyService implements IPropertyService {
      * @return Retorna a propriedade ou erro caso não seja encontrada.
      */
     private Property getPropertyById(int id) {
-        Optional<Property> property = repo.getPropertyById(id);
+        Optional<Property> property = repoProperty.getPropertyById(id);
 
         if (property.isEmpty()) {
             throw new NotFoundException("Propriedade com id: " + id + " não encontrado");
@@ -61,37 +61,42 @@ public class PropertyService implements IPropertyService {
         return property.get();
     }
 
-//    private Property getPropertyValue(int propId) {
-//        Optional<Property> property = repo.getPropertyById(propId);
-//        if(property.isEmpty()) {
-//            throw new NotFoundException("Propriedade com id: " + id + " não encontrado");
-//        }
-//        return property.get();
-//    }
-
     @Override
     public PropertyValueDTO getValue(int propId) {
-        Optional<Property> property = repo.getPropertyById(propId);
-        if(property.isEmpty()) {
-            throw new NotFoundException("Propriedade com id: " + propId + " não encontrado");
-        }
-        District district = getDistrict(property.get().getDistrictId());
+        Property property = this.getPropertyById(propId);
+
+        District district = getDistrict(property.getDistrictId());
         PropertyAreaDTO area = getArea(propId);
 
         return new PropertyValueDTO(getCalcValue(area.getArea(), district.getValueDistrictM2()));
     }
 
 
-    public District getDistrict(int id) {
+    /**
+     * Realiza a busca do bairro pelo ID
+     * @author Anderson, Giovanna
+     * @param id identificação do bairro
+     * @return Retorna o bairro ou erro caso não seja encontrado.
+     */
+    private District getDistrict(int id) {
         Optional<District> district = repoDistrict.getDistrictById(id);
+
         if(district.isEmpty()) {
             throw new NotFoundException("Distrito com id" + id + "não encontrado");
         }
+
         return district.get();
     }
 
 
-    public BigDecimal getCalcValue(double area, BigDecimal value) {
+    /**
+     * Realiza o calculo de uma area em relação ao bairro.
+     * @author Anderson, Giovanna
+     * @param area da propriedade.
+     * @param value do metro quadrado.
+     * @return Retorna o valor da area.
+     */
+    private BigDecimal getCalcValue(double area, BigDecimal value) {
         return BigDecimal.valueOf(area).multiply(value);
     }
 
@@ -102,13 +107,9 @@ public class PropertyService implements IPropertyService {
      * @return retorna todos os cômodos da propriedade
      */
     public List<Room> getRooms(int propId) {
-        Optional<Property> property = this.repo.getPropertyById(propId);
+        Property property = this.getPropertyById(propId);
 
-        if(property.isEmpty()){
-            throw new NotFoundException("Propriedade com id: " + propId + " não encontrado");
-        }
-
-        return property.get().getRooms();
+        return property.getRooms();
     }
 
     /**
@@ -119,22 +120,19 @@ public class PropertyService implements IPropertyService {
      */
     @Override
     public Room getBiggestRoom(int propId) {
-        Optional<Property> property = this.repo.getPropertyById(propId);
+        Property property = this.getPropertyById(propId);
 
-        if(property.isEmpty()){
-            throw new NotFoundException("Propriedade com id: " + propId + " não encontrado");
-        }
-
-        List<Room> rooms = property.get().getRooms();
+        List<Room> rooms = property.getRooms();
         double maxArea = 0;
         Room biggestRoom = new Room();
 
-        for(Room room : rooms){
+        for(Room room : rooms) {
             if(this.calculateRoomArea(room) > maxArea){
                 maxArea = this.calculateRoomArea(room);
                 biggestRoom = room;
             }
         }
+
         return biggestRoom;
     }
 

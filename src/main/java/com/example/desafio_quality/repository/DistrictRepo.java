@@ -9,6 +9,12 @@ import java.util.Optional;
 
 @Repository
 public class DistrictRepo {
+    /**
+     * Realiza a busca do bairro pelo ID.
+     * @author Anderson, Giovanna
+     * @param id ID do bairro.
+     * @return Retorna o bairro por ID caso haja correspondência.
+     */
     public Optional<District> getDistrictById(int id) {
         List<District> districts = ManipulateFile.loadDistricts();
 
