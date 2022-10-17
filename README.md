@@ -78,9 +78,9 @@ prazos para que a data de entrega estimada seja cumprida.
 | Endpoint                                 | Verbo |                         Função                          |
 |:-----------------------------------------|:-----:|:-------------------------------------------------------:|
 | /api/v1/properties/area/{propId}         |  GET  | Calcular o total de metros quadrados de uma propriedade |
-| /api/v1/properties/value/{propId}        |  GET  |           Calcular o valor de uma propriedade           |
-| /api/v1/properties/biggest-room/{propId} |  GET  |            Determinar qual é o maior cômodo             |
-| /api/v1/properties/rooms/{propId}        |  GET  | Determinar a quantidade de metros quadrados por cômodo  |
+| /api/v1/properties/value/{propId}        |  GET  | Calcular o valor de uma propriedade                     |
+| /api/v1/properties/biggest-room/{propId} |  GET  | Determinar qual é o maior cômodo                        |
+| /api/v1/properties/rooms/{propId}        |  GET  | Lista os cômodos de uma propriedade                     |
 | /api/v1/properties                       |  POST | Cria uma nova propriedade na base de dados              |
 | /api/v1/districts                        |  POST | Cria um novo bairro na base de dados                    |
 | /api/v1/rooms/properties/{propId}        |  POST | Adiciona um novo cômodo em uma propriedade existente    |
