@@ -3,6 +3,7 @@ package com.example.desafio_quality.service;
 import com.example.desafio_quality.dto.DistrictRequestDTO;
 import com.example.desafio_quality.entity.District;
 import com.example.desafio_quality.repository.DistrictRepo;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -24,6 +25,7 @@ public class DistrictServiceTest {
     private DistrictRepo districtRepo;
 
     @Test
+    @DisplayName("Valida se retorna um District com os parâmetros corretos")
     void createDistrict_returnsNewDistrict_withCorrectParams() {
         DistrictRequestDTO districtRequest = new DistrictRequestDTO("Interlagos", new BigDecimal("24.000"));
         final int DISTRICT_ID = 1;
