@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PropertyRequestDTO {
     @NotBlank(message = "O nome da propriedade não pode estar vazio.")
-    @Pattern(regexp = "\\b[A-Z]\\w*\\b", message = "O nome da propriedade deve começar com a letra maiúscula.")
+    @Pattern(regexp = "([A-Z]{1}[a-zA-Z0-9_ \\-]+\\s??)+", message = "O nome da propriedade deve começar com a letra maiúscula.")
     @Size(max = 30, message = "O comprimento do nome não pode exceder 30 caracteres.")
     private String propName;
 
