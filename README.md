@@ -38,12 +38,18 @@ Cada **cômodo** tem:
 
 **Para isso, é necessário a criação de uma API Rest que permita:**
 
-- **US-0001:** Calcular a área total de uma propriedade.
-- **US-0002:** Indicar o preço dessa mesma propriedade com base na área total.
-Lembre-se que os preços por metro quadrado são determinados em função do
-bairro.
-- **US-0003:** Determinar qual é o maior cômodo da propriedade.
-- **US-0004:** Determinar a área de cada cômodo.
+- [x] ~**US-0001:** Calcular a área total de uma propriedade.~
+    - [x] ~Teste na camada Service~
+    - [x] ~Teste na camada Controller~
+- [x] ~**US-0002:** Indicar o preço dessa mesma propriedade com base na área total.~
+    - [x] ~Teste na camada Service~
+    - [x] ~Teste na camada Controller~
+- [x] ~**US-0003:** Determinar qual é o maior cômodo da propriedade.~
+    - [x] ~Teste na camada Service~
+    - [x] ~Teste na camada Controller~
+- [x] ~**US-0004:** Determinar a área de cada cômodo.~
+    - [x] ~Teste na camada Service~
+    - [x] ~Teste na camada Controller~
 
 **"Seu Imóvel"** tem padrões de qualidade muito elevados no que diz respeito aos
 produtos de software que utiliza, uma vez que as transações que realiza diariamente
@@ -61,6 +67,9 @@ além de testes de unidade.
 O consultor conhece os tempos limitados disponíveis para realizar o desenvolvimento
 solicitado, por isso sugere realizar esta implementação apenas no caso de cumprir os
 prazos para que a data de entrega estimada seja cumprida.
+
+- [ ] Testes de Integração 
+
 
 ---
 
