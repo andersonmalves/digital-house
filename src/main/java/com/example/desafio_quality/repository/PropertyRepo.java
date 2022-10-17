@@ -26,6 +26,10 @@ public class PropertyRepo {
                 .findFirst();
     }
 
+    /**
+     * Remove todas as propriedades da base de dados
+     * @author Anderson e Giovanna
+     */
     public void deleteAllProperties() {
         List<Property> properties = new ArrayList<Property>();
         ManipulateFile.saveProperties(properties);
