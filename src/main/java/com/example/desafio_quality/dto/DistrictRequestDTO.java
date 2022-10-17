@@ -18,6 +18,6 @@ public class DistrictRequestDTO {
     private String districtName;
 
     @NotNull(message = "Valor do metro quadrado no bairro não pode estar vazio.")
-    @Digits(integer = 13, fraction = 2, message = "Valor do metro quadrado do bairro não pode passar 13 digitos.")
+    @Digits(integer = 13, fraction = 2, message = "Valor do metro quadrado inválido.")
     private BigDecimal valueDistrictM2;
 }

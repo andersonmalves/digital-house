@@ -38,12 +38,18 @@ Cada **cômodo** tem:
 
 **Para isso, é necessário a criação de uma API Rest que permita:**
 
-- **US-0001:** Calcular a área total de uma propriedade.
-- **US-0002:** Indicar o preço dessa mesma propriedade com base na área total.
-Lembre-se que os preços por metro quadrado são determinados em função do
-bairro.
-- **US-0003:** Determinar qual é o maior cômodo da propriedade.
-- **US-0004:** Determinar a área de cada cômodo.
+- [x] ~**US-0001:** Calcular a área total de uma propriedade.~
+    - [x] ~Teste na camada Service~
+    - [x] ~Teste na camada Controller~
+- [x] ~**US-0002:** Indicar o preço dessa mesma propriedade com base na área total.~
+    - [x] ~Teste na camada Service~
+    - [x] ~Teste na camada Controller~
+- [x] ~**US-0003:** Determinar qual é o maior cômodo da propriedade.~
+    - [x] ~Teste na camada Service~
+    - [x] ~Teste na camada Controller~
+- [x] ~**US-0004:** Determinar a área de cada cômodo.~
+    - [x] ~Teste na camada Service~
+    - [x] ~Teste na camada Controller~
 
 **"Seu Imóvel"** tem padrões de qualidade muito elevados no que diz respeito aos
 produtos de software que utiliza, uma vez que as transações que realiza diariamente
@@ -62,6 +68,9 @@ O consultor conhece os tempos limitados disponíveis para realizar o desenvolvim
 solicitado, por isso sugere realizar esta implementação apenas no caso de cumprir os
 prazos para que a data de entrega estimada seja cumprida.
 
+- [ ] Testes de Integração 
+
+
 ---
 
 ### Tabela de endpoints
@@ -72,6 +81,10 @@ prazos para que a data de entrega estimada seja cumprida.
 | /api/v1/properties/value/{propId}        |  GET  |           Calcular o valor de uma propriedade           |
 | /api/v1/properties/biggest-room/{propId} |  GET  |            Determinar qual é o maior cômodo             |
 | /api/v1/properties/rooms/{propId}        |  GET  | Determinar a quantidade de metros quadrados por cômodo  |
+| /api/v1/properties                       |  POST | Cria uma nova propriedade na base de dados              |
+| /api/v1/districts                        |  POST | Cria um novo bairro na base de dados                    |
+| /api/v1/rooms/properties/{propId}        |  POST | Adiciona um novo cômodo em uma propriedade existente    |
+
 
 ### Carga inicial de dados
 
