@@ -1,9 +1,12 @@
 package com.example.desafio_quality.service;
 
 import com.example.desafio_quality.dto.PropertyAreaDTO;
+import com.example.desafio_quality.dto.PropertyValueDTO;
+import com.example.desafio_quality.entity.District;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.exception.NotFoundException;
+import com.example.desafio_quality.repository.DistrictRepo;
 import com.example.desafio_quality.repository.PropertyRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,9 +28,12 @@ public class PropertyServiceTest {
     private PropertyService service;
 
     @Mock
+    private DistrictRepo repoDistrict;
+    @Mock
     private PropertyRepo propertyRepo;
 
     private Property property;
+    private District district;
 
     @BeforeEach
     public void setup() {
@@ -35,6 +41,8 @@ public class PropertyServiceTest {
         Room room2 = new Room(24.0, 24.0, "Sala");
         List<Room> rooms = Arrays.asList(room1, room2);
         this.property = new Property("teste", 1, 1, rooms);
+        property = new Property("teste", 1, 1, rooms);
+        district = new District(1, new BigDecimal("24.000"), "Interlagos");
     }
 
     @Test
@@ -133,4 +141,41 @@ public class PropertyServiceTest {
             service.getRooms(invalidPropertyId);
         });
     }
+
+    @Test
+    @DisplayName("Verifica se retorna o valor total do imóvel")
+    void getValue_returnCorrectValue() {
+        Mockito.when(propertyRepo.getPropertyById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.ofNullable(property));
+        Mockito.when(repoDistrict.getDistrictById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.ofNullable(district));
+
+        PropertyValueDTO propertyValue = service.getValue(1);
+
+        assertThat(propertyValue).isNotNull();
+        assertThat(propertyValue.getValue()).isEqualTo(new BigDecimal("17280.0000"));
+    }
+
+    @Test
+    @DisplayName("Valida se retorna um erro caso o id da propriedade seja inválido")
+    void getValue_returnsNotFoundException_withIncorrectPropertyId() {
+        Mockito.when(propertyRepo.getPropertyById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class, () -> {
+            service.getValue(1);
+        });
+    }
+
+    @Test
+    @DisplayName("Valida se retorna um erro caso o id do bairro seja inválido")
+    void getValue_returnsNotFoundException_withIncorrectDistrictId() {
+        Mockito.when(propertyRepo.getPropertyById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.ofNullable(property));
+        Mockito.when(repoDistrict.getDistrictById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class, () -> {
+            service.getValue(1);
+            });
+    }
+
 }
