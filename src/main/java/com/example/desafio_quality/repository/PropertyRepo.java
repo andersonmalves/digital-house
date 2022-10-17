@@ -26,9 +26,14 @@ public class PropertyRepo {
                 .findFirst();
     }
 
+    /**
+     * Remove as propriedades do arquivo properties.json
+     * @author Anderson, Giovanna
+     */
     public void deleteAllProperties() {
         List<Property> properties = new ArrayList<Property>();
         ManipulateFile.saveProperties(properties);
+    }
 
     /**
      * Realiza a adição de cômodos na propriedade

@@ -5,6 +5,7 @@ import com.example.desafio_quality.repository.DistrictRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,6 +39,7 @@ public class DistrictControllerTestIT {
     }
 
     @Test
+    @DisplayName("Verifica se um distrito é cadastrado com sucesso")
     void novoDistrito_ReturnNovoDistrito_quandoCriadoComSucesso() throws Exception {
 
         String districtName = "Interlagos";
