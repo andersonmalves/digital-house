@@ -2,6 +2,7 @@ package com.example.desafio_quality.service;
 
 import com.example.desafio_quality.dto.PropertyAreaDTO;
 import com.example.desafio_quality.dto.PropertyValueDTO;
+import com.example.desafio_quality.dto.RoomRequestDTO;
 import com.example.desafio_quality.entity.District;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
@@ -11,6 +12,7 @@ import com.example.desafio_quality.repository.DistrictRepo;
 import com.example.desafio_quality.repository.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -150,4 +152,12 @@ public class PropertyService implements IPropertyService {
         return room.getRoomLength() * room.getRoomWidth();
     }
 
+    @Override
+    public Room createRooms(RoomRequestDTO room, int id) {
+        Property property = getPropertyById(id);
+        Room newRoom = this.propertyRepo.createRooms(
+                new Room(room.getRoomWidth(), room.getRoomLength(), room.getRoomName()), property.getPropId());
+
+        return newRoom;
+    }
 }
