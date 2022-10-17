@@ -29,6 +29,7 @@ public class PropertyRepo {
     public void deleteAllProperties() {
         List<Property> properties = new ArrayList<Property>();
         ManipulateFile.saveProperties(properties);
+    }
 
     /**
      * Realiza a adição de cômodos na propriedade
