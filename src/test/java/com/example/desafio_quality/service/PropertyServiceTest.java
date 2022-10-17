@@ -1,7 +1,9 @@
 package com.example.desafio_quality.service;
 
 import com.example.desafio_quality.dto.PropertyAreaDTO;
+import com.example.desafio_quality.dto.PropertyRequestDTO;
 import com.example.desafio_quality.dto.PropertyValueDTO;
+import com.example.desafio_quality.dto.RoomRequestDTO;
 import com.example.desafio_quality.entity.District;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
@@ -34,6 +36,7 @@ public class PropertyServiceTest {
 
     private Property property;
     private District district;
+    PropertyRequestDTO propertyRequest;
 
     @BeforeEach
     public void setup() {
@@ -43,6 +46,9 @@ public class PropertyServiceTest {
         this.property = new Property("teste", 1, 1, rooms);
         property = new Property("teste", 1, 1, rooms);
         district = new District(1, new BigDecimal("24.000"), "Interlagos");
+
+        RoomRequestDTO roomRequestDTO = new RoomRequestDTO(12.0, 12.0, "Quarto");
+        propertyRequest = new PropertyRequestDTO(property.getPropName(), property.getDistrictId(), List.of(roomRequestDTO));
     }
 
     @Test
@@ -178,4 +184,32 @@ public class PropertyServiceTest {
             });
     }
 
+    @Test
+    @DisplayName("Valida se retorna uma Property com os parâmetros corretos")
+    void createProperty_returnsNewProperty_withCorrectParams() {
+        Mockito.when(repoDistrict.getDistrictById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.ofNullable(district));
+
+        Mockito.when(propertyRepo.createProperty(ArgumentMatchers.any()))
+                .thenReturn(property);
+
+        Property newProperty = service.createProperty(propertyRequest);
+
+        assertThat(newProperty).isNotNull();
+        assertThat(newProperty.getDistrictId()).isEqualTo(property.getDistrictId());
+        assertThat(newProperty.getPropId()).isEqualTo(property.getPropId());
+        assertThat(newProperty.getPropName()).isEqualTo(property.getPropName());
+        assertThat(newProperty.getRooms()).isEqualTo(property.getRooms());
+    }
+
+    @Test
+    @DisplayName("Valida se retorna um erro caso o id do bairro seja inválido naa criação da propriedade")
+    void createProperty_returnsNotFoundException_withIncorrectDistrictId() {
+        Mockito.when(repoDistrict.getDistrictById(ArgumentMatchers.anyInt()))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> {
+            service.createProperty(propertyRequest);
+        });
+    }
 }
