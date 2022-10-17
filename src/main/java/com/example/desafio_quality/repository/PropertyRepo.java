@@ -27,8 +27,8 @@ public class PropertyRepo {
     }
 
     /**
-     * Remove todas as propriedades da base de dados
-     * @author Anderson e Giovanna
+     * Remove as propriedades do arquivo properties.json
+     * @author Anderson, Giovanna
      */
     public void deleteAllProperties() {
         List<Property> properties = new ArrayList<Property>();
