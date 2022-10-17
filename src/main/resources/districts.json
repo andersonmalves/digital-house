@@ -2,12 +2,4 @@
   "districtId" : 1,
   "valueDistrictM2" : 240.00,
   "districtName" : "Interlagos"
-}, {
-  "districtId" : 2,
-  "valueDistrictM2" : 2422.00,
-  "districtName" : "Interlagos"
-}, {
-  "districtId" : 3,
-  "valueDistrictM2" : 2422.00,
-  "districtName" : "Interlagos"
 } ]
