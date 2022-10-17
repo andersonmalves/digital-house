@@ -33,7 +33,7 @@ public class DistrictControllerTestIT {
     @Test
     void novoDistrito_ReturnNovoDistrito_quandoCriadoComSucesso() throws Exception {
         String districtName = "Interlagos";
-        BigDecimal valueDistrictM2 = new BigDecimal("24.000");
+        BigDecimal valueDistrictM2 = new BigDecimal("24.00");
 
         ResultActions resposta;
         resposta = mockMvc.perform(
