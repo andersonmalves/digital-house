@@ -5,7 +5,9 @@ import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.service.PropertyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(RoomControllerTest.class)
+@WebMvcTest(RoomsController.class)
 public class RoomControllerTest {
 
     @Autowired
@@ -47,6 +50,7 @@ public class RoomControllerTest {
     }
 
     @Test
+    @DisplayName("Valida a criação um cômodo novo e o status correto")
     void createRooms_returnRoomCreated_whenPropertyExists() throws Exception {
         Room newRoom = new Room(12, 12, "Quarto"); // Retorno
 
@@ -58,7 +62,12 @@ public class RoomControllerTest {
                         .content(objectMapper.writeValueAsString(newRoom))
                         .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isCreated());
+        response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$", CoreMatchers.notNullValue()))
+                .andExpect(jsonPath("$.roomName", CoreMatchers.is(createdRoom.getRoomName())))
+                .andExpect(jsonPath("$.roomLength", CoreMatchers.is(createdRoom.getRoomLength())))
+                .andExpect(jsonPath("$.roomWidth", CoreMatchers.is(createdRoom.getRoomWidth())))
+                .andExpect(jsonPath("$.roomName", CoreMatchers.is(createdRoom.getRoomName())));
 
     }
 }

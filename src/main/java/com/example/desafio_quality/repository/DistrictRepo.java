@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +39,10 @@ public class DistrictRepo {
         districts.add(newDistrict);
         ManipulateFile.saveDistricts(districts);
         return newDistrict;
+    }
+
+    public void deleteAllDistricts() {
+        List<District> districts = new ArrayList<District>();
+        ManipulateFile.saveDistricts(districts);
     }
 }

@@ -39,6 +39,7 @@ public class HandlerExceptions extends ResponseEntityExceptionHandler {
         ExceptionDetails exceptionResponse = ExceptionDetails.builder()
                 .title("Parâmetros inválidos")
                 .message("Os campos estão inválidos")
+                .status(HttpStatus.BAD_REQUEST.value())
                 .fields(errors.stream()
                         .map(FieldError::getField)
                         .collect(Collectors.joining(", ")))

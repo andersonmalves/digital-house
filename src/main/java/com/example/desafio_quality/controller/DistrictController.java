@@ -29,7 +29,7 @@ public class DistrictController {
     @PostMapping
     public ResponseEntity<District> createDistrict(@Valid @RequestBody DistrictRequestDTO district){
         District newDistrict = service.createDistrict(district);
-        return new ResponseEntity<>(newDistrict, HttpStatus.CREATED);
+        return new ResponseEntity<District>(newDistrict, HttpStatus.CREATED);
     }
 
 }

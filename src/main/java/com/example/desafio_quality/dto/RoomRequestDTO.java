@@ -19,7 +19,7 @@ public class RoomRequestDTO {
     private double roomLength;
 
     @NotBlank(message = "O  campo não pode estar vazio.")
-    @Pattern(regexp = "\\b[A-Z]\\w*\\b", message = "O nome do cômodo deve começar com a letra maiúscula.")
+    @Pattern(regexp = "([A-Z]{1}[a-zA-Z0-9_ \\-]+\\s??)+", message = "O nome do cômodo deve começar com a letra maiúscula.")
     @Size(max = 30, message = "O comprimento do cômodo não pode exceder 30 caracteres.")
     private String roomName;
 }
