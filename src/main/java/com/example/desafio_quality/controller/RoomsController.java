@@ -17,6 +17,13 @@ public class RoomsController {
     @Autowired
     private IPropertyService service;
 
+    /**
+     * Post para criação de novo cômodo
+     * @author Felipe e Gabriel
+     * @param room cômodo para ser criado
+     * @param propId ID da propriedade
+     * @return HTTP status e o novo cômodo
+     */
     @PostMapping("/property/{propId}")
     public ResponseEntity<Room> createRooms(@Valid @RequestBody RoomRequestDTO room, @PathVariable int propId) {
         Room newRoom = service.createRooms(room, propId);
