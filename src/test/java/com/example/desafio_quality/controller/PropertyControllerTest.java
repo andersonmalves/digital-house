@@ -77,6 +77,6 @@ public class PropertyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON));
         System.out.printf(response.toString());
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.valorTotal", CoreMatchers.is(propertyValue.getValue().setScale(4, RoundingMode.HALF_EVEN))));
+                .andExpect(jsonPath("$.valorTotal", CoreMatchers.is(propertyValue.getValue().doubleValue())));
     }
 }
