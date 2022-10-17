@@ -4,6 +4,8 @@ import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.util.ManipulateFile;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,10 @@ public class PropertyRepo {
                 .filter(p -> p.getPropId() == id)
                 .findFirst();
     }
+
+    public void deleteAllProperties() {
+        List<Property> properties = new ArrayList<Property>();
+        ManipulateFile.saveProperties(properties);
 
     /**
      * Realiza a adição de cômodos na propriedade
