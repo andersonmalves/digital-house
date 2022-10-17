@@ -1,21 +1,20 @@
 package com.example.desafio_quality.controller;
 
 
+import com.example.desafio_quality.dto.PropertyAreaDTO;
 import com.example.desafio_quality.dto.PropertyRequestDTO;
+import com.example.desafio_quality.dto.PropertyValueDTO;
 import com.example.desafio_quality.dto.RoomRequestDTO;
-import com.example.desafio_quality.entity.District;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.service.PropertyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.desafio_quality.dto.PropertyAreaDTO;
-import com.example.desafio_quality.dto.PropertyValueDTO;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.mockito.ArgumentMatchers;
+import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,16 +22,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import java.math.BigDecimal;
-
-import static org.mockito.ArgumentMatchers.anyInt;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PropertyController.class)
 public class PropertyControllerTest {
