@@ -48,8 +48,7 @@ public class PropertyServiceTest {
         district = new District(1, new BigDecimal("24.000"), "Interlagos");
 
         RoomRequestDTO roomRequestDTO = new RoomRequestDTO(12.0, 12.0, "Quarto");
-        List<RoomRequestDTO> roomRequestDTOList = List.of(roomRequestDTO);
-        propertyRequest = new PropertyRequestDTO(property.getPropName(), property.getDistrictId(), roomRequestDTOList);
+        propertyRequest = new PropertyRequestDTO(property.getPropName(), property.getDistrictId(), List.of(roomRequestDTO));
     }
 
     @Test

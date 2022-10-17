@@ -1,6 +1,9 @@
 package com.example.desafio_quality.controller;
 
 
+import com.example.desafio_quality.dto.PropertyRequestDTO;
+import com.example.desafio_quality.dto.RoomRequestDTO;
+import com.example.desafio_quality.entity.District;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.service.PropertyService;
@@ -27,6 +30,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PropertyController.class)
@@ -43,6 +48,7 @@ public class PropertyControllerTest {
     private PropertyAreaDTO propertyArea;
     private Property property;
     private List<Room> rooms;
+    private PropertyRequestDTO propertyRequest;
 
     @BeforeEach
     void setup() {
@@ -51,6 +57,10 @@ public class PropertyControllerTest {
         this.rooms = Arrays.asList(room1, room2);
         this.property = new Property("teste", 1, 1, rooms);
         this.propertyArea = new PropertyAreaDTO(property, 720.0);
+
+        RoomRequestDTO room1RequestDTO = new RoomRequestDTO(12.0, 12.0, "Quarto");
+        RoomRequestDTO room2RequestDTO = new RoomRequestDTO(24.0, 24, "Sala");
+        this.propertyRequest = new PropertyRequestDTO("Teste", 1, List.of(room1RequestDTO, room2RequestDTO));
     }
 
     @Test
@@ -125,5 +135,28 @@ public class PropertyControllerTest {
         System.out.printf(response.toString());
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.valorTotal", CoreMatchers.is(propertyValue.getValue().doubleValue())));
+    }
+
+    @Test
+    @DisplayName("Valida se cria uma Property e o status correto")
+    void createProperty_returnsProperty_WithCorrectParams() throws Exception {
+        Mockito.when(service.createProperty(ArgumentMatchers.any()))
+                .thenReturn(property);
+
+        ResultActions response = mockMvc.perform(
+                post("/api/v1/properties")
+                        .content(objectMapper.writeValueAsString(propertyRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.propId", CoreMatchers.is(property.getPropId())))
+                .andExpect(jsonPath("$.districtId", CoreMatchers.is(property.getDistrictId())))
+                .andExpect(jsonPath("$.propName", CoreMatchers.is(property.getPropName())))
+                .andExpect(jsonPath("$.rooms[0]", CoreMatchers.notNullValue()))
+                .andExpect(jsonPath("$.rooms.size()", CoreMatchers.is(property.getRooms().size())))
+                .andExpect(jsonPath("$.rooms[0].roomName", CoreMatchers.is(property.getRooms().get(0).getRoomName())))
+                .andExpect(jsonPath("$.rooms[0].roomLength", CoreMatchers.is(property.getRooms().get(0).getRoomLength())))
+                .andExpect(jsonPath("$.rooms[0].roomWidth", CoreMatchers.is(property.getRooms().get(0).getRoomWidth())));
     }
 }

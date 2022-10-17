@@ -1,39 +1,52 @@
-[
-  {
-    "propId": 1,
-    "propName": "Felipe",
-    "districtId": 1,
-    "rooms": [
-      {
-        "roomName": "Quarto",
-        "roomWidth": 12.00,
-        "roomLength": 12.00
-      }, {
-        "roomName": "Sala",
-        "roomWidth": 24.00,
-        "roomLength": 24.00
-      }, {
-        "roomName": "Cozinha",
-        "roomWidth": 10.00,
-        "roomLength": 10.00
-      }]
-  },   {
-  "propId": 2,
-  "propName": "Gabriel",
-  "districtId": 2,
-  "rooms": [
-    {
-      "roomName": "Quarto",
-      "roomWidth": 4.00,
-      "roomLength": 4.00
-    }, {
-      "roomName": "Sala",
-      "roomWidth": 10.00,
-      "roomLength": 10.00
-    }, {
-      "roomName": "Cozinha",
-      "roomWidth": 15.00,
-      "roomLength": 15.00
-    }]
-}
-]
+[ {
+  "propName" : "Felipe",
+  "propId" : 1,
+  "districtId" : 1,
+  "rooms" : [ {
+    "roomWidth" : 12.0,
+    "roomLength" : 12.0,
+    "roomName" : "Quarto"
+  }, {
+    "roomWidth" : 24.0,
+    "roomLength" : 24.0,
+    "roomName" : "Sala"
+  }, {
+    "roomWidth" : 10.0,
+    "roomLength" : 10.0,
+    "roomName" : "Cozinha"
+  } ]
+}, {
+  "propName" : "Gabriel",
+  "propId" : 2,
+  "districtId" : 2,
+  "rooms" : [ {
+    "roomWidth" : 4.0,
+    "roomLength" : 4.0,
+    "roomName" : "Quarto"
+  }, {
+    "roomWidth" : 10.0,
+    "roomLength" : 10.0,
+    "roomName" : "Sala"
+  }, {
+    "roomWidth" : 15.0,
+    "roomLength" : 15.0,
+    "roomName" : "Cozinha"
+  } ]
+}, {
+  "propName" : "Felipe",
+  "propId" : 3,
+  "districtId" : 1,
+  "rooms" : [ {
+    "roomWidth" : 12.0,
+    "roomLength" : 12.0,
+    "roomName" : "Quarto"
+  }, {
+    "roomWidth" : 24.0,
+    "roomLength" : 24.0,
+    "roomName" : "Sala"
+  }, {
+    "roomWidth" : 10.0,
+    "roomLength" : 10.0,
+    "roomName" : "Cozinha"
+  } ]
+} ]
