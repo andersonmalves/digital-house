@@ -14,6 +14,7 @@ import com.example.desafio_quality.repository.PropertyRepo;
 import com.example.desafio_quality.util.GeneratePropertyId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -183,6 +184,7 @@ public class PropertyService implements IPropertyService {
     }
 
     /**
+     * Cálculo de área do quarto.
      * @author Felipe e Gabriel
      * @param room um comodo válido com o comprimento e largura
      * @return Retorna a área do comprimento e largura
@@ -191,4 +193,19 @@ public class PropertyService implements IPropertyService {
         return room.getRoomLength() * room.getRoomWidth();
     }
 
+    /**
+     * Método para criação de cômodo.
+     * @author Felipe e Gabriel
+     * @param room Quarto para ser criado.
+     * @param id Id da propriedade.
+     * @return novo cômodo incluido.
+     */
+    @Override
+    public Room createRooms(RoomRequestDTO room, int id) {
+        Property property = getPropertyById(id);
+        Room newRoom = this.propertyRepo.createRooms(
+                new Room(room.getRoomWidth(), room.getRoomLength(), room.getRoomName()), property.getPropId());
+
+        return newRoom;
+    }
 }
