@@ -43,4 +43,17 @@ public class PropertyRepo {
         ManipulateFile.saveProperties(properties);
         return room;
     }
+
+    /**
+     * Salva uma nova propriedade na base de dados
+     * @author Gabriel
+     * @param newProperty a nova propriedade a ser salva
+     * @return Retorna a nova propriedade a ser salva na base de dados
+     */
+    public Property createProperty(Property newProperty) {
+        List<Property> properties = ManipulateFile.loadProperties();
+        properties.add(newProperty);
+        ManipulateFile.saveProperties(properties);
+        return newProperty;
+    }
 }

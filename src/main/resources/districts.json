@@ -1,5 +1,5 @@
-[{
-  "districtId": 1,
-  "districtName": "Interlagos",
-  "valueDistrictM2": 24.000
-}]
+[ {
+  "districtId" : 1,
+  "valueDistrictM2" : 240.00,
+  "districtName" : "Interlagos"
+} ]
