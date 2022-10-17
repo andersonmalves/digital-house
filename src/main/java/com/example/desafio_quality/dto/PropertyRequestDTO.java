@@ -1,6 +1,5 @@
 package com.example.desafio_quality.dto;
 
-import com.example.desafio_quality.entity.Room;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +23,5 @@ public class PropertyRequestDTO {
     private int districtId;
 
     @NotEmpty(message = "O campo não pode estar vazio.")
-    private List<@Valid Room> rooms;
+    private List<@Valid RoomRequestDTO> rooms;
 }
