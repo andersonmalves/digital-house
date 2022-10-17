@@ -68,7 +68,7 @@ O consultor conhece os tempos limitados disponíveis para realizar o desenvolvim
 solicitado, por isso sugere realizar esta implementação apenas no caso de cumprir os
 prazos para que a data de entrega estimada seja cumprida.
 
-- [ ] Testes de Integração 
+- [x] ~Testes de Integração~ 
 
 
 ---
