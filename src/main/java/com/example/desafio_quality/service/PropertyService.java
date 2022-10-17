@@ -161,9 +161,7 @@ public class PropertyService implements IPropertyService {
                 district.getDistrictId(),
                 rooms);
 
-        this.propertyRepo.createProperty(newProperty);
-
-        return newProperty;
+        return this.propertyRepo.createProperty(newProperty);
     }
 
     /**
