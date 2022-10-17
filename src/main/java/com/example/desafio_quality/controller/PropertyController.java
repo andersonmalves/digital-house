@@ -2,17 +2,18 @@ package com.example.desafio_quality.controller;
 
 
 import com.example.desafio_quality.dto.PropertyAreaDTO;
+import com.example.desafio_quality.dto.PropertyRequestDTO;
 import com.example.desafio_quality.dto.PropertyValueDTO;
 import com.example.desafio_quality.dto.RoomDTO;
+import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
 import com.example.desafio_quality.interfaces.IPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -68,6 +69,18 @@ public class PropertyController {
     public ResponseEntity<PropertyValueDTO> getPropertyValue(@PathVariable int propId) {
         PropertyValueDTO property = service.getValue(propId);
         return new ResponseEntity<>(property, HttpStatus.OK);
+    }
+
+    /**
+     * Cria uma nova propriedade
+     * @author Gabriel
+     * @param property uma nova propriedade a ser criada
+     * @return Http Status e a nova propriedade criada
+     */
+    @PostMapping()
+    public ResponseEntity<Property> createProperty(@Valid @RequestBody PropertyRequestDTO property) {
+        Property newProperty = this.service.createProperty(property);
+        return new ResponseEntity<>(newProperty, HttpStatus.CREATED);
     }
 
 }

@@ -1,7 +1,9 @@
 package com.example.desafio_quality.service;
 
 import com.example.desafio_quality.dto.PropertyAreaDTO;
+import com.example.desafio_quality.dto.PropertyRequestDTO;
 import com.example.desafio_quality.dto.PropertyValueDTO;
+import com.example.desafio_quality.dto.RoomRequestDTO;
 import com.example.desafio_quality.entity.District;
 import com.example.desafio_quality.entity.Property;
 import com.example.desafio_quality.entity.Room;
@@ -9,9 +11,11 @@ import com.example.desafio_quality.exception.NotFoundException;
 import com.example.desafio_quality.interfaces.IPropertyService;
 import com.example.desafio_quality.repository.DistrictRepo;
 import com.example.desafio_quality.repository.PropertyRepo;
+import com.example.desafio_quality.util.GeneratePropertyId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,19 +79,18 @@ public class PropertyService implements IPropertyService {
     /**
      * Realiza a busca do bairro pelo ID
      * @author Anderson, Giovanna
-     * @param id identificação do bairro
+     * @param districtId identificação do bairro
      * @return Retorna o bairro ou erro caso não seja encontrado.
      */
-    private District getDistrict(int id) {
-        Optional<District> district = districtRepo.getDistrictById(id);
+    private District getDistrict(int districtId) {
+        Optional<District> district = districtRepo.getDistrictById(districtId);
 
         if(district.isEmpty()) {
-            throw new NotFoundException("Distrito com id" + id + "não encontrado");
+            throw new NotFoundException("Distrito com id: " + districtId + " não encontrado");
         }
 
         return district.get();
     }
-
 
     /**
      * Realiza o calculo de uma area em relação ao bairro.
@@ -139,6 +142,44 @@ public class PropertyService implements IPropertyService {
         }
 
         return biggestRoom;
+    }
+
+    /**
+     * Cria uma nova propriedade na base de dados
+     * @author Gabriel
+     * @param property Nova propriedade a ser salva
+     * @return retorna a propriedade que foi salva
+     */
+    @Override
+    public Property createProperty(PropertyRequestDTO property) {
+        District district = this.getDistrict(property.getDistrictId());
+
+        List<Room> rooms = this.getRoomsFromRequest(property.getRooms());
+        int newPropertyId = GeneratePropertyId.getIdGenerator().getNext();
+        Property newProperty = new Property(property.getPropName(),
+                newPropertyId,
+                district.getDistrictId(),
+                rooms);
+
+        this.propertyRepo.createProperty(newProperty);
+
+        return newProperty;
+    }
+
+    /**
+     * Converte uma lista de RoomsRequestDTO para uma lista de Room da Entity
+     * @author Gabriel
+     * @param requestRooms
+     * @return retorna uma lista de Rooms da entity
+     */
+    private List<Room> getRoomsFromRequest(List<RoomRequestDTO> requestRooms){
+        List<Room> convertedRooms = new ArrayList<>();
+
+        for(RoomRequestDTO room : requestRooms){
+            convertedRooms.add(new Room(room.getRoomWidth(), room.getRoomLength(), room.getRoomName()));
+        }
+
+        return convertedRooms;
     }
 
     /**
