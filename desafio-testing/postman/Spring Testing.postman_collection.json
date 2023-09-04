@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "220b234e-8d09-468c-963a-0c6e432a2042",
+		"name": "Spring Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23680860"
+	},
+	"item": [
+		{
+			"name": "Property_Calc_Area",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/properties/area/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"properties",
+						"area",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Property_Value",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/properties/value/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"properties",
+						"value",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Property_Biggest_Room",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/properties/biggest-room/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"properties",
+						"biggest-room",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Property_All_Rooms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/properties/rooms/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"properties",
+						"rooms",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New_Property_Method",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"propName\": \"User Test\",\n    \"districtId\": 1,\n    \"rooms\": [\n        {\n            \"roomWidth\": 12.0,\n            \"roomLength\": 12.0,\n            \"roomName\": \"Quarto\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/properties",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"properties"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New_District",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"valueDistrictM2\" : 240.00,\n  \"districtName\" : \"Interlagos\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/districts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"districts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New_Room_per_Properties",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roomWidth\": 4.0,\n    \"roomLength\": 4.0,\n    \"roomName\": \"Quarto\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/rooms/properties/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"rooms",
+						"properties",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
