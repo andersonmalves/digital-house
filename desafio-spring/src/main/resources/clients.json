@@ -1,0 +1,11 @@
+[ {
+  "clientId" : 1,
+  "name" : "matheus",
+  "state" : "SP",
+  "email" : "theus@gmail.com"
+}, {
+  "clientId" : 2,
+  "name" : "matheus",
+  "state" : "SP",
+  "email" : "theus@gmail.com"
+} ]
